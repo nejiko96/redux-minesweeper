@@ -1,8 +1,8 @@
 import * as actionTypes from 'actionTypes';
 
-export const onStartTimer = (span) => ({
+export const onStartTimer = (intervalId) => ({
   type: actionTypes.START_TIMER,
-  span
+  intervalId
 });
 
 export const onStopTimer = () => ({
