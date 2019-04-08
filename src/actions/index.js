@@ -1,14 +1,17 @@
-import * as actionTypes from 'actionTypes';
+import * as actionTypes from './actionTypes';
 
-export const onStartTimer = (intervalId) => ({
-  type: actionTypes.START_TIMER,
-  intervalId
+export const onGameStart = () => ({
+  type: actionTypes.START_GAME,
 });
 
-export const onStopTimer = () => ({
-  type: actionTypes.STOP_TIMER
+export const onGameStop = () => ({
+  type: actionTypes.STOP_GAME
 });
 
-export const onUpdateTimer = () => ({
+export const onTimerReset = () => ({
+  type: actionTypes.RESET_TIMER
+});
+
+export const onTimerUpdate = () => ({
   type: actionTypes.UPDATE_TIMER
 });
