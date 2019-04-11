@@ -5,7 +5,7 @@ const initialState = {
 };
 
 const timer = (state = initialState, action) => {
-  if (action.type === actionTypes.RESET_TIMER) {
+  if (action.type === actionTypes.START_GAME) {
     return {
       ...state,
       value: 0,

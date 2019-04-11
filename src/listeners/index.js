@@ -5,11 +5,8 @@ let intervalId = null;
 
 const gameListener = {
   key: 'game.running',
-  initial: false,
-  select: (state) => (state.game.running),
-  onChange: (dispatch, running) => {
-    if (running) {
-      dispatch(actions.onTimerReset());
+  onChange: (dispatch, state) => {
+    if (state.game.running) {
       intervalId = setInterval(() => dispatch(actions.onTimerUpdate()), 1000);
     } else if (intervalId !== null) {
       clearInterval(intervalId);
@@ -18,21 +15,28 @@ const gameListener = {
   }
 };
 
-const registerListener = (subscribe, dispatch, listener) => {
-  let currentState = listener.initial;
-  subscribe(listener.key, (state) => {
-    var nextState = listener.select(state);
-    console.log(`state changed ${currentState} -> ${nextState}`);
-    if (nextState !== currentState) {
-      currentState = nextState;
-      listener.onChange(dispatch, currentState);
+const timeupListener = {
+  key: 'timer.value',
+  onChange: (dispatch, state) => {
+    if (state.timer.value >= 9 && intervalId !== null ) {
+      clearInterval(intervalId);
+      intervalId = null;
     }
+  }
+};
+
+const registerListener = (subscribe, dispatch, listener) => {
+  subscribe(listener.key, (state) => {
+    //console.log(listener.key);
+    //console.log(state);
+    listener.onChange(dispatch, state);
   });
 };
 
 const registerListeners = (store) => {
   const subscribe = initSubscriber(store);
   registerListener(subscribe, store.dispatch, gameListener);
+  registerListener(subscribe, store.dispatch, timeupListener);
 };
 
 export default registerListeners;
