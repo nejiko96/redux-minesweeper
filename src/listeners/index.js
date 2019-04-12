@@ -1,16 +1,19 @@
 import * as actions from '../actions';
+import TimerModel from '../models/TimerModel';
 import initSubscriber from 'redux-subscriber';
 
-let intervalId = null;
+const timerModel = new TimerModel();
 
 const gameListener = {
   key: 'game.running',
   onChange: (dispatch, state) => {
     if (state.game.running) {
-      intervalId = setInterval(() => dispatch(actions.onTimerUpdate()), 1000);
-    } else if (intervalId !== null) {
-      clearInterval(intervalId);
-      intervalId = null;
+      timerModel.start(
+        () => dispatch(actions.onTimerUpdate()),
+        state.timer.interval
+      );
+    } else {
+      timerModel.stop();
     }
   }
 };
@@ -18,17 +21,16 @@ const gameListener = {
 const timeupListener = {
   key: 'timer.value',
   onChange: (dispatch, state) => {
-    if (state.timer.value >= 9 && intervalId !== null ) {
-      clearInterval(intervalId);
-      intervalId = null;
+    if (state.timer.value >= state.timer.limit) {
+      timerModel.stop();
     }
   }
 };
 
 const registerListener = (subscribe, dispatch, listener) => {
   subscribe(listener.key, (state) => {
-    //console.log(listener.key);
-    //console.log(state);
+    // console.log(listener.key);
+    // console.log(state);
     listener.onChange(dispatch, state);
   });
 };

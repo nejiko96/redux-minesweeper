@@ -26,6 +26,7 @@ class MineSweeperContainer extends Component {
             interval="1s"
             limit={999}
             value={timer.value}
+            onLoad={actions.onTimerInit}
             />秒経過
           <span style={styles.space}/>
           クリア！

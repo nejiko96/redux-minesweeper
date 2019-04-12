@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styles from '../styles';
 
-const Timer = (props) => (
-  <span style={styles.timer} >{props.value}</span>
-);
+class Timer extends Component {
+  componentDidMount() {
+    const { interval, limit, onLoad } = this.props;
+    onLoad(interval, limit);
+  }
+  render() {
+    const { value } = this.props;
+    return (
+      <span style={styles.timer} >{value}</span>
+    );
+  }
+}
 
 export default Timer;
