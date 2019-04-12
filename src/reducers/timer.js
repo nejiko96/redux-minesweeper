@@ -11,12 +11,12 @@ const timer = (state = initialState, action) => {
     return {
       ...state,
       interval: action.interval,
-      limit: action.limit
+      limit: action.limit,
     };
-  } if (action.type === actionTypes.START_GAME) {
+  } else if (action.type === actionTypes.INIT_GAME) {
     return {
       ...state,
-      value: 0,
+      value: 0
     };
   } else if (action.type === actionTypes.UPDATE_TIMER) {
     return {

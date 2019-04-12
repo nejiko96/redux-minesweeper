@@ -4,10 +4,10 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import MineSweeperContainer from './containers/MineSweeperContainer';
 import reducer from './reducers';
-import registerListeners from './listeners';
+import subscribeAll from './listeners';
 
 const store = createStore(reducer);
-registerListeners(store);
+subscribeAll(store);
 
 render(
   <Provider store={store}>

@@ -9,6 +9,7 @@ import Counter from '../components/Counter';
 import Board from '../components/Board';
 
 import styles from '../styles';
+import * as gameStatusTypes from '../models/gameStatusTypes';
 
 class MineSweeperContainer extends Component {
   render() {
@@ -35,7 +36,7 @@ class MineSweeperContainer extends Component {
             height={9}
             mines={9}
             />
-          {game.running ?
+          {game.status === gameStatusTypes.RUNNING ?
             <button
               type="button"
               style={styles.restart}
