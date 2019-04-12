@@ -32,9 +32,8 @@ class MineSweeperContainer extends Component {
           <span style={styles.space}/>
           クリア！
           <Board
-            width={9}
-            height={9}
-            mines={9}
+            grid={game.grid}
+            actions={actions}
             />
           {game.status === gameStatusTypes.RUNNING ?
             <button

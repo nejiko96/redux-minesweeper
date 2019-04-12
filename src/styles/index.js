@@ -1,4 +1,4 @@
-import utils from '../utils';
+import { fillArray } from '../utils';
 import cellImg32 from '../images/green_32x32.png';
 
 const cellSize = 32;
@@ -35,7 +35,7 @@ const styles = {
   cells: {
     lineHeight: 0
   },
-  cell: utils.fillArray(15, i => cellStyle(i)),
+  cell: fillArray(15, i => cellStyle(i)),
   restart: {
     fontSize: '14px',
     padding: '5px'

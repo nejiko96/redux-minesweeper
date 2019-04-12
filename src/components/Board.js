@@ -1,13 +1,18 @@
 import React from 'react';
 import Cell from './Cell';
 import styles from '../styles';
-import utils from '../utils';
 
-const Board = (props) => (
+const Board = ({ grid, actions }) => (
   <div style={styles.cells}>
-  {utils.fillArray2D(9, 9, () => {}).map((row, i) =>
-    row.map((cell, j) =>
-      <Cell />
+  {grid.map((row, i) => row.map((value, j) =>
+      <Cell
+        key={`${i}_${j}`}
+        value={value}
+        onMouseDown={(ev) => actions.onMouseDown(ev, i, j)}
+        onMouseUp={() => actions.onMouseUp(i, j)}
+        onMouseOver={() => actions.onMouseOver(i, j)}
+        onMouseOut={() => actions.onMouseOut(i, j)}
+        />
     ).concat(<br/>)
   )}
   </div>
