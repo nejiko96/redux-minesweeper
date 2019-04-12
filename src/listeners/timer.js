@@ -21,7 +21,7 @@ export const timerToggleListener = {
 export const timerTimeupListener = {
   key: 'timer.value',
   onChange: (dispatch, state) => {
-    if (state.timer.value >= state.timer.limit) {
+    if (state.timer.limit > 0 && state.timer.value >= state.timer.limit) {
       timerModel.stop();
     }
   }

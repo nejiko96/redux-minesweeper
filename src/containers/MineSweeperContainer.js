@@ -9,9 +9,18 @@ import Counter from '../components/Counter';
 import Board from '../components/Board';
 
 import styles from '../styles';
+import { addEventListener, removeEventListener } from '../utils';
 import * as gameStatusTypes from '../models/gameStatusTypes';
 
 class MineSweeperContainer extends Component {
+  componentDidMount() {
+    addEventListener(this, 'contextmenu', this.handleContextMenu);
+    addEventListener(this, 'selectstart', this.handleSelectStart);
+  }
+  componentWillUnmount() {
+    removeEventListener(this, 'contextmenu', this.handleContextMenu);
+    removeEventListener(this, 'selectstart', this.handleSelectStart);
+  }
   render() {
     const { game, timer, actions } = this.props;
     return(
@@ -33,7 +42,10 @@ class MineSweeperContainer extends Component {
           クリア！
           <Board
             grid={game.grid}
-            actions={actions}
+            onMouseDown={actions.onMouseDown}
+            onMouseUp={actions.onMouseUp}
+            onMouseOver={actions.onMouseOver}
+            onMouseOut={actions.onMouseOut}
             />
           {game.status === gameStatusTypes.RUNNING ?
             <button
@@ -51,6 +63,12 @@ class MineSweeperContainer extends Component {
         </div>
       </div>
     );
+  }
+  handleContextMenu(e) {
+    e.preventDefault();
+  }
+  handleSelectStart(e) {
+    e.preventDefault();
   }
 }
 

@@ -9,7 +9,7 @@ const initialState = {
   grid: fillArray2D(9, 9, () => 0)
 };
 
-const mouseDispatcher = new MouseEventDispatcher(gameModel);
+const md = new MouseEventDispatcher(gameModel);
 
 const game = (state = initialState, action) => {
   if (action.type === actionTypes.INIT_GAME) {
@@ -33,22 +33,22 @@ const game = (state = initialState, action) => {
     action.type === actionTypes.DOWN_MOUSE
     && state.status !== gameStatusTypes.COMPLETE
   ) {
-    return mouseDispatcher.handleMouseDown(action.ev)(state, action.i, action.j);
+    return md.handleMouseDown(action.ev)(state, action.i, action.j);
   } else if (
     action.type === actionTypes.UP_MOUSE
     && state.status !== gameStatusTypes.COMPLETE
   ) {
-    return mouseDispatcher.handleMouseUp(action.ev)(state, action.i, action.j);
+    return md.handleMouseUp()(state, action.i, action.j);
   } else if (
     action.type === actionTypes.OVER_MOUSE
     && state.status !== gameStatusTypes.COMPLETE
   ) {
-    return mouseDispatcher.handleMouseOver(action.ev)(state, action.i, action.j);
+    return md.handleMouseOver()(state, action.i, action.j);
   } else if (
     action.type === actionTypes.OUT_MOUSE
     && state.status !== gameStatusTypes.COMPLETE
   ) {
-    return mouseDispatcher.handleMouseOut(action.ev)(state, action.i, action.j);
+    return md.handleMouseOut()(state, action.i, action.j);
   } else {
     return state;
   }

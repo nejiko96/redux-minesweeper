@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
   interval: '1s',
-  limit: -1,
+  limit: 0,
   value: 0
 };
 
