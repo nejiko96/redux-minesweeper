@@ -18,6 +18,11 @@ const timer = (state = initialState, action) => {
       ...state,
       value: 0
     };
+  } else if (action.type === actionTypes.RESTART_GAME) {
+    return {
+      ...state,
+      value: 0
+    };
   } else if (action.type === actionTypes.UPDATE_TIMER) {
     return {
       ...state,

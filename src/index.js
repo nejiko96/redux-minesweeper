@@ -11,7 +11,7 @@ subscribeAll(store);
 
 render(
   <Provider store={store}>
-    <MineSweeperContainer />
+    <MineSweeperContainer/>
   </Provider>,
   document.getElementById('root')
 );

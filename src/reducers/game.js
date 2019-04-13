@@ -1,52 +1,41 @@
 import * as actionTypes from '../actions/actionTypes';
-import * as gameStatusTypes from '../models/gameStatusTypes';
 import MouseEventDispatcher from '../models/MouseEventDispatcher';
 import * as gameModel from '../models/gameModel';
-import { fillArray2D } from '../utils';
 
-const initialState = {
-  status: gameStatusTypes.READY,
-  grid: fillArray2D(9, 9, () => 0)
-};
-
+const initialState = gameModel.initialValue(9, 9, 10);
 const md = new MouseEventDispatcher(gameModel);
 
 const game = (state = initialState, action) => {
   if (action.type === actionTypes.INIT_GAME) {
-    return {
-      ...state,
-      status: gameStatusTypes.READY
-    };
-  } else if (action.type === actionTypes.START_GAME) {
-    // 廃止予定
-    return {
-      ...state,
-      status: gameStatusTypes.RUNNING
-    };
-  } else if (action.type === actionTypes.STOP_GAME) {
-    // 廃止予定
-    return {
-      ...state,
-      status: gameStatusTypes.COMPLETE
-    };
+    return gameModel.initialValue(
+      action.width,
+      action.height,
+      action.mines
+    );
+  } else if (action.type === actionTypes.RESTART_GAME) {
+    return gameModel.initialValue(
+      state.width,
+      state.height,
+      state.mines
+    );
   } else if (
     action.type === actionTypes.DOWN_MOUSE
-    && state.status !== gameStatusTypes.COMPLETE
+    && gameModel.isEnabled(state)
   ) {
     return md.handleMouseDown(action.ev)(state, action.i, action.j);
   } else if (
     action.type === actionTypes.UP_MOUSE
-    && state.status !== gameStatusTypes.COMPLETE
+    && gameModel.isEnabled(state)
   ) {
     return md.handleMouseUp()(state, action.i, action.j);
   } else if (
     action.type === actionTypes.OVER_MOUSE
-    && state.status !== gameStatusTypes.COMPLETE
+    && gameModel.isEnabled(state)
   ) {
     return md.handleMouseOver()(state, action.i, action.j);
   } else if (
     action.type === actionTypes.OUT_MOUSE
-    && state.status !== gameStatusTypes.COMPLETE
+    && gameModel.isEnabled(state)
   ) {
     return md.handleMouseOut()(state, action.i, action.j);
   } else {

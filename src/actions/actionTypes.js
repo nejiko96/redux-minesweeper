@@ -1,8 +1,5 @@
 export const INIT_GAME = 'INIT_GAME';
-// 廃止予定
-export const START_GAME = 'START_GAME';
-// 廃止予定
-export const STOP_GAME = 'STOP_GAME';
+export const RESTART_GAME = 'RESTART_GAME';
 
 export const INIT_TIMER = 'INIT_TIMER';
 export const UPDATE_TIMER = 'UPDATE_TIMER';

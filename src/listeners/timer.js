@@ -1,18 +1,18 @@
 import * as actions from '../actions';
 import TimerModel from '../models/TimerModel';
-import * as gameStatusTypes from '../models/gameStatusTypes';
+import { RUNNING } from '../models/gameModel';
 
 const timerModel = new TimerModel();
 
 export const timerToggleListener = {
   key: 'game.status',
   onChange: (dispatch, state) => {
-    if (state.game.status === gameStatusTypes.RUNNING) {
+    if (state.game.status === RUNNING) {
       timerModel.start(
         () => dispatch(actions.onTimerUpdate()),
         state.timer.interval
       );
-    } else if (state.game.status === gameStatusTypes.COMPLETE) {
+    } else {
       timerModel.stop();
     }
   }

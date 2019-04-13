@@ -11,8 +11,6 @@ const subscribeAll = (store) => {
   for(const key in listeners) {
     const listener = listeners[key];
     subscribe(listener.key, (state) => {
-      // console.log(listener.key);
-      // console.log(state);
       listener.onChange(dispatch, state);
     });
   }

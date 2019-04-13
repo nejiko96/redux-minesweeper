@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from '../styles';
+import { styleIdx } from '../models/cellModel';
+
 
 const Cell = ({ value, onMouseDown, onMouseUp, onMouseOver, onMouseOut }) => (
   <span
-    style={styles.cell[value]}
+    style={styles.cell[styleIdx(value)]}
     onMouseDown={onMouseDown}
     onMouseUp={onMouseUp}
     onMouseOver={onMouseOver}

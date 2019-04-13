@@ -1,24 +1,20 @@
 import * as actionTypes from './actionTypes';
 
-export const onGameInit = () => ({
+export const onGameInit = (width, height, mines) => ({
   type: actionTypes.INIT_GAME,
+  width,
+  height,
+  mines
 });
 
-// 廃止予定
-export const onGameStart = () => ({
-  type: actionTypes.START_GAME,
-});
-
-// 廃止予定
-export const onGameStop = () => ({
-  type: actionTypes.STOP_GAME
+export const onGameRestart = () => ({
+  type: actionTypes.RESTART_GAME,
 });
 
 export const onTimerInit = (interval, limit) => ({
   type: actionTypes.INIT_TIMER,
   interval,
-  limit,
-  value: 0
+  limit
 });
 
 export const onTimerUpdate = () => ({

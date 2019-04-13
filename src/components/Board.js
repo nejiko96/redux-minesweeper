@@ -23,8 +23,8 @@ Board.propTypes = {
   grid: PropTypes.arrayOf(PropTypes.array).isRequired,
   onMouseDown: PropTypes.func.isRequired,
   onMouseUp: PropTypes.func.isRequired,
-  onMouseOver: PropTypes.isRequired,
-  onMouseOut: PropTypes.isRequired,
+  onMouseOver: PropTypes.func.isRequired,
+  onMouseOut: PropTypes.func.isRequired,
 };
 
 export default Board;
