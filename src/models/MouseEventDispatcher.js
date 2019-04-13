@@ -1,3 +1,5 @@
+import { noop } from '../utils';
+
 const EVENT_MOUSE_DOWN = 0;
 const EVENT_MOUSE_UP = 1;
 const EVENT_MOUSE_OVER = 2;
@@ -6,7 +8,6 @@ const EVENT_MOUSE_OUT = 3;
 const BUTTON_LEFT = 1;
 const BUTTON_RIGHT = 2;
 
-const NOOP = (state) => state;
 
 class MouseEventDispatcher {
 
@@ -50,7 +51,7 @@ class MouseEventDispatcher {
 
   handleMouseUp() {
     if (this.pressed === 0) {
-      return NOOP;
+      return noop;
     }
     const pressed = this.pressed;
     this.pressed = 0;
@@ -59,14 +60,14 @@ class MouseEventDispatcher {
 
   handleMouseOver() {
     if (this.pressed === 0) {
-      return NOOP;
+      return noop;
     }
     return this.dispatch(EVENT_MOUSE_OVER, this.pressed);
   }
 
   handleMouseOut() {
     if (this.pressed === 0) {
-      return NOOP;
+      return noop;
     }
     return this.dispatch(EVENT_MOUSE_OUT, this.pressed);
   }

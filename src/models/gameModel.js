@@ -1,5 +1,5 @@
 import * as cellModel from './cellModel';
-import { fillArray, fillArray2D } from '../utils';
+import { fillArray, fillArray2D, noop } from '../utils';
 
 const relatives = (state, i, j, diffs) => {
   return diffs
@@ -147,11 +147,11 @@ export const initialValue = (width, height, mines) => ({
   width,
   height,
   mines,
+  status: READY,
   grid: fillArray2D(width, height, cellModel.initialValue),
   minePos: null,
   markPos: {},
   countDown: width * height - mines,
-  status: READY,
 });
 
 export const handleLeftMouseDown = (state, i, j) => {
@@ -190,15 +190,14 @@ export const handleLeftMouseUp = (state, i, j) => {
 export const handleRightMouseDown = (state, i, j) => {
   state = dup(state);
   toggleMark(state, i, j);
-  console.log(state);
   return state;
 };
 
-export const handleRightMouseOver = (state, i, j) => (state);
+export const handleRightMouseOver = noop;
 
-export const handleRightMouseOut = (state, i, j) => (state);
+export const handleRightMouseOut = noop;
 
-export const handleRightMouseUp = (state, i, j) => (state);
+export const handleRightMouseUp = noop;
 
 export const handleBothMouseDown = (state, i, j) => {
   state = dup(state);

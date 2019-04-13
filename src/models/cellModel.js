@@ -1,10 +1,10 @@
 const FLAG_HIDDEN = 0x001;
 const FLAG_MINE = 0x002;
 const FLAG_MARKED = 0x004;
-const FLAG_MAIN = 0x007;
+const FLAGS_MAIN = 0x007;
 
 const FLAG_OPEN_EXPLODED = 0x008;
-const FLAG_OPEN_HINT = 0x0F0;
+const FLAGS_OPEN_HINT = 0x0F0;
 const FLAG_HID_PRESSED = 0x100;
 const FLAG_HID_PENDING = 0x200;
 
@@ -12,7 +12,7 @@ const STYLE_HIDDEN = 0;
 const STYLE_MARKED = 1;
 const STYLE_PENDING = 2;
 const STYLE_PRESSED = 3;
-const STYLE_OPEN = 3;
+const STYLES_OPEN = 3;
 const STYLE_MINE = 12;
 const STYLE_EXPLOSION = 13;
 const STYLE_MISTAKE = 14;
@@ -27,7 +27,7 @@ export const initialValue = () => (FLAG_HIDDEN);
 
 export const styleIdx = (f) => {
   if (f & FLAG_MARKED) {
-    return (f & FLAG_MAIN) === FLAG_MARKED ? STYLE_MISTAKE : STYLE_MARKED
+    return (f & FLAGS_MAIN) === FLAG_MARKED ? STYLE_MISTAKE : STYLE_MARKED
   }
   if (f & FLAG_HIDDEN) {
     return f & FLAG_HID_PRESSED ? STYLE_PRESSED :
@@ -36,7 +36,7 @@ export const styleIdx = (f) => {
   if (f & FLAG_MINE) {
     return f & FLAG_OPEN_EXPLODED ? STYLE_EXPLOSION : STYLE_MINE;
   }
-  return STYLE_OPEN + getHint(f);
+  return STYLES_OPEN + getHint(f);
 };
 
 export const putMine = (f) => (f | FLAG_MINE);
@@ -96,10 +96,10 @@ export const open = (f, byClick = true) => {
 };
 
 export const setHint = (f, hint) => (
-  (f & ~FLAG_OPEN_HINT) | (hint << 4)
+  (f & ~FLAGS_OPEN_HINT) | (hint << 4)
 );
 
 export const getHint = (f) => {
   // return -1 if not empty
-  return (f & FLAG_MAIN) ? -1 : ((f & FLAG_OPEN_HINT) >> 4);
+  return (f & FLAGS_MAIN) ? -1 : ((f & FLAGS_OPEN_HINT) >> 4);
 };

@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 
-export const noop = () => {};
+export const noop = (state) => state;
 
 export const fillArray = (n, fn) => Array.from({length: n}, (_, i) => fn(i));
 
