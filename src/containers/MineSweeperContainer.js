@@ -6,11 +6,11 @@ import * as actions from '../actions';
 import Control from '../components/Control';
 import Body from '../components/Body';
 
-import styles from '../styles';
 
 class MineSweeperContainer extends Component {
   render() {
     const { state, actions } = this.props;
+    const { styles } = state;
     return(
       <div style={styles.container}>
         <Control />

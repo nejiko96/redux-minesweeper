@@ -5,7 +5,6 @@ import Timer from '../components/Timer';
 import Counter from '../components/Counter';
 import Board from '../components/Board';
 
-import styles from '../styles';
 import { addEventListener, removeEventListener } from '../utils';
 import { CLEARED } from '../models/gameModel'
 
@@ -22,14 +21,16 @@ class Body extends Component {
   }
   render() {
     const { state, actions } = this.props;
-    const { game, timer } = state;
+    const { game, timer, styles } = state;
     return(
       <div style={styles.body}>
         あと<Counter
+          style={styles.counter}
           value={game.mines - Object.keys(game.markPos).length}
           />個
         <span style={styles.space}/>
         <Timer
+          style={styles.timer}
           interval="1s"
           limit={999}
           value={timer.value}
@@ -38,6 +39,7 @@ class Body extends Component {
         <span style={styles.space}/>
         {game.status === CLEARED ? 'クリア！' : ''}
         <Board
+          styles={styles}
           grid={game.grid}
           onMouseDown={actions.onMouseDown}
           onMouseUp={actions.onMouseUp}
@@ -65,14 +67,14 @@ Body.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   mines: PropTypes.number.isRequired,
-  lang: PropTypes.string,
+  //lang: PropTypes.string,
   state: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 
 Body.defaultProps = {
   // level: 'easy',
-  lang: 'en'
+  //lang: 'en'
 };
 
 export default Body;

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from '../styles';
 
-const Counter = ({ value }) => (
-  <span style={styles.counter} >{value}</span>
+const Counter = ({ style, value }) => (
+  <span style={style} >{value}</span>
 );
 
 Counter.propTypes = {
+  style: PropTypes.object.isRequired,
   value: PropTypes.number.isRequired
 };
 

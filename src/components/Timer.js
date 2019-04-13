@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from '../styles';
 
 class Timer extends Component {
   componentDidMount() {
@@ -8,9 +7,9 @@ class Timer extends Component {
     onLoad(interval, limit);
   }
   render() {
-    const { value } = this.props;
+    const { style, value } = this.props;
     return (
-      <span style={styles.timer} >{value}</span>
+      <span style={style} >{value}</span>
     );
   }
 }
@@ -19,7 +18,8 @@ Timer.propTypes = {
   interval: PropTypes.string,
   limit: PropTypes.number,
   onLoad: PropTypes.func.isRequired,
-  value: PropTypes.number.isRequired
+  style: PropTypes.object.isRequired,
+  value: PropTypes.number.isRequired,
 };
 
 Timer.defaultProps = {
