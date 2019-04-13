@@ -12,17 +12,16 @@ const Board = ({
  }) => (
   <div style={styles.cells}>
   {grid.map((row, i) => row.map((value, j) =>
-      <Cell
-        key={`${i}_${j}`}
-        style={styles.cell}
-        value={value}
-        onMouseDown={(ev) => onMouseDown(ev, i, j)}
-        onMouseUp={() => onMouseUp(i, j)}
-        onMouseOver={() => onMouseOver(i, j)}
-        onMouseOut={() => onMouseOut(i, j)}
-        />
-    ).concat(<br/>)
-  )}
+    <Cell
+      key={`${i}_${j}`}
+      style={styles.cell}
+      value={value}
+      onMouseDown={(ev) => onMouseDown(ev, i, j)}
+      onMouseUp={() => onMouseUp(i, j)}
+      onMouseOver={() => onMouseOver(i, j)}
+      onMouseOut={() => onMouseOut(i, j)}
+      />
+  ).concat(<br/>))}
   </div>
 );
 

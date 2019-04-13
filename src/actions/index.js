@@ -2,9 +2,7 @@ import * as actionTypes from './actionTypes';
 
 export const onGameInit = (width, height, mines) => ({
   type: actionTypes.INIT_GAME,
-  width,
-  height,
-  mines
+  width, height, mines
 });
 
 export const onGameRestart = () => ({
@@ -13,8 +11,7 @@ export const onGameRestart = () => ({
 
 export const onTimerInit = (interval, limit) => ({
   type: actionTypes.INIT_TIMER,
-  interval,
-  limit
+  interval, limit
 });
 
 export const onTimerUpdate = () => ({

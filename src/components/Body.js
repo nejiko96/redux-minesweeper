@@ -21,23 +21,23 @@ class Body extends Component {
   }
   render() {
     const { state, actions } = this.props;
-    const { game, timer, styles } = state;
+    const { game, timer, styles, locale } = state;
     return(
       <div style={styles.body}>
-        あと<Counter
+        {locale.remain1}<Counter
           style={styles.counter}
           value={game.mines - Object.keys(game.markPos).length}
-          />個
+          />{locale.remain2}
         <span style={styles.space}/>
-        <Timer
+        {locale.timer1}<Timer
           style={styles.timer}
           interval="1s"
           limit={999}
           value={timer.value}
           onLoad={actions.onTimerInit}
-          />秒経過
+          />{locale.timer2}
         <span style={styles.space}/>
-        {game.status === CLEARED ? 'クリア！' : ''}
+        {game.status === CLEARED ? locale.cleared : ''}
         <Board
           styles={styles}
           grid={game.grid}
@@ -50,7 +50,7 @@ class Body extends Component {
           type="button"
           style={styles.restart}
           onClick={actions.onGameRestart}
-          >もう一回？</button>
+          >{locale.retry}</button>
       </div>
     );
   }
