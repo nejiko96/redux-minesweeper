@@ -1,12 +1,6 @@
 import * as cellModel from './cellModel';
 import { fillArray, fillArray2D } from '../utils';
 
-export const READY = 1;
-export const RUNNING = 2;
-export const CLEARED = 4;
-export const GAMEOVER = 8;
-export const ENABLED = READY | RUNNING;
-
 const relatives = (state, i, j, diffs) => {
   return diffs
     .map(([di, dj]) => [i + di, j + dj])
@@ -65,10 +59,10 @@ const start = (state, i, j) => {
 
 const toggleMark = (state, i, j) => {
   const {f, result} = cellModel.toggleMark(state.grid[i][j]);
+  state.grid[i][j] = f;
   if (result === cellModel.RESULT_NONE) {
     return;
   }
-  state.grid[i][j] = f;
   const pos = JSON.stringify([i, j]);
   if (result === cellModel.RESULT_MARKED) {
     state.markPos[pos] = true;
@@ -90,12 +84,6 @@ const open = (state, i, j) => {
 
 const postOpen = (state, i, j) => {
   const surr = surroundings(state, i, j);
-  // let hint = 0;
-  // surr.forEach(pos => {
-  //   if (state.minePos[JSON.stringify(pos)]) {
-  //     hint++;
-  //   }
-  // });
   const hint = surr
     .filter(pos => state.minePos[JSON.stringify(pos)])
     .length;
@@ -113,12 +101,6 @@ const areaOpen = (state, i, j) => {
     return;
   }
   const surr = surroundings(state, i, j);
-  // let marks = 0;
-  // surr.forEach(pos => {
-  //   if (this.markPos.has(JSON.stringify(pos))) {
-  //     marks++;
-  //   }
-  // });
   const marks = surr
     .filter(pos => state.markPos[JSON.stringify(pos)])
     .length;
@@ -149,11 +131,17 @@ const gameOver = (state) => {
   Object.keys(mineMarkPos)
     .forEach(pos => {
       const [i, j] = JSON.parse(pos);
-      state.grid[i][j] = cellModel.open(state.grid[i][j], false);
+      state.grid[i][j] = cellModel.open(state.grid[i][j], false).f;
     });
 };
 
 const dup = (state) => JSON.parse(JSON.stringify(state));
+
+export const READY = 1;
+export const RUNNING = 2;
+export const CLEARED = 4;
+export const GAMEOVER = 8;
+export const ENABLED = READY | RUNNING;
 
 export const initialValue = (width, height, mines) => ({
   width,
@@ -196,7 +184,6 @@ export const handleLeftMouseUp = (state, i, j) => {
   } else if (state.countDown <= 0) {
     gameClear(state);
   }
-  console.log(state);
   return state;
 };
 
@@ -248,7 +235,6 @@ export const handleBothMouseUp = (state, i, j) => {
   } else if (state.countDown <= 0) {
     gameClear(state);
   }
-  console.log(state);
   return state;
 };
 

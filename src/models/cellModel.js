@@ -1,6 +1,7 @@
 const FLAG_HIDDEN = 0x001;
 const FLAG_MINE = 0x002;
 const FLAG_MARKED = 0x004;
+const FLAG_MAIN = 0x007;
 
 const FLAG_OPEN_EXPLODED = 0x008;
 const FLAG_OPEN_HINT = 0x0F0;
@@ -26,7 +27,7 @@ export const initialValue = () => (FLAG_HIDDEN);
 
 export const styleIdx = (f) => {
   if (f & FLAG_MARKED) {
-    return f === FLAG_MARKED ? STYLE_MISTAKE : STYLE_MARKED
+    return (f & FLAG_MAIN) === FLAG_MARKED ? STYLE_MISTAKE : STYLE_MARKED
   }
   if (f & FLAG_HIDDEN) {
     return f & FLAG_HID_PRESSED ? STYLE_PRESSED :
@@ -100,5 +101,5 @@ export const setHint = (f, hint) => (
 
 export const getHint = (f) => {
   // return -1 if not empty
-  return f ? -1 : ((f & FLAG_OPEN_HINT) >> 4);
+  return (f & FLAG_MAIN) ? -1 : ((f & FLAG_OPEN_HINT) >> 4);
 };
