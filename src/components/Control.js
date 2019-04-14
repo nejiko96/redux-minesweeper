@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 class Control extends Component {
   constructor(props) {
@@ -12,17 +13,20 @@ class Control extends Component {
     this.handleLangChange = this.handleLangChange.bind(this);
     this.handleSizeChange = this.handleSizeChange.bind(this);
   }
+
   handleThemeChange(ev) {
     const themeStr = ev.target.value;
     this.setState({ themeStr });
     const [theme, cellSizeStr] = themeStr.split('_');
     this.props.actions.onThemeChange(theme, parseInt(cellSizeStr, 10));
   }
+
   handleLangChange(ev) {
     const lang = ev.target.value;
     this.setState({ lang });
     this.props.actions.onLangChange(lang);
   }
+
   handleSizeChange(newValue) {
     this.setState(newValue);
     const newState = {
@@ -36,6 +40,7 @@ class Control extends Component {
       newState.mines && parseInt(newState.mines, 10)
     );
   }
+
   render() {
     return (
       <div>
@@ -101,5 +106,8 @@ class Control extends Component {
   }
 }
 
+Control.propTypes = {
+  actions: PropTypes.object.isRequired
+};
 
 export default Control;

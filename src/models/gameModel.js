@@ -55,7 +55,7 @@ const generateMines = (state, i, j) => {
 
 const start = (state, i, j) => {
   generateMines(state, i, j);
-  state.status = RUNNING
+  state.status = STATUS_RUNNING
 };
 
 const toggleMark = (state, i, j) => {
@@ -114,7 +114,7 @@ const areaOpen = (state, i, j) => {
 };
 
 const gameClear = (state) => {
-  state.status = CLEARED;
+  state.status = STATUS_CLEARED;
   Object.keys(state.minePos)
     .forEach(pos => {
       const [i, j] = JSON.parse(pos);
@@ -124,7 +124,7 @@ const gameClear = (state) => {
 };
 
 const gameOver = (state) => {
-  state.status = GAMEOVER;
+  state.status = STATUS_GAMEOVER;
   const mineMarkPos = {
     ...state.minePos,
     ...state.markPos
@@ -138,11 +138,11 @@ const gameOver = (state) => {
 
 const dup = (state) => JSON.parse(JSON.stringify(state));
 
-export const READY = 1;
-export const RUNNING = 2;
-export const CLEARED = 4;
-export const GAMEOVER = 8;
-export const ENABLED = READY | RUNNING;
+export const STATUS_READY = 1;
+export const STATUS_RUNNING = 2;
+export const STATUS_CLEARED = 4;
+export const STATUS_GAMEOVER = 8;
+export const STATUSES_ENABLED = STATUS_READY | STATUS_RUNNING;
 
 export const initialValue = (level, w, h, m) => {
   const { width, height, mines } = sizeGen(
@@ -153,7 +153,7 @@ export const initialValue = (level, w, h, m) => {
     width,
     height,
     mines,
-    status: READY,
+    status: STATUS_READY,
     grid: fillArray2D(width, height, cellModel.initialValue),
     minePos: {},
     markPos: {},
@@ -182,7 +182,7 @@ export const handleLeftMouseOut = (state, i, j) => {
 export const handleLeftMouseUp = (state, i, j) => {
   state = dup(state);
   state.grid[i][j] = cellModel.release(state.grid[i][j]);
-  if (state.status === READY) {
+  if (state.status === STATUS_READY) {
     start(state, i, j);
   }
   const result = open(state, i, j);
@@ -244,5 +244,5 @@ export const handleBothMouseUp = (state, i, j) => {
   return state;
 };
 
-export const isEnabled = (state) => (state.status & ENABLED);
+export const isEnabled = (state) => (state.status & STATUSES_ENABLED);
 

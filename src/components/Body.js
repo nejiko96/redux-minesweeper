@@ -6,7 +6,7 @@ import Counter from '../components/Counter';
 import Board from '../components/Board';
 
 import { addEventListener, removeEventListener } from '../utils';
-import { CLEARED } from '../models/gameModel'
+import { STATUS_CLEARED } from '../models/gameModel'
 
 class Body extends Component {
   componentDidMount() {
@@ -55,7 +55,7 @@ class Body extends Component {
           onLoad={actions.onTimerInit}
           />{locale.timer2}
         <span style={styles.space}/>
-        {game.status === CLEARED ? locale.cleared : ''}
+        {game.status === STATUS_CLEARED ? locale.cleared : ''}
         <Board
           styles={styles}
           grid={game.grid}

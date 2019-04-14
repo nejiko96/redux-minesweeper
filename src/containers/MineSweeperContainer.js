@@ -6,7 +6,6 @@ import * as actions from '../actions';
 import Control from '../components/Control';
 import Body from '../components/Body';
 
-
 class MineSweeperContainer extends Component {
   render() {
     const { state, actions } = this.props;

@@ -13,12 +13,10 @@ const timer = (state = initialState, action) => {
       interval: action.interval,
       limit: action.limit,
     };
-  } else if (action.type === actionTypes.INIT_GAME) {
-    return {
-      ...state,
-      value: 0
-    };
-  } else if (action.type === actionTypes.RESTART_GAME) {
+  } else if (
+    action.type === actionTypes.INIT_GAME
+    || action.type === actionTypes.RESTART_GAME
+  ) {
     return {
       ...state,
       value: 0
