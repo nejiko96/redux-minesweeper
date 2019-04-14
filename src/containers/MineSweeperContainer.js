@@ -11,7 +11,6 @@ class MineSweeperContainer extends Component {
   render() {
     const { state, actions } = this.props;
     const { styles, settings } = state;
-    console.log(settings)
     return(
       <div style={styles.container}>
         <Control />

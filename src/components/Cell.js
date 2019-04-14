@@ -13,7 +13,7 @@ const Cell = ({ style, value, onMouseDown, onMouseUp, onMouseOver, onMouseOut })
 );
 
 Cell.propTypes = {
-  style: PropTypes.object.isRequired,
+  style: PropTypes.arrayOf(PropTypes.object).isRequired,
   value: PropTypes.number.isRequired,
   onMouseDown: PropTypes.func.isRequired,
   onMouseUp: PropTypes.func.isRequired,

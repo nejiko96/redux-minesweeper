@@ -21,7 +21,7 @@ const Board = ({
       onMouseOver={() => onMouseOver(i, j)}
       onMouseOut={() => onMouseOut(i, j)}
       />
-  ).concat(<br/>))}
+  ).concat(<br key={i.toString()} />))}
   </div>
 );
 
