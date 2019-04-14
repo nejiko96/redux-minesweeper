@@ -15,11 +15,11 @@ class Timer extends Component {
 }
 
 Timer.propTypes = {
+  style: PropTypes.object.isRequired,
   interval: PropTypes.string,
   limit: PropTypes.number,
-  onLoad: PropTypes.func.isRequired,
-  style: PropTypes.object.isRequired,
   value: PropTypes.number.isRequired,
+  onLoad: PropTypes.func.isRequired,
 };
 
 Timer.defaultProps = {

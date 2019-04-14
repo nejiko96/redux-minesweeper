@@ -8,8 +8,6 @@ export const fillArray2D = (w, h, fn) => Array.from({length: h}, (_, i) =>
     Array.from({length: w}, (_, j) => fn(i, j))
 );
 
-export const initProperty = (value, def) => value ? Math.min(Math.max(value, def.min), def.max) : def.default;
-
 export const addEventListener = (cmp, event, fn) => {
   ReactDOM.findDOMNode(cmp).addEventListener(event, fn);
 };

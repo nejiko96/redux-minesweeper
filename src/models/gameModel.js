@@ -45,7 +45,7 @@ const generateMines = (state, i, j) => {
   while (m--) {
     const k = Math.floor(Math.random() * s--);
     const smp = samples[k];
-    const pos = [i, j] = [Math.floor(smp / w), smp % w];
+    const pos = [i, j] = [smp / w | 0, smp % w];
     state.minePos[JSON.stringify(pos)] = true;
     state.grid[i][j] = cellModel.putMine(state.grid[i][j]);
     [samples[k], samples[s]] = [samples[s], samples[k]];
@@ -149,7 +149,7 @@ export const initialValue = (width, height, mines) => ({
   mines,
   status: READY,
   grid: fillArray2D(width, height, cellModel.initialValue),
-  minePos: null,
+  minePos: {},
   markPos: {},
   countDown: width * height - mines,
 });
@@ -175,7 +175,7 @@ export const handleLeftMouseOut = (state, i, j) => {
 export const handleLeftMouseUp = (state, i, j) => {
   state = dup(state);
   state.grid[i][j] = cellModel.release(state.grid[i][j]);
-  if (state.minePos === null) {
+  if (state.status === READY) {
     start(state, i, j);
   }
   const result = open(state, i, j);

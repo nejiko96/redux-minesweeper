@@ -37,3 +37,18 @@ export const onMouseOut = (i, j) => ({
   type: actionTypes.OUT_MOUSE,
   i, j
 });
+
+export const onThemeChange = (theme, cellSize) => ({
+  type: actionTypes.CHANGE_THEME,
+  theme, cellSize
+});
+
+export const onLangChange = (lang) => ({
+  type: actionTypes.CHANGE_LANG,
+  lang
+});
+
+export const onSizeChange = (level, width, height, mines) => ({
+  type: actionTypes.CHANGE_SIZE,
+  level, width, height, mines
+});

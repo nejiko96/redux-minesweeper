@@ -10,15 +10,16 @@ import Body from '../components/Body';
 class MineSweeperContainer extends Component {
   render() {
     const { state, actions } = this.props;
-    const { styles } = state;
+    const { styles, settings } = state;
+    console.log(settings)
     return(
       <div style={styles.container}>
         <Control />
         <p/>
         <Body
-          width={9}
-          height={9}
-          mines={10}
+          width={settings.width}
+          height={settings.height}
+          mines={settings.mines}
           state={state}
           actions={actions}
           />
