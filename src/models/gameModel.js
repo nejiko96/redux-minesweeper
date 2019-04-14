@@ -29,6 +29,8 @@ const neighbors = (state, i, j) => {
   );
 };
 
+const pos2key = ([i, j]) => (i << 8) | j;
+
 const generateMines = (state, i, j) => {
   state.minePos = {};
   const w = state.width;
@@ -47,7 +49,7 @@ const generateMines = (state, i, j) => {
     const k = Math.floor(Math.random() * s--);
     const smp = samples[k];
     const pos = [i, j] = [smp / w | 0, smp % w];
-    state.minePos[JSON.stringify(pos)] = true;
+    state.minePos[pos2key(pos)] = pos;
     state.grid[i][j] = cellModel.putMine(state.grid[i][j]);
     [samples[k], samples[s]] = [samples[s], samples[k]];
   }
@@ -64,12 +66,13 @@ const toggleMark = (state, i, j) => {
   if (result === cellModel.RESULT_NONE) {
     return;
   }
-  const pos = JSON.stringify([i, j]);
+  const pos = [i, j];
+  const key = pos2key(pos);
   if (result === cellModel.RESULT_MARKED) {
-    state.markPos[pos] = true;
+    state.markPos[key] = pos;
   }
   if (result === cellModel.RESULT_UNMARKED) {
-    delete state.markPos[pos];
+    delete state.markPos[key];
   }
 };
 
@@ -86,7 +89,7 @@ const open = (state, i, j) => {
 const postOpen = (state, i, j) => {
   const surr = surroundings(state, i, j);
   const hint = surr
-    .filter(pos => state.minePos[JSON.stringify(pos)])
+    .filter(pos => state.minePos[pos2key(pos)])
     .length;
   state.grid[i][j] = cellModel.setHint(state.grid[i][j], hint);
   if (hint > 0) {
@@ -103,7 +106,7 @@ const areaOpen = (state, i, j) => {
   }
   const surr = surroundings(state, i, j);
   const marks = surr
-    .filter(pos => state.markPos[JSON.stringify(pos)])
+    .filter(pos => state.markPos[pos2key(pos)])
     .length;
   if (marks !== hint) {
     return;
@@ -116,9 +119,8 @@ const areaOpen = (state, i, j) => {
 const gameClear = (state) => {
   state.status = STATUS_CLEARED;
   Object.keys(state.minePos)
-    .forEach(pos => {
-      const [i, j] = JSON.parse(pos);
-      state.markPos[pos] = true;
+    .forEach(key => {
+      const [i, j] = state.markPos[key] = state.minePos[key];
       state.grid[i][j] = cellModel.forceMark(state.grid[i][j]);
     });
 };
@@ -129,9 +131,8 @@ const gameOver = (state) => {
     ...state.minePos,
     ...state.markPos
   };
-  Object.keys(mineMarkPos)
-    .forEach(pos => {
-      const [i, j] = JSON.parse(pos);
+  Object.values(mineMarkPos)
+    .forEach(([i, j]) => {
       state.grid[i][j] = cellModel.open(state.grid[i][j], false).f;
     });
 };
