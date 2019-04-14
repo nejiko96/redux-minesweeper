@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actionTypes';
+import * as actionTypes from '../utils/actionTypes';
 import MouseEventDispatcher from '../models/MouseEventDispatcher';
 import * as gameModel from '../models/gameModel';
 

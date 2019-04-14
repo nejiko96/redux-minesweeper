@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actionTypes';
+import * as actionTypes from '../utils/actionTypes';
 import localeGen from '../utils/locale';
 
 const initialState = localeGen('en');

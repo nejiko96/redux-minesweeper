@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actionTypes';
+import * as actionTypes from '../utils/actionTypes';
 import stylesGen from '../utils/styles';
 
 const initialState = stylesGen('green', 32);

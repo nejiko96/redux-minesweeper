@@ -1,4 +1,4 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from '../utils/actionTypes';
 
 export const onGameInit = (level, width, height, mines) => ({
   type: actionTypes.INIT_GAME,

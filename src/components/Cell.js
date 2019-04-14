@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { styleIdx } from '../models/cellModel';
 
 const Cell = ({ style, value, onMouseDown, onMouseUp, onMouseOver, onMouseOut }) => (

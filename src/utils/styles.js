@@ -1,4 +1,4 @@
-import { fillArray } from './';
+import { fillArray } from '.';
 import cellImgGreen16 from '../images/green_16x16.png';
 import cellImgGreen32 from '../images/green_32x32.png';
 import cellImgMS16 from '../images/MS_16x16.png';
