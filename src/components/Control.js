@@ -44,27 +44,27 @@ class Control extends Component {
   render() {
     return (
       <div>
-        Theme:
+        Theme :
         <select
           defaultValue={this.state.themeStr}
           onChange={this.handleThemeChange}
           >
-          <option value="green_32">green_32px</option>
-          <option value="MS_32">MS_32px</option>
-          <option value="green_16">green_16px</option>
-          <option value="MS_16">MS_16px</option>
+          <option value="green_32">green(32px)</option>
+          <option value="MS_32">MS(32px)</option>
+          <option value="green_16">green(16px)</option>
+          <option value="MS_16">MS(16px)</option>
         </select>
         <br/>
-        Lang:
+        Language :
         <select
           defaultValue={this.state.lang}
           onChange={this.handleLangChange}
           >
-          <option value="en">en</option>
-          <option value="ja">ja</option>
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
         </select>
         <br/>
-        Level:
+        Level :
         <select
           defaultValue={this.state.level}
           onChange={(ev) => this.handleSizeChange({level: ev.target.value})}
@@ -76,7 +76,7 @@ class Control extends Component {
         </select>
         {this.state.level === 'custom' ? (
           <div>
-            Width:
+            Width :
             <input
               type="number"
               defaultValue={this.state.width}
@@ -84,7 +84,7 @@ class Control extends Component {
               onChange={(ev) => this.handleSizeChange({width: ev.target.value})}
               />
             <br/>
-            Height:
+            Height :
             <input
               type="number"
               defaultValue={this.state.height}
@@ -92,7 +92,7 @@ class Control extends Component {
               onChange={(ev) => this.handleSizeChange({height: ev.target.value})}
               />
             <br/>
-            Mines:
+            Mines :
             <input
               type="number"
               defaultValue={this.state.mines}
