@@ -10,7 +10,6 @@ const BUTTON_RIGHT = 2;
 
 
 class MouseEventDispatcher {
-
   constructor(target) {
     this.pressed = 0;
     this.table = [

@@ -13,7 +13,9 @@ class MineSweeperContainer extends Component {
     const { styles, settings } = state;
     return(
       <div style={styles.container}>
-        <Control />
+        <Control
+          actions={actions}
+          />
         <p/>
         <Body
           width={settings.width}
@@ -29,10 +31,6 @@ class MineSweeperContainer extends Component {
 
 const mapState = (state, ownProps) => (
   { state }
-  // {
-  //   game: state.game,
-  //   timer: state.timer,
-  // }
 );
 
 function mapDispatch(dispatch) {

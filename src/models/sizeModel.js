@@ -44,7 +44,7 @@ const defaultSize = (state) => levelSettings[state.level];
 const customSize = (state) => {
   const width = initProperty(state.width, widthSettings);
   const height = initProperty(state.height, heightSettings);
-  const mines = initProperty(state.height, minesSettings(width * height));
+  const mines = initProperty(state.mines, minesSettings(width * height));
   return { width, height, mines };
 }
 

@@ -1,11 +1,9 @@
-class TimerModel {
-  static get powers() {
-    return {
-      ms: 1,
-      s: 1000
-    };
-  }
+const POWERS = {
+  ms: 1,
+  s: 1000
+};
 
+class TimerModel {
   constructor() {
     this.interval = null;
     this.intervalId = null;
@@ -14,7 +12,7 @@ class TimerModel {
   timeParse(value) {
     const result = /^([0-9]+(?:\.[0-9]*)?)\s*(.*s)?$/.exec(value.trim());
     const num = result[1] && parseFloat(result[1]) || 1000;
-    const mult = result[2] && TimerModel.powers[result[2]] || 1;
+    const mult = result[2] && POWERS[result[2]] || 1;
     return num * mult;
   }
 

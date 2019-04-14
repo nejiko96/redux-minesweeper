@@ -15,10 +15,23 @@ class Body extends Component {
     addEventListener(this, 'contextmenu', this.handleContextMenu);
     addEventListener(this, 'selectstart', this.handleSelectStart);
   }
+
+  componentDidUpdate(prevProps) {
+    const { width, height, mines, actions } = this.props;
+    if (
+      width !== prevProps.width
+      || height !== prevProps.height
+      || mines !== prevProps.mines
+    ) {
+      actions.onGameInit(width, height, mines);
+    }
+  }
+
   componentWillUnmount() {
     removeEventListener(this, 'contextmenu', this.handleContextMenu);
     removeEventListener(this, 'selectstart', this.handleSelectStart);
   }
+
   render() {
     const { state, actions } = this.props;
     const { game, timer, styles, locale } = state;
@@ -54,9 +67,11 @@ class Body extends Component {
       </div>
     );
   }
+
   handleContextMenu(e) {
     e.preventDefault();
   }
+
   handleSelectStart(e) {
     e.preventDefault();
   }
