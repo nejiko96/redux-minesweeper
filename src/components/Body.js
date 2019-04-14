@@ -10,20 +10,25 @@ import { CLEARED } from '../models/gameModel'
 
 class Body extends Component {
   componentDidMount() {
-    const { width, height, mines, actions } = this.props;
-    actions.onGameInit(width, height, mines);
+    const { level, width, height, mines, actions } = this.props;
+    actions.onGameInit(level, width, height, mines);
     addEventListener(this, 'contextmenu', this.handleContextMenu);
     addEventListener(this, 'selectstart', this.handleSelectStart);
   }
 
   componentDidUpdate(prevProps) {
-    const { width, height, mines, actions } = this.props;
-    if (
-      width !== prevProps.width
-      || height !== prevProps.height
-      || mines !== prevProps.mines
+    const { level, width, height, mines, actions } = this.props;
+    if (level !== prevProps.level) {
+      actions.onGameInit(level, width, height, mines);
+    } else if (
+      level === 'custom'
+      && (
+        width !== prevProps.width
+        || height !== prevProps.height
+        || mines !== prevProps.mines
+      )
     ) {
-      actions.onGameInit(width, height, mines);
+      actions.onGameInit(level, width, height, mines);
     }
   }
 
@@ -78,18 +83,16 @@ class Body extends Component {
 }
 
 Body.propTypes = {
-  // level: PropTypes.string,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  mines: PropTypes.number.isRequired,
-  //lang: PropTypes.string,
+  level: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  mines: PropTypes.number,
   state: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 
 Body.defaultProps = {
-  // level: 'easy',
-  //lang: 'en'
+  level: 'easy',
 };
 
 export default Body;

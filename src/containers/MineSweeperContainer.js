@@ -18,6 +18,7 @@ class MineSweeperContainer extends Component {
           />
         <p/>
         <Body
+          level={settings.level}
           width={settings.width}
           height={settings.height}
           mines={settings.mines}

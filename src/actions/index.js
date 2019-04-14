@@ -1,8 +1,8 @@
 import * as actionTypes from './actionTypes';
 
-export const onGameInit = (width, height, mines) => ({
+export const onGameInit = (level, width, height, mines) => ({
   type: actionTypes.INIT_GAME,
-  width, height, mines
+  level, width, height, mines
 });
 
 export const onGameRestart = () => ({

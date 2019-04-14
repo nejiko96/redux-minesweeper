@@ -1,11 +1,16 @@
 import * as actionTypes from '../actions/actionTypes';
-import sizeGen from '../models/sizeModel';
 
-const initialState = sizeGen({ level: 'easy' });
+const initialState = { level: 'easy' };
 
 const settings = (state = initialState, action) => {
   if (action.type === actionTypes.CHANGE_SIZE) {
-    return sizeGen(action);
+    return {
+      ...state,
+      level: action.level,
+      width: action.width,
+      height: action.height,
+      mines: action.mines
+    };
   } else {
     return state;
   }

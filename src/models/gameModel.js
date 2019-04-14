@@ -1,4 +1,5 @@
 import * as cellModel from './cellModel';
+import sizeGen from './sizeModel';
 import { fillArray, fillArray2D, noop } from '../utils';
 
 const relatives = (state, i, j, diffs) => {
@@ -143,16 +144,22 @@ export const CLEARED = 4;
 export const GAMEOVER = 8;
 export const ENABLED = READY | RUNNING;
 
-export const initialValue = (width, height, mines) => ({
-  width,
-  height,
-  mines,
-  status: READY,
-  grid: fillArray2D(width, height, cellModel.initialValue),
-  minePos: {},
-  markPos: {},
-  countDown: width * height - mines,
-});
+export const initialValue = (level, w, h, m) => {
+  const { width, height, mines } = sizeGen(
+    { level, width: w, height: h, mines: m }
+  );
+  return {
+    level,
+    width,
+    height,
+    mines,
+    status: READY,
+    grid: fillArray2D(width, height, cellModel.initialValue),
+    minePos: {},
+    markPos: {},
+    countDown: width * height - mines
+  };
+};
 
 export const handleLeftMouseDown = (state, i, j) => {
   state = dup(state);

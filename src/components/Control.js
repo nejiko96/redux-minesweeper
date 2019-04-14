@@ -7,9 +7,6 @@ class Control extends Component {
       themeStr: 'green_32',
       lang: 'en',
       level: 'easy',
-      width: 9,
-      height: 9,
-      mines: 10
     };
     this.handleThemeChange = this.handleThemeChange.bind(this);
     this.handleLangChange = this.handleLangChange.bind(this);
@@ -34,9 +31,9 @@ class Control extends Component {
     }
     this.props.actions.onSizeChange(
       newState.level,
-      parseInt(newState.width, 10),
-      parseInt(newState.height, 10),
-      parseInt(newState.mines, 10)
+      newState.width && parseInt(newState.width, 10),
+      newState.height && parseInt(newState.height, 10),
+      newState.mines && parseInt(newState.mines, 10)
     );
   }
   render() {
