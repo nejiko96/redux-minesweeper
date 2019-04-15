@@ -43,7 +43,10 @@ const stylesGen = (theme, cellSize) => {
       margin: '2rem'
     },
     body: {
-      whiteSpace: 'nowrap'
+      whiteSpace: 'nowrap',
+      WebkitUserSelect: 'none',
+      userSelect: 'none',
+      WebkitTapHighlightColor: 'transparent'
     },
     counter: textBoxStyle,
     timer: textBoxStyle,

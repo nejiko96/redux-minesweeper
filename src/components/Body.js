@@ -13,7 +13,6 @@ class Body extends Component {
     const { level, width, height, mines, actions } = this.props;
     actions.onGameInit(level, width, height, mines);
     addEventListener(this, 'contextmenu', this.handleContextMenu);
-    addEventListener(this, 'selectstart', this.handleSelectStart);
   }
 
   componentDidUpdate(prevProps) {
@@ -34,7 +33,6 @@ class Body extends Component {
 
   componentWillUnmount() {
     removeEventListener(this, 'contextmenu', this.handleContextMenu);
-    removeEventListener(this, 'selectstart', this.handleSelectStart);
   }
 
   render() {
