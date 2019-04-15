@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "2c2e196a4a6efc51aa78",
-    "url": "/redux-minesweeper/static/js/main.1c032c26.chunk.js"
+    "revision": "d506bfd69ab554d11090",
+    "url": "/redux-minesweeper/static/js/main.c5522b0f.chunk.js"
   },
   {
     "revision": "f113722d268e3e5e4122",
@@ -12,7 +12,7 @@ self.__precacheManifest = [
     "url": "/redux-minesweeper/static/js/2.634d42ad.chunk.js"
   },
   {
-    "revision": "c0485c66056a2bd1cdc3570d086f5a8b",
+    "revision": "aee46d1b9f1369953e94e23ccb7d116b",
     "url": "/redux-minesweeper/index.html"
   }
 ];
