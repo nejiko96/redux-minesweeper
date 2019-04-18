@@ -38,6 +38,21 @@ export const onMouseOut = (i, j) => ({
   i, j
 });
 
+export const onTouchStart = (i, j) => ({
+  type: actionTypes.START_TOUCH,
+  i, j
+});
+
+export const onTouchEnd = (i, j) => ({
+  type: actionTypes.END_TOUCH,
+  i, j
+});
+
+export const onLongPress = (i, j) => ({
+  type: actionTypes.LONG_PRESS,
+  i, j
+});
+
 export const onThemeChange = (theme, cellSize) => ({
   type: actionTypes.CHANGE_THEME,
   theme, cellSize

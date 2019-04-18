@@ -57,10 +57,7 @@ class Body extends Component {
         <Board
           styles={styles}
           grid={game.grid}
-          onMouseDown={actions.onMouseDown}
-          onMouseUp={actions.onMouseUp}
-          onMouseOver={actions.onMouseOver}
-          onMouseOut={actions.onMouseOut}
+          actions={actions}
           />
         <button
           type="button"
@@ -72,10 +69,6 @@ class Body extends Component {
   }
 
   handleContextMenu(e) {
-    e.preventDefault();
-  }
-
-  handleSelectStart(e) {
     e.preventDefault();
   }
 }

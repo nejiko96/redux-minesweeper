@@ -51,8 +51,7 @@ const stylesGen = (theme, cellSize) => {
     counter: textBoxStyle,
     timer: textBoxStyle,
     cells: {
-      lineHeight: 0,
-      cursor: 'pointer'
+      lineHeight: 0
     },
     cell: fillArray(15, i => cellStyleCurry(i)),
     restart: {

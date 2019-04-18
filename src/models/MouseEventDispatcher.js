@@ -72,4 +72,4 @@ class MouseEventDispatcher {
   }
 }
 
-export default MouseEventDispatcher
+export default MouseEventDispatcher;

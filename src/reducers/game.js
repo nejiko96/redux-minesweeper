@@ -40,6 +40,21 @@ const game = (state = initialState, action) => {
     && gameModel.isEnabled(state)
   ) {
     return md.handleMouseOut()(state, action.i, action.j);
+  } else if (
+    action.type === actionTypes.START_TOUCH
+    && gameModel.isEnabled(state)
+  ) {
+    return gameModel.handleLeftMouseDown(state, action.i, action.j);
+  } else if (
+    action.type === actionTypes.END_TOUCH
+    && gameModel.isEnabled(state)
+  ) {
+    return gameModel.handleLeftMouseUp(state, action.i, action.j);
+  } else if (
+    action.type === actionTypes.LONG_PRESS
+    && gameModel.isEnabled(state)
+  ) {
+    return gameModel.handleRightMouseDown(state, action.i, action.j);
   } else {
     return state;
   }

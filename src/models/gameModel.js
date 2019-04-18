@@ -197,6 +197,7 @@ export const handleLeftMouseUp = (state, i, j) => {
 
 export const handleRightMouseDown = (state, i, j) => {
   state = dup(state);
+  state.grid[i][j] = cellModel.release(state.grid[i][j]);
   toggleMark(state, i, j);
   return state;
 };
