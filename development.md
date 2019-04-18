@@ -27,8 +27,8 @@ React + Redux アプリ開発
 
 1. ソース生成
    ```
-   cd redux-minesweeper
    create-react-app redux-minesweeper
+   cd redux-minesweeper
    ```
 
 1. 追加パッケージインストール
