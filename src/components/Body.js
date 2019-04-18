@@ -59,6 +59,7 @@ class Body extends Component {
           grid={game.grid}
           actions={actions}
           />
+        <p />
         <button
           type="button"
           style={styles.restart}

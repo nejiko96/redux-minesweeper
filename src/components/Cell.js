@@ -34,7 +34,7 @@ class Cell extends Component {
       this.timeoutId = null;
     }
     this.props.onTouchStart();
-    this.timeoutId = setTimeout(this.handleLongPress, 500);
+    this.timeoutId = setTimeout(this.handleLongPress, 300);
   }
 
   handleTouchEnd(ev) {
