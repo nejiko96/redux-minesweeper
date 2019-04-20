@@ -44,17 +44,29 @@ const game = (state = initialState, action) => {
     action.type === actionTypes.START_TOUCH
     && gameModel.isEnabled(state)
   ) {
-    return gameModel.handleLeftMouseDown(state, action.i, action.j);
+    if (gameModel.isHidden(state, action.i, action.j)) {
+      return gameModel.handleLeftMouseDown(state, action.i, action.j);
+    } else {
+      return gameModel.handleBothMouseDown(state, action.i, action.j);
+    }
   } else if (
     action.type === actionTypes.END_TOUCH
     && gameModel.isEnabled(state)
   ) {
-    return gameModel.handleLeftMouseUp(state, action.i, action.j);
+    if (gameModel.isHidden(state, action.i, action.j)) {
+      return gameModel.handleLeftMouseUp(state, action.i, action.j);
+    } else {
+      return gameModel.handleBothMouseUp(state, action.i, action.j);
+    }
   } else if (
     action.type === actionTypes.LONG_PRESS
     && gameModel.isEnabled(state)
   ) {
+   if (gameModel.isHidden(state, action.i, action.j)) {
     return gameModel.handleRightMouseDown(state, action.i, action.j);
+    } else {
+      return gameModel.handleBothMouseUp(state, action.i, action.j);
+    }
   } else {
     return state;
   }

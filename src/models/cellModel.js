@@ -103,3 +103,5 @@ export const getHint = (f) => {
   // return -1 if not empty
   return (f & FLAGS_MAIN) ? -1 : ((f & FLAGS_OPEN_HINT) >> 4);
 };
+
+export const isHidden = (f) => (f & FLAG_HIDDEN > 0);

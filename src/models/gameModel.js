@@ -248,3 +248,5 @@ export const handleBothMouseUp = (state, i, j) => {
 
 export const isEnabled = (state) => (state.status & STATUSES_ENABLED);
 
+export const isHidden = (state, i, j) => (cellModel.isHidden(state.grid[i][j]));
+
