@@ -1,11 +1,11 @@
 {
-  "main.js": "/redux-minesweeper/static/js/main.0bb34360.chunk.js",
-  "main.js.map": "/redux-minesweeper/static/js/main.0bb34360.chunk.js.map",
+  "main.js": "/redux-minesweeper/static/js/main.1e1d2036.chunk.js",
+  "main.js.map": "/redux-minesweeper/static/js/main.1e1d2036.chunk.js.map",
   "runtime~main.js": "/redux-minesweeper/static/js/runtime~main.babce75d.js",
   "runtime~main.js.map": "/redux-minesweeper/static/js/runtime~main.babce75d.js.map",
   "static/js/2.b7cc4414.chunk.js": "/redux-minesweeper/static/js/2.b7cc4414.chunk.js",
   "static/js/2.b7cc4414.chunk.js.map": "/redux-minesweeper/static/js/2.b7cc4414.chunk.js.map",
   "index.html": "/redux-minesweeper/index.html",
-  "precache-manifest.e6e0c61a0e4ec89148440a3a08dcdb1b.js": "/redux-minesweeper/precache-manifest.e6e0c61a0e4ec89148440a3a08dcdb1b.js",
+  "precache-manifest.f19cd3a8a51ecf4638769815a134c3d7.js": "/redux-minesweeper/precache-manifest.f19cd3a8a51ecf4638769815a134c3d7.js",
   "service-worker.js": "/redux-minesweeper/service-worker.js"
 }
