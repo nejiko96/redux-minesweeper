@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import CssBaseline from '@material-ui/core/CssBaseline';
-
-import Header from './Header';
 
 import reducer from './reducers';
 import subscribeAll from './listeners';
+
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Header from './Header';
 import MineSweeperContainer from './containers/MineSweeperContainer';
 
 const store = createStore(reducer);

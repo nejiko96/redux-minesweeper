@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
 import Counter from '../components/Counter';
 import Board from '../components/Board';
+import Button from '@material-ui/core/Button';
 
 import { addEventListener, removeEventListener } from '../utils';
 import { STATUS_CLEARED } from '../models/gameModel'
@@ -60,11 +61,10 @@ class Body extends Component {
           actions={actions}
           />
         <p />
-        <button
-          type="button"
-          style={styles.restart}
+        <Button
+          variant="contained"
           onClick={actions.onGameRestart}
-          >{locale.retry}</button>
+          >{locale.retry}</Button>
       </div>
     );
   }

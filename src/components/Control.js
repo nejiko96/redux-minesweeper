@@ -1,5 +1,23 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+
+const styles = theme => ({
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 100,
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 100,
+  }
+});
 
 class Control extends Component {
   constructor(props) {
@@ -42,66 +60,82 @@ class Control extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <div>
-        Theme :
-        <select
-          defaultValue={this.state.themeStr}
-          onChange={this.handleThemeChange}
-          >
-          <option value="green_32">green(32px)</option>
-          <option value="MS_32">MS(32px)</option>
-          <option value="green_16">green(16px)</option>
-          <option value="MS_16">MS(16px)</option>
-        </select>
-        <br/>
-        Language :
-        <select
-          defaultValue={this.state.lang}
-          onChange={this.handleLangChange}
-          >
-          <option value="en">English</option>
-          <option value="ja">日本語</option>
-        </select>
-        <br/>
-        Level :
-        <select
-          defaultValue={this.state.level}
-          onChange={(ev) => this.handleSizeChange({level: ev.target.value})}
-          >
-          <option value="easy">easy</option>
-          <option value="medium">medium</option>
-          <option value="hard">hard</option>
-          <option value="custom">custom</option>
-        </select>
+      <React.Fragment>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="theme">Theme</InputLabel>
+          <Select
+            value={this.state.themeStr}
+            onChange={this.handleThemeChange}
+            inputProps={{name: 'theme', id: 'theme'}}
+            >
+            <MenuItem value="green_32">green(32px)</MenuItem>
+            <MenuItem value="MS_32">MS(32px)</MenuItem>
+            <MenuItem value="green_16">green(16px)</MenuItem>
+            <MenuItem value="MS_16">MS(16px)</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="lang">Language</InputLabel>
+          <Select
+            value={this.state.lang}
+            onChange={this.handleLangChange}
+            inputProps={{name: 'lang', id: 'lang'}}
+            >
+            <MenuItem value="en">English</MenuItem>
+            <MenuItem value="ja">日本語</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="level">Level</InputLabel>
+          <Select
+            value={this.state.level}
+            onChange={(ev) => this.handleSizeChange({level: ev.target.value})}
+            inputProps={{name: 'level', id: 'level'}}
+            >
+            <MenuItem value="easy">Easy</MenuItem>
+            <MenuItem value="medium">Medium</MenuItem>
+            <MenuItem value="hard">Hard</MenuItem>
+            <MenuItem value="custom">Custom</MenuItem>
+          </Select>
+        </FormControl>
         {this.state.level === 'custom' ? (
-          <div>
-            Width :
-            <input
+          <React.Fragment>
+            <br />
+            <TextField
+              id="width"
+              label="Width"
               type="number"
-              defaultValue={this.state.width}
+              value={this.state.width}
               placeholder="9 - 30"
               onChange={(ev) => this.handleSizeChange({width: ev.target.value})}
+              className={classes.textField}
+              margin="normal"
               />
-            <br/>
-            Height :
-            <input
+            <TextField
+              id="height"
+              label="Height"
               type="number"
-              defaultValue={this.state.height}
+              value={this.state.height}
               placeholder="9 - 24"
               onChange={(ev) => this.handleSizeChange({height: ev.target.value})}
+              className={classes.textField}
+              margin="normal"
               />
-            <br/>
-            Mines :
-            <input
+            <TextField
+              id="mines"
+              label="Mines"
               type="number"
-              defaultValue={this.state.mines}
+              value={this.state.mines}
               placeholder="10 - 999"
               onChange={(ev) => this.handleSizeChange({mines: ev.target.value})}
+              className={classes.textField}
+              margin="normal"
               />
-          </div>
+          </React.Fragment>
         ) : null}
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -110,4 +144,4 @@ Control.propTypes = {
   actions: PropTypes.object.isRequired
 };
 
-export default Control;
+export default withStyles(styles)(Control);
