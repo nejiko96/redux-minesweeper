@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import { addEventListener, removeEventListener } from '../utils';
 import { STATUS_CLEARED } from '../models/gameModel'
 
-class Body extends Component {
+class Minesweeper extends Component {
   componentDidMount() {
     const { level, width, height, mines, actions } = this.props;
     actions.onGameInit(level, width, height, mines);
@@ -40,31 +40,33 @@ class Body extends Component {
     const { state, actions } = this.props;
     const { game, timer, styles, locale } = state;
     return(
-      <div style={styles.body}>
-        {locale.remain1}<Counter
-          style={styles.counter}
-          value={game.mines - Object.keys(game.markPos).length}
-          />{locale.remain2}
-        <span style={styles.space}/>
-        {locale.timer1}<Timer
-          style={styles.timer}
-          interval="1s"
-          limit={999}
-          value={timer.value}
-          onLoad={actions.onTimerInit}
-          />{locale.timer2}
-        <span style={styles.space}/>
-        {game.status === STATUS_CLEARED ? locale.cleared : ''}
-        <Board
-          styles={styles}
-          grid={game.grid}
-          actions={actions}
-          />
-        <p />
-        <Button
-          variant="contained"
-          onClick={actions.onGameRestart}
-          >{locale.retry}</Button>
+      <div style={styles.container}>
+        <div style={styles.body}>
+          {locale.remain1}<Counter
+            style={styles.counter}
+            value={game.mines - Object.keys(game.markPos).length}
+            />{locale.remain2}
+          <span style={styles.space}/>
+          {locale.timer1}<Timer
+            style={styles.timer}
+            interval="1s"
+            limit={999}
+            value={timer.value}
+            onLoad={actions.onTimerInit}
+            />{locale.timer2}
+          <span style={styles.space}/>
+          {game.status === STATUS_CLEARED ? locale.cleared : ''}
+          <Board
+            styles={styles}
+            grid={game.grid}
+            actions={actions}
+            />
+          <p />
+          <Button
+            variant="contained"
+            onClick={actions.onGameRestart}
+            >{locale.retry}</Button>
+        </div>
       </div>
     );
   }
@@ -74,7 +76,7 @@ class Body extends Component {
   }
 }
 
-Body.propTypes = {
+Minesweeper.propTypes = {
   level: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
@@ -83,8 +85,8 @@ Body.propTypes = {
   actions: PropTypes.object.isRequired
 };
 
-Body.defaultProps = {
+Minesweeper.defaultProps = {
   level: 'easy',
 };
 
-export default Body;
+export default Minesweeper;

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+
 import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -19,7 +20,7 @@ const styles = theme => ({
   }
 });
 
-class Control extends Component {
+class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,13 +37,13 @@ class Control extends Component {
     const themeStr = ev.target.value;
     this.setState({ themeStr });
     const [theme, cellSizeStr] = themeStr.split('_');
-    this.props.actions.onThemeChange(theme, parseInt(cellSizeStr, 10));
+    this.props.onThemeChange(theme, parseInt(cellSizeStr, 10));
   }
 
   handleLangChange(ev) {
     const lang = ev.target.value;
     this.setState({ lang });
-    this.props.actions.onLangChange(lang);
+    this.props.onLangChange(lang);
   }
 
   handleSizeChange(newValue) {
@@ -51,7 +52,7 @@ class Control extends Component {
       ...this.state,
       ...newValue
     }
-    this.props.actions.onSizeChange(
+    this.props.onSizeChange(
       newState.level,
       newState.width && parseInt(newState.width, 10),
       newState.height && parseInt(newState.height, 10),
@@ -140,8 +141,10 @@ class Control extends Component {
   }
 }
 
-Control.propTypes = {
-  actions: PropTypes.object.isRequired
+Settings.propTypes = {
+  onThemeChange: PropTypes.func.isRequired,
+  onLangChange: PropTypes.func.isRequired,
+  onSizeChange: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(Control);
+export default withStyles(styles)(Settings);
