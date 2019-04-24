@@ -11,21 +11,23 @@ import { STATUS_CLEARED } from '../models/gameModel'
 
 class Minesweeper extends Component {
   componentDidMount() {
-    const { level, width, height, mines, actions } = this.props;
+    const { settings, actions } = this.props;
+    const { level, width, height, mines } = settings;
     actions.onGameInit(level, width, height, mines);
     addEventListener(this, 'contextmenu', this.handleContextMenu);
   }
 
   componentDidUpdate(prevProps) {
-    const { level, width, height, mines, actions } = this.props;
-    if (level !== prevProps.level) {
+    const { settings, actions } = this.props;
+    const { level, width, height, mines } = settings;
+    if (level !== prevProps.settings.level) {
       actions.onGameInit(level, width, height, mines);
     } else if (
       level === 'custom'
       && (
-        width !== prevProps.width
-        || height !== prevProps.height
-        || mines !== prevProps.mines
+        width !== prevProps.settings.width
+        || height !== prevProps.settings.height
+        || mines !== prevProps.settings.mines
       )
     ) {
       actions.onGameInit(level, width, height, mines);
@@ -37,8 +39,7 @@ class Minesweeper extends Component {
   }
 
   render() {
-    const { state, actions } = this.props;
-    const { game, timer, styles, locale } = state;
+    const { game, timer, styles, locale, actions } = this.props;
     return(
       <div style={styles.container}>
         <div style={styles.body}>
@@ -77,16 +78,16 @@ class Minesweeper extends Component {
 }
 
 Minesweeper.propTypes = {
-  level: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  mines: PropTypes.number,
-  state: PropTypes.object.isRequired,
+  settings: PropTypes.object,
+  game: PropTypes.object.isRequired,
+  timer: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired,
+  locale: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 
 Minesweeper.defaultProps = {
-  level: 'easy',
+  settings: { level: 'easy' },
 };
 
 export default Minesweeper;

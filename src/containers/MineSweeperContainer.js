@@ -5,13 +5,7 @@ import * as actions from '../actions';
 import Minesweeper from '../components/Minesweeper';
 
 const mapState = (state, ownProps) => (
-  {
-    level: state.settings.level,
-    width: state.settings.width,
-    height: state.settings.height,
-    mines: state.settings.mines,
-    state
-   }
+  state
 );
 
 function mapDispatch(dispatch) {
