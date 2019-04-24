@@ -54,10 +54,6 @@ const stylesGen = (theme, cellSize) => {
       lineHeight: 0
     },
     cell: fillArray(15, i => cellStyleCurry(i)),
-    restart: {
-      fontSize: '14px',
-      padding: '5px'
-    },
     space: {
       display: 'inline-block',
       width: '20px'

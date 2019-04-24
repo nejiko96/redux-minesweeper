@@ -1,19 +1,24 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
-// import './index.css';
-import MineSweeperContainer from './containers/MineSweeperContainer';
 import reducer from './reducers';
 import subscribeAll from './listeners';
+
+// import './index.css';
+import App from './App';
+
+import * as serviceWorker from './serviceWorker';
 
 const store = createStore(reducer);
 subscribeAll(store);
 
 render(
   <Provider store={store}>
-    <MineSweeperContainer/>
+    <App />
   </Provider>,
   document.getElementById('root')
 );
+
+serviceWorker.register();
