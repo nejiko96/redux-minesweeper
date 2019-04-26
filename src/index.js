@@ -1,18 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-
-import reducer from './reducers';
-import subscribeAll from './listeners';
 
 // import './index.css';
 import App from './App';
+import configureStore from './configureStore';
 
+// PWA support
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(reducer);
-subscribeAll(store);
+const store = configureStore();
 
 render(
   <Provider store={store}>
