@@ -21,32 +21,26 @@ const styles = theme => ({
 });
 
 class Settings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      themeStr: 'green_32',
-      lang: 'en',
-      level: 'easy',
-    };
-    this.handleThemeChange = this.handleThemeChange.bind(this);
-    this.handleLangChange = this.handleLangChange.bind(this);
-    this.handleSizeChange = this.handleSizeChange.bind(this);
-  }
+  state = {
+    lang: 'en',
+    themeStr: 'green_32',
+    level: 'easy',
+  };
 
-  handleThemeChange(ev) {
+  handleLangChange = (ev) => {
+    const lang = ev.target.value;
+    this.setState({ lang });
+    this.props.onLangChange(lang);
+  };
+
+  handleThemeChange = (ev) =>{
     const themeStr = ev.target.value;
     this.setState({ themeStr });
     const [theme, cellSizeStr] = themeStr.split('_');
     this.props.onThemeChange(theme, parseInt(cellSizeStr, 10));
-  }
+  };
 
-  handleLangChange(ev) {
-    const lang = ev.target.value;
-    this.setState({ lang });
-    this.props.onLangChange(lang);
-  }
-
-  handleSizeChange(newValue) {
+  handleSizeChange = (newValue) => {
     this.setState(newValue);
     const newState = {
       ...this.state,
@@ -58,12 +52,23 @@ class Settings extends Component {
       newState.height && parseInt(newState.height, 10),
       newState.mines && parseInt(newState.mines, 10)
     );
-  }
+  };
 
   render() {
     const { classes } = this.props;
     return (
       <React.Fragment>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="lang">Language</InputLabel>
+          <Select
+            value={this.state.lang}
+            onChange={this.handleLangChange}
+            inputProps={{name: 'lang', id: 'lang'}}
+            >
+            <MenuItem value="en">English</MenuItem>
+            <MenuItem value="ja">日本語</MenuItem>
+          </Select>
+        </FormControl>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="theme">Theme</InputLabel>
           <Select
@@ -75,17 +80,6 @@ class Settings extends Component {
             <MenuItem value="MS_32">MS(32px)</MenuItem>
             <MenuItem value="green_16">green(16px)</MenuItem>
             <MenuItem value="MS_16">MS(16px)</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="lang">Language</InputLabel>
-          <Select
-            value={this.state.lang}
-            onChange={this.handleLangChange}
-            inputProps={{name: 'lang', id: 'lang'}}
-            >
-            <MenuItem value="en">English</MenuItem>
-            <MenuItem value="ja">日本語</MenuItem>
           </Select>
         </FormControl>
         <FormControl className={classes.formControl}>
