@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
+import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import GithubCircle from 'mdi-material-ui/GithubCircle';
-import Settings from '@material-ui/icons/Settings';
-import Drawer from '@material-ui/core/Drawer';
+import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import Divider from '@material-ui/core/Divider';
+import GithubCircle from 'mdi-material-ui/GithubCircle';
+
 import SettingsContainer from './containers/SettingsContainer';
 import MineSweeperContainer from './containers/MineSweeperContainer';
 
@@ -85,11 +87,11 @@ class App extends Component {
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
-  }
+  };
 
   handleDrawerClose = () => {
     this.setState({ open: false });
-  }
+  };
 
   render() {
     const { classes, theme } = this.props;
@@ -104,7 +106,15 @@ class App extends Component {
             { [classes.appBarShift]: open }
           )}
         >
-          <Toolbar _disableGutters={!open}>
+          <Toolbar disableGutters={!open}>
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={this.handleDrawerOpen}
+              className={classNames(classes.menuButton, open && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
             <Typography variant="h6" color="inherit" className={classes.grow}>
               redux-minesweeper demo
             </Typography>
@@ -114,15 +124,6 @@ class App extends Component {
                 href="https://github.com/nejiko96/redux-minesweeper"
               >
                 <GithubCircle fontSize="large" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Change settings" aria-label="Change settings">
-              <IconButton
-                color="inherit"
-                onClick={this.handleDrawerOpen}
-                className={classNames(classes.menuButton, open && classes.hide)}
-              >
-                <Settings fontSize="large" />
               </IconButton>
             </Tooltip>
           </Toolbar>
@@ -156,5 +157,10 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles, { withTheme: true })(App);
