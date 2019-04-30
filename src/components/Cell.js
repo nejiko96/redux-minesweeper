@@ -4,13 +4,8 @@ import PropTypes from 'prop-types';
 import { styleIdx } from '../models/cellModel';
 
 class Cell extends Component {
-  constructor(props) {
-    super(props);
-    this.timeoutId = null;
-    this.handleTouchStart = this.handleTouchStart.bind(this);
-    this.handleTouchEnd = this.handleTouchEnd.bind(this);
-    this.handleLongPress = this.handleLongPress.bind(this);
-  }
+
+  state = { timeoutId: null };
 
   render() {
     const { style, value } = this.props;
@@ -28,31 +23,31 @@ class Cell extends Component {
     );
   }
 
-  handleTouchStart(ev) {
-    if (this.timeoutId !== null) {
-      clearTimeout(this.timeoutId);
-      this.timeoutId = null;
+  handleTouchStart = (ev) => {
+    if (this.state.timeoutId !== null) {
+      clearTimeout(this.state.timeoutId);
+      this.setState({ timeoutId: null });
     }
     this.props.onTouchStart();
-    this.timeoutId = setTimeout(this.handleLongPress, 300);
-  }
+    this.setState({ timeoutId: setTimeout(this.handleLongPress, 300) });
+  };
 
-  handleTouchEnd(ev) {
-    if (this.timeoutId !== null) {
-      clearTimeout(this.timeoutId);
-      this.timeoutId = null;
+  handleTouchEnd = (ev) => {
+    if (this.state.timeoutId !== null) {
+      clearTimeout(this.state.timeoutId);
+      this.setState({ timeoutId: null });
       this.props.onTouchEnd();
     }
     ev.preventDefault();
-  }
+  };
 
-  handleLongPress(ev) {
-    if (this.timeoutId !== null) {
-      clearTimeout(this.timeoutId);
-      this.timeoutId = null;
+  handleLongPress = (ev) => {
+    if (this.state.timeoutId !== null) {
+      clearTimeout(this.state.timeoutId);
+      this.setState({ timeoutId: null });
       this.props.onLongPress();
     }
-  }
+  };
 }
 
 Cell.propTypes = {
