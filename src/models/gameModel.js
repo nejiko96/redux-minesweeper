@@ -113,7 +113,7 @@ const areaOpen = (state, i, j) => {
   }
   return surr
     .map(([i2, j2]) => open(state, i2, j2))
-    .reduce((a, b) => a | b);
+    .reduce((a, b) => a | b, 0);
 };
 
 const gameClear = (state) => {
