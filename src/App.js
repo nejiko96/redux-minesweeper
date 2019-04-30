@@ -57,7 +57,7 @@ class App extends Component {
                 color="inherit"
                 aria-label="Github"
                 href="https://github.com/nejiko96/redux-minesweeper">
-                <GithubCircle />
+                <GithubCircle fontSize="large" />
               </IconButton>
             </Tooltip>
           </Toolbar>
