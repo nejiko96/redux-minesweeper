@@ -103,7 +103,6 @@ class Settings extends Component {
         </FormControl>
         {this.state.level === 'custom' ? (
           <React.Fragment>
-            <br />
             <TextField
               id="width"
               label="Width"
