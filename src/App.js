@@ -111,12 +111,12 @@ class App extends Component {
               color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
-              className={classNames(classes.menuButton, open && classes.hide)}
+              className={ classNames(classes.menuButton, open && classes.hide) }
             >
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" className={classes.grow}>
-              redux-minesweeper demo
+              redux-minesweeper demo page
             </Typography>
             <Tooltip title="View source on Github" aria-label="View source on Github">
               <IconButton
