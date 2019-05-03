@@ -17,7 +17,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import GithubCircle from 'mdi-material-ui/GithubCircle';
 
 import SettingsContainer from './containers/SettingsContainer';
-import MineSweeperContainer from './containers/MineSweeperContainer';
+import MinesweeperContainer from './containers/MinesweeperContainer';
 
 const drawerWidth = 200;
 
@@ -134,7 +134,7 @@ class App extends Component {
           })}
         >
           <div className={classes.drawerHeader} />
-          <MineSweeperContainer />
+          <MinesweeperContainer />
         </main>
         <Drawer
           className={classes.drawer}
