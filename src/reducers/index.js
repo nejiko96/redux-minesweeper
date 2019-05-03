@@ -4,6 +4,7 @@ import timer from './timer';
 import styles from './styles';
 import locale from './locale';
 import settings from './settings';
+import touch from './touch';
 //import debug from './debug';
 
 const reducer = combineReducers({
@@ -12,6 +13,7 @@ const reducer = combineReducers({
   styles,
   locale,
   settings,
+  touch,
 //  debug
 });
 

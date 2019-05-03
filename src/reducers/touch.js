@@ -1,0 +1,17 @@
+import * as actionTypes from '../utils/actionTypes';
+
+const initialState = false;
+
+const touch = (state = initialState, action) => {
+  if (action.type === actionTypes.START_TOUCH) {
+    return true;
+  } else if (action.type === actionTypes.END_TOUCH) {
+    return false;
+  } else if (action.type === actionTypes.LONG_PRESS) {
+    return false;
+  } else {
+    return state;
+  }
+};
+
+export default touch;

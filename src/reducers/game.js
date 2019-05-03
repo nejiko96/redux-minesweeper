@@ -20,41 +20,27 @@ const game = (state = initialState, action) => {
       state.height,
       state.mines
     );
-  } else if (
-    action.type === actionTypes.DOWN_MOUSE
-  ) {
+  } else if (action.type === actionTypes.DOWN_MOUSE) {
     return md.handleMouseDown(action.ev)(state, action.i, action.j);
-  } else if (
-    action.type === actionTypes.UP_MOUSE
-  ) {
+  } else if (action.type === actionTypes.UP_MOUSE) {
     return md.handleMouseUp()(state, action.i, action.j);
-  } else if (
-    action.type === actionTypes.OVER_MOUSE
-  ) {
+  } else if (action.type === actionTypes.OVER_MOUSE) {
     return md.handleMouseOver()(state, action.i, action.j);
-  } else if (
-    action.type === actionTypes.OUT_MOUSE
-  ) {
+  } else if (action.type === actionTypes.OUT_MOUSE) {
     return md.handleMouseOut()(state, action.i, action.j);
-  } else if (
-    action.type === actionTypes.START_TOUCH
-  ) {
+  } else if (action.type === actionTypes.START_TOUCH) {
     if (gameModel.isHidden(state, action.i, action.j)) {
       return gameModel.handleLeftMouseDown(state, action.i, action.j);
     } else {
       return gameModel.handleBothMouseDown(state, action.i, action.j);
     }
-  } else if (
-    action.type === actionTypes.END_TOUCH
-  ) {
+  } else if (action.type === actionTypes.END_TOUCH) {
     if (gameModel.isHidden(state, action.i, action.j)) {
       return gameModel.handleLeftMouseUp(state, action.i, action.j);
     } else {
       return gameModel.handleBothMouseUp(state, action.i, action.j);
     }
-  } else if (
-    action.type === actionTypes.LONG_PRESS
-  ) {
+  } else if (action.type === actionTypes.LONG_PRESS) {
    if (gameModel.isHidden(state, action.i, action.j)) {
     return gameModel.handleRightMouseDown(state, action.i, action.j);
     } else {
