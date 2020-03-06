@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -101,7 +101,7 @@ class App extends Component {
         <CssBaseline />
         <AppBar
           position="fixed"
-          className={classNames(
+          className={clsx(
             classes.appBar,
             { [classes.appBarShift]: open }
           )}
@@ -111,7 +111,7 @@ class App extends Component {
               color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
-              className={ classNames(classes.menuButton, open && classes.hide) }
+              className={ clsx(classes.menuButton, open && classes.hide) }
             >
               <MenuIcon />
             </IconButton>
@@ -129,7 +129,7 @@ class App extends Component {
           </Toolbar>
         </AppBar>
         <main
-          className={classNames(classes.conent, {
+          className={clsx(classes.conent, {
             [classes.contentShift]: open,
           })}
         >
