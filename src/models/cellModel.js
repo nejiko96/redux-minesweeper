@@ -27,14 +27,17 @@ export const initialValue = () => (FLAG_HIDDEN);
 
 export const styleIdx = (f) => {
   if (f & FLAG_MARKED) {
-    return (f & FLAGS_MAIN) === FLAG_MARKED ? STYLE_MISTAKE : STYLE_MARKED;
+    if ((f & FLAGS_MAIN) === FLAG_MARKED) return STYLE_MISTAKE;
+    return STYLE_MARKED;
   }
   if (f & FLAG_HIDDEN) {
-    return f & FLAG_HID_PRESSED ? STYLE_PRESSED :
-      f & FLAG_HID_PENDING ? STYLE_PENDING : STYLE_HIDDEN;
+    if (f & FLAG_HID_PRESSED) return STYLE_PRESSED;
+    if (f & FLAG_HID_PENDING) return STYLE_PENDING;
+    return STYLE_HIDDEN;
   }
   if (f & FLAG_MINE) {
-    return f & FLAG_OPEN_EXPLODED ? STYLE_EXPLOSION : STYLE_MINE;
+    if (f & FLAG_OPEN_EXPLODED) return STYLE_EXPLOSION;
+    return STYLE_MINE;
   }
   return STYLES_OPEN + getHint(f);
 };
