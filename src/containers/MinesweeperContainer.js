@@ -4,13 +4,13 @@ import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
 import Minesweeper from '../components/Minesweeper';
 
-const mapState = (state, ownProps) => (
+const mapState = (state) => (
   state
 );
 
 function mapDispatch(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(actions, dispatch),
   };
 }
 

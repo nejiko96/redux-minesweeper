@@ -9,11 +9,10 @@ const settings = (state = initialState, action) => {
       level: action.level,
       width: action.width,
       height: action.height,
-      mines: action.mines
+      mines: action.mines,
     };
-  } else {
-    return state;
   }
+  return state;
 };
 
 export default settings;

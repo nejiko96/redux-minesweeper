@@ -10,14 +10,14 @@ const textBoxStyle = {
   display: 'inline-block',
   paddingRight: '2px',
   textAlign: 'right',
-  width: '40px'
+  width: '40px',
 };
 
 const cellImgTbl = {
-  "green_16": cellImgGreen16,
-  "green_32": cellImgGreen32,
-  "MS_16": cellImgMS16,
-  "MS_32": cellImgMS32,
+  green_16: cellImgGreen16,
+  green_32: cellImgGreen32,
+  MS_16: cellImgMS16,
+  MS_32: cellImgMS32,
 };
 
 const cellStyle = (theme, cellSize) => (i) => {
@@ -30,7 +30,7 @@ const cellStyle = (theme, cellSize) => (i) => {
     height: `${cellSize}px`,
     overflow: 'hidden',
     width: `${cellSize}px`,
-    backgroundPosition: `${x}px ${y}px`
+    backgroundPosition: `${x}px ${y}px`,
   };
 };
 
@@ -57,9 +57,9 @@ const stylesGen = (theme, cellSize) => {
       display: 'inline-block',
     },
     cells: {
-      lineHeight: 0
+      lineHeight: 0,
     },
-    cell: fillArray(15, i => cellStyleCurry(i)),
+    cell: fillArray(15, (i) => cellStyleCurry(i)),
     cellsOverlay: {
       position: 'absolute',
       top: 0,
@@ -71,6 +71,6 @@ const stylesGen = (theme, cellSize) => {
       pointerEvents: 'none',
     },
   };
-}
+};
 
 export default stylesGen;

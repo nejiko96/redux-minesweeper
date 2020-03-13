@@ -4,15 +4,15 @@ import initSubscriber from 'redux-subscriber';
 import reducer from './reducers';
 import listeners from './listeners';
 
-const subscribeListeners = (store, listeners) => {
+const subscribeListeners = (store, lsnrs) => {
   const subscribe = initSubscriber(store);
-  const dispatch = store.dispatch;
-  for(const key in listeners) {
-    const listener = listeners[key];
-    subscribe(listener.key, (state) => {
-      listener.onChange(dispatch, state);
+  const { dispatch } = store;
+  Object.keys(lsnrs).forEach((key) => {
+    const lsnr = lsnrs[key];
+    subscribe(lsnr.key, (state) => {
+      lsnr.onChange(dispatch, state);
     });
-  }
+  });
 };
 
 const configureStore = () => {

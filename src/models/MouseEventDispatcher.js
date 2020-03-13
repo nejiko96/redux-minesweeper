@@ -16,23 +16,23 @@ class MouseEventDispatcher {
       [
         target.handleLeftMouseDown,
         target.handleRightMouseDown,
-        target.handleBothMouseDown
+        target.handleBothMouseDown,
       ],
       [
         target.handleLeftMouseUp,
         target.handleRightMouseUp,
-        target.handleBothMouseUp
+        target.handleBothMouseUp,
       ],
       [
         target.handleLeftMouseOver,
         target.handleRightMouseOver,
-        target.handleBothMouseOver
+        target.handleBothMouseOver,
       ],
       [
         target.handleLeftMouseOut,
         target.handleRightMouseOut,
-        target.handleBothMouseOut
-      ]
+        target.handleBothMouseOut,
+      ],
     ];
   }
 
@@ -43,7 +43,7 @@ class MouseEventDispatcher {
   handleMouseDown(ev) {
     this.pressed |= {
       0: BUTTON_LEFT,
-      2: BUTTON_RIGHT
+      2: BUTTON_RIGHT,
     }[ev.button];
     return this.dispatch(EVENT_MOUSE_DOWN, this.pressed);
   }
@@ -52,7 +52,7 @@ class MouseEventDispatcher {
     if (this.pressed === 0) {
       return noop;
     }
-    const pressed = this.pressed;
+    const { pressed } = this;
     this.pressed = 0;
     return this.dispatch(EVENT_MOUSE_UP, pressed);
   }

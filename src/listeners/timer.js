@@ -10,12 +10,12 @@ export const timerToggleListener = {
     if (state.game.status === STATUS_RUNNING) {
       timerModel.start(
         () => dispatch(onTimerUpdate()),
-        state.timer.interval
+        state.timer.interval,
       );
     } else {
       timerModel.stop();
     }
-  }
+  },
 };
 
 export const timerTimeupListener = {
@@ -24,5 +24,5 @@ export const timerTimeupListener = {
     if (state.timer.limit > 0 && state.timer.value >= state.timer.limit) {
       timerModel.stop();
     }
-  }
+  },
 };

@@ -6,10 +6,10 @@ import Settings from '../components/Settings';
 const mapDispatch = {
   onThemeChange,
   onLangChange,
-  onSizeChange
+  onSizeChange,
 };
 
 export default connect(
   null,
-  mapDispatch
-)(Settings)
+  mapDispatch,
+)(Settings);

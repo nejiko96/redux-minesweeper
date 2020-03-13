@@ -6,9 +6,8 @@ const initialState = localeGen('en');
 const locale = (state = initialState, action) => {
   if (action.type === actionTypes.CHANGE_LANG) {
     return localeGen(action.lang);
-  } else {
-    return state;
   }
+  return state;
 };
 
 export default locale;

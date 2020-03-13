@@ -27,7 +27,7 @@ export const initialValue = () => (FLAG_HIDDEN);
 
 export const styleIdx = (f) => {
   if (f & FLAG_MARKED) {
-    return (f & FLAGS_MAIN) === FLAG_MARKED ? STYLE_MISTAKE : STYLE_MARKED
+    return (f & FLAGS_MAIN) === FLAG_MARKED ? STYLE_MISTAKE : STYLE_MARKED;
   }
   if (f & FLAG_HIDDEN) {
     return f & FLAG_HID_PRESSED ? STYLE_PRESSED :
@@ -54,24 +54,24 @@ export const toggleMark = (f) => {
   if (f & FLAG_MARKED) {
     return {
       f: (f & ~FLAG_MARKED) | FLAG_HID_PENDING,
-      result: RESULT_UNMARKED
+      result: RESULT_UNMARKED,
     };
   }
   // pending -> not marked
   if (f & FLAG_HID_PENDING) {
     return {
       f: f & ~FLAG_HID_PENDING,
-      result: RESULT_NONE
+      result: RESULT_NONE,
     };
   }
   // not marked -> marked
   return {
     f: f | FLAG_MARKED,
-    result: RESULT_MARKED
+    result: RESULT_MARKED,
   };
 };
 
-export const forceMark = (f) => ((f & ~FLAG_HID_PENDING) | FLAG_MARKED)
+export const forceMark = (f) => ((f & ~FLAG_HID_PENDING) | FLAG_MARKED);
 
 export const open = (f, byClick = true) => {
   // already opened
@@ -99,9 +99,9 @@ export const setHint = (f, hint) => (
   (f & ~FLAGS_OPEN_HINT) | (hint << 4)
 );
 
-export const getHint = (f) => {
+export const getHint = (f) => (
   // return -1 if not empty
-  return (f & FLAGS_MAIN) ? -1 : ((f & FLAGS_OPEN_HINT) >> 4);
-};
+  (f & FLAGS_MAIN) ? -1 : ((f & FLAGS_OPEN_HINT) >> 4)
+);
 
 export const isHidden = (f) => (f & FLAG_HIDDEN > 0);

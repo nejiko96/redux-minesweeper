@@ -1,7 +1,7 @@
 import * as timerListeners from './timer';
 
 const listeners = {
-  ...timerListeners
+  ...timerListeners,
 };
 
 export default listeners;

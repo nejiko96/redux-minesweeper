@@ -3,7 +3,7 @@ import * as actionTypes from '../utils/actionTypes';
 const initialState = {
   interval: '1s',
   limit: 0,
-  value: 0
+  value: 0,
 };
 
 const timer = (state = initialState, action) => {
@@ -13,22 +13,23 @@ const timer = (state = initialState, action) => {
       interval: action.interval,
       limit: action.limit,
     };
-  } else if (
+  }
+  if (
     action.type === actionTypes.INIT_GAME
     || action.type === actionTypes.RESTART_GAME
   ) {
     return {
       ...state,
-      value: 0
+      value: 0,
     };
-  } else if (action.type === actionTypes.UPDATE_TIMER) {
+  }
+  if (action.type === actionTypes.UPDATE_TIMER) {
     return {
       ...state,
-      value: state.value + 1
+      value: state.value + 1,
     };
-  } else {
-    return state;
   }
+  return state;
 };
 
 export default timer;

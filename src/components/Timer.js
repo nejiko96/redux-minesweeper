@@ -6,16 +6,17 @@ class Timer extends Component {
     const { interval, limit, onLoad } = this.props;
     onLoad(interval, limit);
   }
+
   render() {
     const { style, value } = this.props;
     return (
-      <span style={style} >{value}</span>
+      <span style={style}>{value}</span>
     );
   }
 }
 
 Timer.propTypes = {
-  style: PropTypes.object.isRequired,
+  style: PropTypes.shape({}).isRequired,
   interval: PropTypes.string,
   limit: PropTypes.number,
   value: PropTypes.number.isRequired,

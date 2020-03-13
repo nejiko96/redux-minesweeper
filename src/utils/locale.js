@@ -5,7 +5,7 @@ const localeBundle = {
     timer1: 'time: ',
     timer2: '',
     retry: 'Retry',
-    cleared: 'Cleared!'
+    cleared: 'Cleared!',
   },
   ja: {
     remain1: 'あと',
@@ -13,8 +13,8 @@ const localeBundle = {
     timer1: '',
     timer2: '秒経過',
     retry: 'もう一回？',
-    cleared: 'クリア！'
-  }
+    cleared: 'クリア！',
+  },
 };
 
 const localeGen = (lang) => localeBundle[lang];

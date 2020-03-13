@@ -8,39 +8,41 @@ const dup = (state) => JSON.parse(JSON.stringify(state));
 
 const pos2key = ([i, j]) => (i << 8) | j;
 
-const relatives = (state, i, j, diffs) => {
-  return diffs
+const relatives = (state, i, j, diffs) => (
+  diffs
     .map(([di, dj]) => [i + di, j + dj])
     .filter(
-      ([i, j]) => state.grid[i] && state.grid[i][j]
-    );
-};
+      ([i2, j2]) => state.grid[i2] && state.grid[i2][j2],
+    )
+);
 
-const surroundings = (state, i, j) => {
-  return relatives(state, i, j,
+const surroundings = (state, i, j) => (
+  relatives(
+    state, i, j,
     [
       [-1, -1], [-1, 0], [-1, 1], [0, 1],
-      [1, 1], [1, 0], [1, -1], [0, -1]
-    ]
-  );
-};
+      [1, 1], [1, 0], [1, -1], [0, -1],
+    ],
+  )
+);
 
-const neighbors = (state, i, j) => {
-  return relatives(state, i, j,
+const neighbors = (state, i, j) => (
+  relatives(
+    state, i, j,
     [
       [-1, -1], [-1, 0], [-1, 1],
       [0, -1], [0, 0], [0, 1],
-      [1, -1], [1, 0], [1, 1]
-    ]
-  );
-};
+      [1, -1], [1, 0], [1, 1],
+    ],
+  )
+);
 
 const generateMines = (state, i, j) => {
   state.minePos = {};
   const w = state.width;
   const h = state.height;
-  const samples = fillArray(w * h, k => k);
-  const excludes = neighbors(state, i, j).map(([i2, j2]) => i2 * w + j2)
+  const samples = fillArray(w * h, (k) => k);
+  const excludes = neighbors(state, i, j).map(([i2, j2]) => i2 * w + j2);
   let s = samples.length;
   let e = excludes.length;
   let m = state.mines;
@@ -52,20 +54,22 @@ const generateMines = (state, i, j) => {
   while (m--) {
     const k = Math.floor(Math.random() * s--);
     const smp = samples[k];
-    const pos = [i, j] = [smp / w | 0, smp % w];
+    const i2 = smp / w | 0;
+    const j2 = smp % w;
+    const pos = [i2, j2];
     state.minePos[pos2key(pos)] = pos;
-    state.grid[i][j] = cellModel.putMine(state.grid[i][j]);
+    state.grid[i2][j2] = cellModel.putMine(state.grid[i2][j2]);
     [samples[k], samples[s]] = [samples[s], samples[k]];
   }
 };
 
 const start = (state, i, j) => {
   generateMines(state, i, j);
-  state.status = STATUS_RUNNING
+  state.status = STATUS_RUNNING;
 };
 
 const toggleMark = (state, i, j) => {
-  const {f, result} = cellModel.toggleMark(state.grid[i][j]);
+  const { f, result } = cellModel.toggleMark(state.grid[i][j]);
   state.grid[i][j] = f;
   if (result === cellModel.RESULT_NONE) {
     return;
@@ -81,7 +85,7 @@ const toggleMark = (state, i, j) => {
 };
 
 const open = (state, i, j) => {
-  const {f, result} = cellModel.open(state.grid[i][j]);
+  const { f, result } = cellModel.open(state.grid[i][j]);
   state.grid[i][j] = f;
   if (result === cellModel.RESULT_OPENED) {
     state.countDown--;
@@ -93,7 +97,7 @@ const open = (state, i, j) => {
 const postOpen = (state, i, j) => {
   const surr = surroundings(state, i, j);
   const hint = surr
-    .filter(pos => state.minePos[pos2key(pos)])
+    .filter((pos) => state.minePos[pos2key(pos)])
     .length;
   state.grid[i][j] = cellModel.setHint(state.grid[i][j], hint);
   if (hint > 0) {
@@ -110,7 +114,7 @@ const areaOpen = (state, i, j) => {
   }
   const surr = surroundings(state, i, j);
   const marks = surr
-    .filter(pos => state.markPos[pos2key(pos)])
+    .filter((pos) => state.markPos[pos2key(pos)])
     .length;
   if (marks !== hint) {
     return;
@@ -123,7 +127,7 @@ const areaOpen = (state, i, j) => {
 const gameClear = (state) => {
   state.status = STATUS_CLEARED;
   Object.keys(state.minePos)
-    .forEach(key => {
+    .forEach((key) => {
       const [i, j] = state.markPos[key] = state.minePos[key];
       state.grid[i][j] = cellModel.forceMark(state.grid[i][j]);
     });
@@ -133,7 +137,7 @@ const gameOver = (state) => {
   state.status = STATUS_GAMEOVER;
   const mineMarkPos = {
     ...state.minePos,
-    ...state.markPos
+    ...state.markPos,
   };
   Object.values(mineMarkPos)
     .forEach(([i, j]) => {
@@ -149,7 +153,9 @@ export const STATUSES_ENABLED = STATUS_READY | STATUS_RUNNING;
 
 export const initialValue = (level, w, h, m) => {
   const { width, height, mines } = sizeGen(
-    { level, width: w, height: h, mines: m }
+    {
+      level, width: w, height: h, mines: m,
+    },
   );
   return {
     level,
@@ -160,7 +166,7 @@ export const initialValue = (level, w, h, m) => {
     grid: fillArray2D(width, height, cellModel.initialValue),
     minePos: {},
     markPos: {},
-    countDown: width * height - mines
+    countDown: width * height - mines,
   };
 };
 
@@ -231,7 +237,7 @@ export const handleBothMouseDown = (state, i, j) => {
   }
   state = dup(state);
   neighbors(state, i, j).forEach(
-    ([i, j]) => state.grid[i][j] = cellModel.press(state.grid[i][j])
+    ([i2, j2]) => { state.grid[i2][j2] = cellModel.press(state.grid[i2][j2]); },
   );
   return state;
 };
@@ -242,7 +248,7 @@ export const handleBothMouseOver = (state, i, j) => {
   }
   state = dup(state);
   neighbors(state, i, j).forEach(
-    ([i, j]) => state.grid[i][j] = cellModel.press(state.grid[i][j])
+    ([i2, j2]) => { state.grid[i2][j2] = cellModel.press(state.grid[i2][j2]); },
   );
   return state;
 };
@@ -253,7 +259,9 @@ export const handleBothMouseOut = (state, i, j) => {
   }
   state = dup(state);
   neighbors(state, i, j).forEach(
-    ([i, j]) => state.grid[i][j] = cellModel.release(state.grid[i][j])
+    ([i2, j2]) => {
+      state.grid[i2][j2] = cellModel.release(state.grid[i2][j2]);
+    },
   );
   return state;
 };
@@ -264,7 +272,9 @@ export const handleBothMouseUp = (state, i, j) => {
   }
   state = dup(state);
   neighbors(state, i, j).forEach(
-    ([i, j]) => state.grid[i][j] = cellModel.release(state.grid[i][j])
+    ([i2, j2]) => {
+      state.grid[i2][j2] = cellModel.release(state.grid[i2][j2]);
+    },
   );
   const result = areaOpen(state, i, j);
   if (result & cellModel.RESULT_EXPLODED) {
@@ -276,4 +286,3 @@ export const handleBothMouseUp = (state, i, j) => {
 };
 
 export const isHidden = (state, i, j) => (cellModel.isHidden(state.grid[i][j]));
-

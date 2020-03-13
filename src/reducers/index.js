@@ -5,7 +5,6 @@ import styles from './styles';
 import locale from './locale';
 import settings from './settings';
 import touch from './touch';
-//import debug from './debug';
 
 const reducer = combineReducers({
   game,
@@ -14,7 +13,6 @@ const reducer = combineReducers({
   locale,
   settings,
   touch,
-//  debug
 });
 
 export default reducer;
