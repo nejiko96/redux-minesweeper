@@ -60,7 +60,7 @@ class Minesweeper extends Component {
           value={game.mines - Object.keys(game.markPos).length}
         />
         {locale.remain2}
-        <span style={styles.space}/>
+        <span style={styles.space} />
         {locale.timer1}
         <Timer
           style={styles.timer}
@@ -70,13 +70,13 @@ class Minesweeper extends Component {
           onLoad={actions.onTimerInit}
         />
         {locale.timer2}
-        <span style={styles.space}/>
+        <span style={styles.space} />
         {game.status === STATUS_CLEARED ? locale.cleared : ''}
         <br />
         <Board
           styles={styles}
           grid={game.grid}
-          overlay={(game.status & STATUSES_ENABLED) && touch}
+          overlay={(game.status & STATUSES_ENABLED) > 0 && touch}
           actions={actions}
         />
         <p />
@@ -92,12 +92,41 @@ class Minesweeper extends Component {
 }
 
 Minesweeper.propTypes = {
-  settings: PropTypes.shape({}),
-  game: PropTypes.shape({}).isRequired,
-  timer: PropTypes.shape({}).isRequired,
-  styles: PropTypes.shape({}).isRequired,
-  locale: PropTypes.shape({}).isRequired,
-  actions: PropTypes.shape({}).isRequired,
+  settings: PropTypes.shape({
+    level: PropTypes.string.isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    mines: PropTypes.number,
+  }),
+  game: PropTypes.shape({
+    status: PropTypes.number.isRequired,
+    grid: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
+    mines: PropTypes.number.isRequired,
+    markPos: PropTypes.shape({}),
+  }).isRequired,
+  timer: PropTypes.shape({
+    value: PropTypes.number.isRequired,
+  }).isRequired,
+  styles: PropTypes.shape({
+    container: PropTypes.shape({}),
+    counter: PropTypes.shape({}),
+    timer: PropTypes.shape({}),
+    space: PropTypes.shape({}),
+  }).isRequired,
+  locale: PropTypes.shape({
+    remain1: PropTypes.string.isRequired,
+    remain2: PropTypes.string.isRequired,
+    timer1: PropTypes.string.isRequired,
+    timer2: PropTypes.string.isRequired,
+    cleared: PropTypes.string.isRequired,
+    retry: PropTypes.string.isRequired,
+  }).isRequired,
+  touch: PropTypes.bool.isRequired,
+  actions: PropTypes.shape({
+    onGameInit: PropTypes.func.isRequired,
+    onTimerInit: PropTypes.func.isRequired,
+    onGameRestart: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 Minesweeper.defaultProps = {

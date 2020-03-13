@@ -10,12 +10,12 @@ import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     minWidth: 100,
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     width: 100,
   }
 });
@@ -57,7 +57,7 @@ class Settings extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="lang">Language</InputLabel>
           <Select
@@ -96,7 +96,7 @@ class Settings extends Component {
           </Select>
         </FormControl>
         {this.state.level === 'custom' ? (
-          <React.Fragment>
+          <>
             <TextField
               id="width"
               label="Width"
@@ -127,9 +127,9 @@ class Settings extends Component {
               className={classes.textField}
               margin="normal"
               />
-          </React.Fragment>
+          </>
         ) : null}
-      </React.Fragment>
+      </>
     );
   }
 }
