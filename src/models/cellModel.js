@@ -1,110 +1,122 @@
-const FLAG_HIDDEN = 0x001;
-const FLAG_MINE = 0x002;
-const FLAG_MARKED = 0x004;
-const FLAGS_MAIN = 0x007;
-
-const FLAG_OPEN_EXPLODED = 0x008;
-const FLAGS_OPEN_HINT = 0x0F0;
-const FLAG_HID_PRESSED = 0x100;
-const FLAG_HID_PENDING = 0x200;
-
-const STYLE_HIDDEN = 0;
-const STYLE_MARKED = 1;
-const STYLE_PENDING = 2;
-const STYLE_PRESSED = 3;
-const STYLES_OPEN = 3;
-const STYLE_MINE = 12;
-const STYLE_EXPLOSION = 13;
-const STYLE_MISTAKE = 14;
-
-export const RESULT_NONE = 0;
-export const RESULT_OPENED = 1;
-export const RESULT_EXPLODED = 2;
-export const RESULT_MARKED = 4;
-export const RESULT_UNMARKED = 8;
-
-export const initialValue = () => (FLAG_HIDDEN);
-
-export const styleIdx = (f) => {
-  if (f & FLAG_MARKED) {
-    if ((f & FLAGS_MAIN) === FLAG_MARKED) return STYLE_MISTAKE;
-    return STYLE_MARKED;
-  }
-  if (f & FLAG_HIDDEN) {
-    if (f & FLAG_HID_PRESSED) return STYLE_PRESSED;
-    if (f & FLAG_HID_PENDING) return STYLE_PENDING;
-    return STYLE_HIDDEN;
-  }
-  if (f & FLAG_MINE) {
-    if (f & FLAG_OPEN_EXPLODED) return STYLE_EXPLOSION;
-    return STYLE_MINE;
-  }
-  return STYLES_OPEN + getHint(f);
+const FLAG = {
+  HIDDEN: 0x001,
+  MINE: 0x002,
+  MARKED: 0x004,
+  OPEN_EXPLODED: 0x008,
+  HID_PRESSED: 0x100,
+  HID_PENDING: 0x200,
 };
 
-export const putMine = (f) => (f | FLAG_MINE);
+const FLAGS = {
+  MAIN: 0x007,
+  OPEN_HINT: 0x0F0,
+};
 
-export const press = (f) => (f | FLAG_HID_PRESSED);
+const STYLE = {
+  HIDDEN: 0,
+  MARKED: 1,
+  PENDING: 2,
+  PRESSED: 3,
+  MINE: 12,
+  EXPLOSION: 13,
+  MISTAKE: 14,
+};
 
-export const release = (f) => (f & ~FLAG_HID_PRESSED);
+const STYLES = {
+  OPEN: 3,
+};
+
+export const RESULT = {
+  NONE: 0,
+  OPENED: 1,
+  EXPLODED: 2,
+  MARKED: 4,
+  UNMARKED: 8,
+};
+
+export const initialValue = () => (FLAG.HIDDEN);
+
+export const putMine = (f) => (f | FLAG.MINE);
+
+export const press = (f) => (f | FLAG.HID_PRESSED);
+
+export const release = (f) => (f & ~FLAG.HID_PRESSED);
 
 export const toggleMark = (f) => {
   // already opened
-  if (!(f & FLAG_HIDDEN)) {
-    return { f, result: RESULT_NONE };
+  if (!(f & FLAG.HIDDEN)) {
+    return { f, result: RESULT.NONE };
   }
   // marked -> pending
-  if (f & FLAG_MARKED) {
+  if (f & FLAG.MARKED) {
     return {
-      f: (f & ~FLAG_MARKED) | FLAG_HID_PENDING,
-      result: RESULT_UNMARKED,
+      f: (f & ~FLAG.MARKED) | FLAG.HID_PENDING,
+      result: RESULT.UNMARKED,
     };
   }
   // pending -> not marked
-  if (f & FLAG_HID_PENDING) {
+  if (f & FLAG.HID_PENDING) {
     return {
-      f: f & ~FLAG_HID_PENDING,
-      result: RESULT_NONE,
+      f: f & ~FLAG.HID_PENDING,
+      result: RESULT.NONE,
     };
   }
   // not marked -> marked
   return {
-    f: f | FLAG_MARKED,
-    result: RESULT_MARKED,
+    f: f | FLAG.MARKED,
+    result: RESULT.MARKED,
   };
 };
 
-export const forceMark = (f) => ((f & ~FLAG_HID_PENDING) | FLAG_MARKED);
+export const forceMark = (f) => ((f & ~FLAG.HID_PENDING) | FLAG.MARKED);
 
-export const open = (f, byClick = true) => {
+export const open = (_f, byClick = true) => {
+  let f = _f;
   // already opened
-  if (!(f & FLAG_HIDDEN)) {
-    return { f, result: RESULT_NONE };
+  if (!(f & FLAG.HIDDEN)) {
+    return { f, result: RESULT.NONE };
   }
   // ignore if clicked on mark
-  if (f & FLAG_MARKED && byClick) {
-    return { f, result: RESULT_NONE };
+  if (f & FLAG.MARKED && byClick) {
+    return { f, result: RESULT.NONE };
   }
   // open
-  f &= ~FLAG_HIDDEN;
+  f &= ~FLAG.HIDDEN;
   // if opend a mine
-  if (f & FLAG_MINE) {
+  if (f & FLAG.MINE) {
     // esplode when clicked
     if (byClick) {
-      f |= FLAG_OPEN_EXPLODED;
+      f |= FLAG.OPEN_EXPLODED;
     }
-    return { f, result: RESULT_EXPLODED };
+    return { f, result: RESULT.EXPLODED };
   }
-  return { f, result: RESULT_OPENED };
+  return { f, result: RESULT.OPENED };
 };
 
 export const setHint = (f, hint) => (
-  (f & ~FLAGS_OPEN_HINT) | (hint << 4)
+  (f & ~FLAGS.OPEN_HINT) | (hint << 4)
 );
 
 export const getHint = (f) => (
   // return -1 if not empty
-  (f & FLAGS_MAIN) ? -1 : ((f & FLAGS_OPEN_HINT) >> 4)
+  (f & FLAGS.MAIN) ? -1 : ((f & FLAGS.OPEN_HINT) >> 4)
 );
 
-export const isHidden = (f) => (f & FLAG_HIDDEN > 0);
+export const isHidden = (f) => (f & FLAG.HIDDEN > 0);
+
+export const styleIdx = (f) => {
+  if (f & FLAG.MARKED) {
+    if ((f & FLAGS.MAIN) === FLAG.MARKED) return STYLE.MISTAKE;
+    return STYLE.MARKED;
+  }
+  if (f & FLAG.HIDDEN) {
+    if (f & FLAG.HID_PRESSED) return STYLE.PRESSED;
+    if (f & FLAG.HID_PENDING) return STYLE.PENDING;
+    return STYLE.HIDDEN;
+  }
+  if (f & FLAG.MINE) {
+    if (f & FLAG.OPEN_EXPLODED) return STYLE.EXPLOSION;
+    return STYLE.MINE;
+  }
+  return STYLES.OPEN + getHint(f);
+};

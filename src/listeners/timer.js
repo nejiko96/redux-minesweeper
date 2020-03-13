@@ -1,13 +1,13 @@
 import { onTimerUpdate } from '../actions';
 import TimerModel from '../models/TimerModel';
-import { STATUS_RUNNING } from '../models/gameModel';
+import { STATUS } from '../models/gameModel';
 
 const timerModel = new TimerModel();
 
 export const timerToggleListener = {
   key: 'game.status',
   onChange: (dispatch, state) => {
-    if (state.game.status === STATUS_RUNNING) {
+    if (state.game.status === STATUS.RUNNING) {
       timerModel.start(
         () => dispatch(onTimerUpdate()),
         state.timer.interval,

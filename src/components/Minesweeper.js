@@ -6,7 +6,7 @@ import Timer from './Timer';
 import Counter from './Counter';
 import Board from './Board';
 
-import { STATUSES_ENABLED, STATUS_CLEARED } from '../models/gameModel';
+import { STATUSES, STATUS } from '../models/gameModel';
 
 class Minesweeper extends Component {
   static handleContextMenu(e) {
@@ -71,12 +71,12 @@ class Minesweeper extends Component {
         />
         {locale.timer2}
         <span style={styles.space} />
-        {game.status === STATUS_CLEARED ? locale.cleared : ''}
+        {game.status === STATUS.CLEARED ? locale.cleared : ''}
         <br />
         <Board
           styles={styles}
           grid={game.grid}
-          overlay={(game.status & STATUSES_ENABLED) > 0 && touch}
+          overlay={(game.status & STATUSES.ENABLED) > 0 && touch}
           actions={actions}
         />
         <p />

@@ -24,6 +24,7 @@
     "rules": {
         "no-bitwise": "off",
         "no-plusplus": "off",
+        "no-param-reassign": ["error", { "props": false }],
         "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }]
     }
 }

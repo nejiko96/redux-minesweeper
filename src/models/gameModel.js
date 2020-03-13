@@ -2,7 +2,18 @@ import * as cellModel from './cellModel';
 import sizeGen from './sizeModel';
 import { fillArray, fillArray2D, noop } from '../utils';
 
-const isEnabled = (state) => (state.status & STATUSES_ENABLED);
+export const STATUS = {
+  READY: 1,
+  RUNNING: 2,
+  CLEARED: 4,
+  GAMEOVER: 8,
+};
+
+export const STATUSES = {
+  ENABLED: STATUS.READY | STATUS.RUNNING,
+};
+
+const isEnabled = (state) => (state.status & STATUSES.ENABLED);
 
 const dup = (state) => JSON.parse(JSON.stringify(state));
 
@@ -65,36 +76,38 @@ const generateMines = (state, i, j) => {
 
 const start = (state, i, j) => {
   generateMines(state, i, j);
-  state.status = STATUS_RUNNING;
+  state.status = STATUS.RUNNING;
 };
 
 const toggleMark = (state, i, j) => {
   const { f, result } = cellModel.toggleMark(state.grid[i][j]);
   state.grid[i][j] = f;
-  if (result === cellModel.RESULT_NONE) {
+  if (result === cellModel.RESULT.NONE) {
     return;
   }
   const pos = [i, j];
   const key = pos2key(pos);
-  if (result === cellModel.RESULT_MARKED) {
+  if (result === cellModel.RESULT.MARKED) {
     state.markPos[key] = pos;
   }
-  if (result === cellModel.RESULT_UNMARKED) {
+  if (result === cellModel.RESULT.UNMARKED) {
     delete state.markPos[key];
   }
 };
 
+let postOpen;
+
 const open = (state, i, j) => {
   const { f, result } = cellModel.open(state.grid[i][j]);
   state.grid[i][j] = f;
-  if (result === cellModel.RESULT_OPENED) {
+  if (result === cellModel.RESULT.OPENED) {
     state.countDown--;
     postOpen(state, i, j);
   }
   return result;
 };
 
-const postOpen = (state, i, j) => {
+postOpen = (state, i, j) => {
   const surr = surroundings(state, i, j);
   const hint = surr
     .filter((pos) => state.minePos[pos2key(pos)])
@@ -125,16 +138,17 @@ const areaOpen = (state, i, j) => {
 };
 
 const gameClear = (state) => {
-  state.status = STATUS_CLEARED;
-  Object.keys(state.minePos)
-    .forEach((key) => {
-      const [i, j] = state.markPos[key] = state.minePos[key];
+  state.status = STATUS.CLEARED;
+  Object.entries(state.minePos)
+    .forEach(([key, pos]) => {
+      const [i, j] = pos;
+      state.markPos[key] = pos;
       state.grid[i][j] = cellModel.forceMark(state.grid[i][j]);
     });
 };
 
 const gameOver = (state) => {
-  state.status = STATUS_GAMEOVER;
+  state.status = STATUS.GAMEOVER;
   const mineMarkPos = {
     ...state.minePos,
     ...state.markPos,
@@ -144,12 +158,6 @@ const gameOver = (state) => {
       state.grid[i][j] = cellModel.open(state.grid[i][j], false).f;
     });
 };
-
-export const STATUS_READY = 1;
-export const STATUS_RUNNING = 2;
-export const STATUS_CLEARED = 4;
-export const STATUS_GAMEOVER = 8;
-export const STATUSES_ENABLED = STATUS_READY | STATUS_RUNNING;
 
 export const initialValue = (level, w, h, m) => {
   const { width, height, mines } = sizeGen(
@@ -162,7 +170,7 @@ export const initialValue = (level, w, h, m) => {
     width,
     height,
     mines,
-    status: STATUS_READY,
+    status: STATUS.READY,
     grid: fillArray2D(width, height, cellModel.initialValue),
     minePos: {},
     markPos: {},
@@ -203,11 +211,11 @@ export const handleLeftMouseUp = (state, i, j) => {
   }
   state = dup(state);
   state.grid[i][j] = cellModel.release(state.grid[i][j]);
-  if (state.status === STATUS_READY) {
+  if (state.status === STATUS.READY) {
     start(state, i, j);
   }
   const result = open(state, i, j);
-  if (result === cellModel.RESULT_EXPLODED) {
+  if (result === cellModel.RESULT.EXPLODED) {
     gameOver(state);
   } else if (state.countDown <= 0) {
     gameClear(state);
@@ -277,7 +285,7 @@ export const handleBothMouseUp = (state, i, j) => {
     },
   );
   const result = areaOpen(state, i, j);
-  if (result & cellModel.RESULT_EXPLODED) {
+  if (result & cellModel.RESULT.EXPLODED) {
     gameOver(state);
   } else if (state.countDown <= 0) {
     gameClear(state);
