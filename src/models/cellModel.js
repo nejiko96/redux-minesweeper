@@ -70,8 +70,7 @@ export const toggleMark = (f) => {
 
 export const forceMark = (f) => ((f & ~FLAG.HID_PENDING) | FLAG.MARKED);
 
-export const open = (_f, byClick = true) => {
-  let f = _f;
+export const open = (f, byClick = true) => {
   // already opened
   if (!(f & FLAG.HIDDEN)) {
     return { f, result: RESULT.NONE };
@@ -81,16 +80,16 @@ export const open = (_f, byClick = true) => {
     return { f, result: RESULT.NONE };
   }
   // open
-  f &= ~FLAG.HIDDEN;
+  let f2 = f & ~FLAG.HIDDEN;
   // if opend a mine
-  if (f & FLAG.MINE) {
+  if (f2 & FLAG.MINE) {
     // esplode when clicked
     if (byClick) {
-      f |= FLAG.OPEN_EXPLODED;
+      f2 |= FLAG.OPEN_EXPLODED;
     }
-    return { f, result: RESULT.EXPLODED };
+    return { f: f2, result: RESULT.EXPLODED };
   }
-  return { f, result: RESULT.OPENED };
+  return { f: f2, result: RESULT.OPENED };
 };
 
 export const setHint = (f, hint) => (

@@ -95,6 +95,7 @@ const toggleMark = (state, i, j) => {
   }
 };
 
+// eslint:no-use-before-define
 let postOpen;
 
 const open = (state, i, j) => {
