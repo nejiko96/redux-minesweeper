@@ -5,7 +5,7 @@
   "homepage": "https://nejiko96.github.io/redux-minesweeper",
   "dependencies": {
     "@material-ui/core": "^4.11.4",
-    "@material-ui/icons": "^4.9.1",
+    "@material-ui/icons": "^4.11.2",
     "mdi-material-ui": "^6.22.1",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
