@@ -8,7 +8,6 @@ const EVENT_MOUSE_OUT = 3;
 const BUTTON_LEFT = 1;
 const BUTTON_RIGHT = 2;
 
-
 class MouseEventDispatcher {
   constructor(target) {
     this.pressed = 0;

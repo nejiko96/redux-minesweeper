@@ -4,54 +4,69 @@ import PropTypes from 'prop-types';
 import { styleIdx } from '../models/cellModel';
 
 class Cell extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { timeoutId: null };
+  }
 
-  state = { timeoutId: null };
+  handleTouchStart = () => {
+    const { timeoutId } = this.state;
+    const { onTouchStart } = this.props;
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
+      this.setState({ timeoutId: null });
+    }
+    onTouchStart();
+    this.setState({ timeoutId: setTimeout(this.handleLongPress, 300) });
+  };
+
+  handleTouchEnd = (ev) => {
+    const { timeoutId } = this.state;
+    const { onTouchEnd } = this.props;
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
+      this.setState({ timeoutId: null });
+      onTouchEnd();
+    }
+    ev.preventDefault();
+  };
+
+  handleLongPress = () => {
+    const { timeoutId } = this.state;
+    const { onLongPress } = this.props;
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
+      this.setState({ timeoutId: null });
+      onLongPress();
+    }
+  };
 
   render() {
     const { style, value } = this.props;
-    const { onMouseDown, onMouseUp, onMouseOver, onMouseOut } = this.props;
-    return(
+    const {
+      onMouseDown, onMouseUp, onMouseOver, onMouseOut,
+    } = this.props;
+    return (
       <span
         style={style[styleIdx(value)]}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
         onMouseOver={onMouseOver}
+        onFocus={onMouseOver}
         onMouseOut={onMouseOut}
+        onBlur={onMouseOut}
         onTouchStart={this.handleTouchStart}
         onTouchEnd={this.handleTouchEnd}
-        />
+        role="button"
+        aria-label="cell"
+        tabIndex="-1"
+      />
     );
   }
-
-  handleTouchStart = (ev) => {
-    if (this.state.timeoutId !== null) {
-      clearTimeout(this.state.timeoutId);
-      this.setState({ timeoutId: null });
-    }
-    this.props.onTouchStart();
-    this.setState({ timeoutId: setTimeout(this.handleLongPress, 300) });
-  };
-
-  handleTouchEnd = (ev) => {
-    if (this.state.timeoutId !== null) {
-      clearTimeout(this.state.timeoutId);
-      this.setState({ timeoutId: null });
-      this.props.onTouchEnd();
-    }
-    ev.preventDefault();
-  };
-
-  handleLongPress = (ev) => {
-    if (this.state.timeoutId !== null) {
-      clearTimeout(this.state.timeoutId);
-      this.setState({ timeoutId: null });
-      this.props.onLongPress();
-    }
-  };
 }
 
 Cell.propTypes = {
-  style: PropTypes.arrayOf(PropTypes.object).isRequired,
+  style: PropTypes.arrayOf(PropTypes.shape).isRequired,
   value: PropTypes.number.isRequired,
   onMouseDown: PropTypes.func.isRequired,
   onMouseUp: PropTypes.func.isRequired,
@@ -59,7 +74,7 @@ Cell.propTypes = {
   onMouseOut: PropTypes.func.isRequired,
   onTouchStart: PropTypes.func.isRequired,
   onTouchEnd: PropTypes.func.isRequired,
-  onLongPress: PropTypes.func.isRequired
+  onLongPress: PropTypes.func.isRequired,
 };
 
 export default Cell;

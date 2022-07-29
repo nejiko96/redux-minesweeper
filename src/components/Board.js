@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import Cell from './Cell';
 
 const Board = ({
@@ -24,7 +26,7 @@ const Board = ({
           onFocus={() => undefined}
           onBlur={() => undefined}
         />
-      )).concat(<br key={i.toString()} />))}
+      )).concat(<br key={uuidv4()} />))}
     </div>
     { overlay ? <div style={styles.cellsOverlay} /> : null }
   </div>

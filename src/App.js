@@ -14,14 +14,14 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import GithubCircle from 'mdi-material-ui/GithubCircle';
+import Github from 'mdi-material-ui/Github';
 
 import SettingsContainer from './containers/SettingsContainer';
 import MinesweeperContainer from './containers/MinesweeperContainer';
 
 const drawerWidth = 200;
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: 'flex',
   },
@@ -77,13 +77,14 @@ const styles = theme => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginRight: 0,
-  }
+  },
 });
 
 class App extends Component {
-  state = {
-    open: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = { open: false };
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -103,7 +104,7 @@ class App extends Component {
           position="fixed"
           className={clsx(
             classes.appBar,
-            { [classes.appBarShift]: open }
+            { [classes.appBarShift]: open },
           )}
         >
           <Toolbar disableGutters={!open}>
@@ -111,7 +112,7 @@ class App extends Component {
               color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
-              className={ clsx(classes.menuButton, open && classes.hide) }
+              className={clsx(classes.menuButton, open && classes.hide)}
             >
               <MenuIcon />
             </IconButton>
@@ -123,7 +124,7 @@ class App extends Component {
                 color="inherit"
                 href="https://github.com/nejiko96/redux-minesweeper"
               >
-                <GithubCircle fontSize="large" />
+                <Github fontSize="large" />
               </IconButton>
             </Tooltip>
           </Toolbar>
@@ -159,8 +160,8 @@ class App extends Component {
 }
 
 App.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
+  classes: PropTypes.shape.isRequired,
+  theme: PropTypes.shape.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(App);
