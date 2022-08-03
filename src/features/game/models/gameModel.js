@@ -15,8 +15,6 @@ export const STATUSES = {
 
 const isEnabled = (state) => (state.status & STATUSES.ENABLED);
 
-const dup = (state) => JSON.parse(JSON.stringify(state));
-
 const pos2key = ([i, j]) => (i << 8) | j;
 
 const relatives = (state, i, j, diffs) => (
@@ -160,14 +158,9 @@ const gameOver = (state) => {
     });
 };
 
-export const initialValue = (level, w, h, m) => {
-  const { width, height, mines } = sizeGen(
-    {
-      level, width: w, height: h, mines: m,
-    },
-  );
-  return {
-    level,
+export const init = (state) => {
+  const { width, height, mines } = sizeGen(state);
+  Object.assign(state, {
     width,
     height,
     mines,
@@ -176,62 +169,53 @@ export const initialValue = (level, w, h, m) => {
     minePos: {},
     markPos: {},
     countDown: width * height - mines,
-  };
+  });
 };
 
 export const handleLeftMouseDown = (state, i, j) => {
   if (!isEnabled(state)) {
-    return state;
+    return;
   }
-  const state2 = dup(state);
-  state2.grid[i][j] = cell.press(state2.grid[i][j]);
-  return state2;
+  state.grid[i][j] = cell.press(state.grid[i][j]);
 };
 
 export const handleLeftMouseOver = (state, i, j) => {
   if (!isEnabled(state)) {
-    return state;
+    return;
   }
-  const state2 = dup(state);
-  state2.grid[i][j] = cell.press(state2.grid[i][j]);
-  return state2;
+  state.grid[i][j] = cell.press(state.grid[i][j]);
 };
 
 export const handleLeftMouseOut = (state, i, j) => {
   if (!isEnabled(state)) {
-    return state;
+    return;
   }
-  const state2 = dup(state);
-  state2.grid[i][j] = cell.release(state2.grid[i][j]);
-  return state2;
+  state.grid[i][j] = cell.release(state.grid[i][j]);
 };
 
 export const handleLeftMouseUp = (state, i, j) => {
   if (!isEnabled(state)) {
-    return state;
+    return;
   }
-  const state2 = dup(state);
-  state2.grid[i][j] = cell.release(state2.grid[i][j]);
-  if (state2.status === STATUS.READY) {
-    start(state2, i, j);
+  state.grid[i][j] = cell.release(state.grid[i][j]);
+  if (state.status === STATUS.READY) {
+    start(state, i, j);
   }
-  const result = open(state2, i, j);
+  const result = open(state, i, j);
   if (result === cell.RESULT.EXPLODED) {
-    gameOver(state2);
-  } else if (state2.countDown <= 0) {
-    gameClear(state2);
+    gameOver(state);
+  } else if (state.countDown <= 0) {
+    gameClear(state);
   }
-  return state2;
 };
 
 export const handleRightMouseDown = (state, i, j) => {
   if (!isEnabled(state)) {
     return state;
   }
-  const state2 = dup(state);
-  state2.grid[i][j] = cell.release(state2.grid[i][j]);
-  toggleMark(state2, i, j);
-  return state2;
+  state.grid[i][j] = cell.release(state.grid[i][j]);
+  toggleMark(state, i, j);
+  return state;
 };
 
 export const handleRightMouseOver = noop;
@@ -242,56 +226,48 @@ export const handleRightMouseUp = noop;
 
 export const handleBothMouseDown = (state, i, j) => {
   if (!isEnabled(state)) {
-    return state;
+    return;
   }
-  const state2 = dup(state);
-  neighbors(state2, i, j).forEach(
-    ([i2, j2]) => { state2.grid[i2][j2] = cell.press(state2.grid[i2][j2]); },
+  neighbors(state, i, j).forEach(
+    ([i2, j2]) => { state.grid[i2][j2] = cell.press(state.grid[i2][j2]); },
   );
-  return state2;
 };
 
 export const handleBothMouseOver = (state, i, j) => {
   if (!isEnabled(state)) {
-    return state;
+    return;
   }
-  const state2 = dup(state);
-  neighbors(state2, i, j).forEach(
-    ([i2, j2]) => { state2.grid[i2][j2] = cell.press(state2.grid[i2][j2]); },
+  neighbors(state, i, j).forEach(
+    ([i2, j2]) => { state.grid[i2][j2] = cell.press(state.grid[i2][j2]); },
   );
-  return state2;
 };
 
 export const handleBothMouseOut = (state, i, j) => {
   if (!isEnabled(state)) {
-    return state;
+    return;
   }
-  const state2 = dup(state);
-  neighbors(state2, i, j).forEach(
+  neighbors(state, i, j).forEach(
     ([i2, j2]) => {
-      state2.grid[i2][j2] = cell.release(state2.grid[i2][j2]);
+      state.grid[i2][j2] = cell.release(state.grid[i2][j2]);
     },
   );
-  return state2;
 };
 
 export const handleBothMouseUp = (state, i, j) => {
   if (!isEnabled(state)) {
-    return state;
+    return;
   }
-  const state2 = dup(state);
-  neighbors(state2, i, j).forEach(
+  neighbors(state, i, j).forEach(
     ([i2, j2]) => {
-      state2.grid[i2][j2] = cell.release(state2.grid[i2][j2]);
+      state.grid[i2][j2] = cell.release(state.grid[i2][j2]);
     },
   );
-  const result = areaOpen(state2, i, j);
+  const result = areaOpen(state, i, j);
   if (result & cell.RESULT.EXPLODED) {
-    gameOver(state2);
-  } else if (state2.countDown <= 0) {
-    gameClear(state2);
+    gameOver(state);
+  } else if (state.countDown <= 0) {
+    gameClear(state);
   }
-  return state2;
 };
 
 export const isHidden = (state, i, j) => (cell.isHidden(state.grid[i][j]));

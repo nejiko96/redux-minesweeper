@@ -1,8 +1,8 @@
-import { fillArray } from '.';
-import cellImgGreen16 from '../images/green_16x16.png';
-import cellImgGreen32 from '../images/green_32x32.png';
-import cellImgMS16 from '../images/MS_16x16.png';
-import cellImgMS32 from '../images/MS_32x32.png';
+import { fillArray } from './utils';
+import cellImgGreen16 from './images/green_16x16.png';
+import cellImgGreen32 from './images/green_32x32.png';
+import cellImgMS16 from './images/MS_16x16.png';
+import cellImgMS32 from './images/MS_32x32.png';
 
 const textBoxStyle = {
   backgroundColor: '#f5f5f5',
@@ -42,6 +42,7 @@ const stylesGen = (theme, cellSize) => {
     container: {
       margin: '2rem',
       whiteSpace: 'nowrap',
+      WebkitTouchCallout: 'none',
       WebkitUserSelect: 'none',
       userSelect: 'none',
       WebkitTapHighlightColor: 'transparent',

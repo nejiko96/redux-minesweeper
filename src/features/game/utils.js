@@ -1,4 +1,4 @@
-export const noop = (state) => state;
+export const noop = () => {};
 
 export const fillArray = (n, fn) => (
   Array.from({ length: n }, (_, i) => fn(i))

@@ -6,6 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.2",
+    "@reduxjs/toolkit": "^1.8.3",
     "clsx": "^1.2.1",
     "mdi-material-ui": "^6.22.1",
     "prop-types": "^15.7.2",
@@ -14,7 +15,6 @@
     "react-redux": "^7.2.4",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
-    "redux-subscriber": "^1.1.0",
     "uuid": "^8.3.2"
   },
   "scripts": {
@@ -34,6 +34,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@redux-devtools/core": "^3.13.1",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.26.0",
