@@ -36,8 +36,10 @@ const Cell = ({
 
   const handleTouchEnd = (ev) => {
     // console.log('handleTouchEnd');
-    setTouched(false);
-    dispatch(touchEnd({ row, col }));
+    if (touched) {
+      setTouched(false);
+      dispatch(touchEnd({ row, col }));
+    }
     ev.preventDefault(); // disable double tap zoom
   };
 
