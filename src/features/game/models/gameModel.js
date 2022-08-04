@@ -27,7 +27,9 @@ const relatives = (state, i, j, diffs) => (
 
 const surroundings = (state, i, j) => (
   relatives(
-    state, i, j,
+    state,
+    i,
+    j,
     [
       [-1, -1], [-1, 0], [-1, 1], [0, 1],
       [1, 1], [1, 0], [1, -1], [0, -1],
@@ -37,7 +39,9 @@ const surroundings = (state, i, j) => (
 
 const neighbors = (state, i, j) => (
   relatives(
-    state, i, j,
+    state,
+    i,
+    j,
     [
       [-1, -1], [-1, 0], [-1, 1],
       [0, -1], [0, 0], [0, 1],
