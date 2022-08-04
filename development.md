@@ -30,7 +30,7 @@ React + Redux アプリ開発
 
    ```
 
-1. Gitリポジトリ初期化
+1. Gitリポジトリも作っておく
    ```
    git init
    git add .
@@ -67,14 +67,14 @@ React + Redux アプリ開発
 ### eslint(JavaScriptコードチェッカー)
 ※コードが最新のJavaScriptやReactのお作法に沿って書かれているかチェックしてくれる
 
-1. packages.json の依存関係に eslint が含まれているので  
+1. ```packages.json``` の依存関係に ```eslint``` が含まれているので  
    eslint 自体は使えるようになっている
    ```
    > yarn run eslint --version
    v8.20.0
    ```
 
-1. .eslintrc.jsonを生成
+1. ```.eslintrc.json``` を生成
    ```
    > yarn run eslint --init
    ✔ How would you like to use ESLint? · style
@@ -101,4 +101,10 @@ React + Redux アプリ開発
 
 1. VSCodeの拡張機能で「ESLint」をインストール
 
-1. エディタで開いているソースのコードチェックエラーが「問題」タブに出てくるようになる
+1. エディタでソースを開くとコードチェックエラーが「問題」タブに出てくるようになる
+
+## 実装例
+- タイマーを ```useEffect()``` で実装  
+  [Timer.js](src/features/game/Timer.js)
+- 長押しを ```useEffect()``` で実装  
+  [Cell.js](src/features/game/Cell.js)
