@@ -55,26 +55,23 @@ const neighbors = (state, i, j) => (
 const generateMines = (state, i, j) => {
   state.minePos = {};
   const w = state.width;
-  const h = state.height;
-  const samples = fillArray(w * h, (k) => k);
+  let n = w * state.height;
+  const samples = fillArray(n, (k) => k);
   const excludes = neighbors(state, i, j).map(([i2, j2]) => i2 * w + j2);
-  let s = samples.length;
-  let e = excludes.length;
-  let m = state.mines;
-  while (e--) {
+  for (let e = 0; e < excludes.length && n > 0; e++) {
     const k = excludes[e];
-    s--;
-    [samples[k], samples[s]] = [samples[s], samples[k]];
+    n -= 1;
+    [samples[k], samples[n]] = [samples[n], samples[k]];
   }
-  while (m--) {
-    const k = Math.floor(Math.random() * s--);
+  for (let m = 0; m < state.mines && n > 0; m++) {
+    const k = Math.floor(Math.random() * n);
     const smp = samples[k];
-    const i2 = smp / w | 0;
-    const j2 = smp % w;
+    const [i2, j2] = [smp / w | 0, smp % w];
+    state.grid[i2][j2] = cell.putMine(state.grid[i2][j2]);
     const pos = [i2, j2];
     state.minePos[pos2key(pos)] = pos;
-    state.grid[i2][j2] = cell.putMine(state.grid[i2][j2]);
-    [samples[k], samples[s]] = [samples[s], samples[k]];
+    n -= 1;
+    [samples[k], samples[n]] = [samples[n], samples[k]];
   }
 };
 
@@ -106,7 +103,7 @@ const open = (state, i, j) => {
   const { f, result } = cell.open(state.grid[i][j]);
   state.grid[i][j] = f;
   if (result === cell.RESULT.OPENED) {
-    state.countDown--;
+    state.countDown -= 1;
     postOpen(state, i, j);
   }
   return result;

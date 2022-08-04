@@ -19,7 +19,7 @@
     ],
     "rules": {
         "no-bitwise": "off",
-        "no-plusplus": "off",
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
         "no-param-reassign": ["error", { "props": false }],
         "react/function-component-definition": ["error", { "namedComponents": "arrow-function" }]
     }
