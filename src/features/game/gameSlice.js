@@ -5,10 +5,15 @@ import wrapModel from './models/mouseEventWrapper';
 
 const wrapper = wrapModel(gameModel);
 
-const buildInitialState = () => {
-  const state = { level: 'easy' };
+const initAll = (state) => {
   gameModel.init(state);
   wrapper.init(state);
+  state.touch = false;
+};
+
+const buildInitialState = () => {
+  const state = { level: 'easy' };
+  initAll(state);
   return state;
 };
 
@@ -27,12 +32,10 @@ export const gameSlice = createSlice({
       state.width = width;
       state.height = height;
       state.mines = mines;
-      gameModel.init(state);
-      wrapper.init(state);
+      initAll(state);
     },
     restart: (state) => {
-      gameModel.init(state);
-      wrapper.init(state);
+      initAll(state);
     },
     mouseDown: (state, action) => {
       const { button, row, col } = action.payload;
@@ -52,24 +55,18 @@ export const gameSlice = createSlice({
     },
     touchStart: (state, action) => {
       const { row, col } = action.payload;
-      if (gameModel.isHidden(state, row, col)) {
-        return gameModel.handleLeftMouseDown(state, row, col);
-      }
-      return gameModel.handleBothMouseDown(state, row, col);
+      state.touch = true;
+      gameModel.handleTouchStart(state, row, col);
     },
     touchEnd: (state, action) => {
       const { row, col } = action.payload;
-      if (gameModel.isHidden(state, row, col)) {
-        return gameModel.handleLeftMouseUp(state, row, col);
-      }
-      return gameModel.handleBothMouseUp(state, row, col);
+      state.touch = false;
+      gameModel.handleTouchEnd(state, row, col);
     },
     longPress: (state, action) => {
       const { row, col } = action.payload;
-      if (gameModel.isHidden(state, row, col)) {
-        return gameModel.handleRightMouseDown(state, row, col);
-      }
-      return gameModel.handleBothMouseUp(state, row, col);
+      state.touch = false;
+      gameModel.handleLongPress(state, row, col);
     },
   },
 });

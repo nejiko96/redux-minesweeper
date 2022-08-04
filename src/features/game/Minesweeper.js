@@ -13,7 +13,6 @@ import {
   restart,
   selectGame,
 } from './gameSlice';
-import { selectTouch } from '../touch/touchSlice';
 import { STATUSES, STATUS } from './models/gameModel';
 
 const TIMER_MODE_TBL = {
@@ -48,7 +47,6 @@ const Minesweeper = ({ settings }) => {
   const styles = stylesGen(theme, cellSize);
 
   const game = useSelector(selectGame);
-  const touch = useSelector(selectTouch);
   const dispatch = useDispatch();
 
   // initialize game when board settings changed
@@ -86,7 +84,7 @@ const Minesweeper = ({ settings }) => {
       <Board
         styles={styles}
         grid={game.grid}
-        overlay={(game.status & STATUSES.ENABLED) > 0 && touch}
+        overlay={(game.status & STATUSES.ENABLED) > 0 && game.touch}
       />
       <p />
       <Button

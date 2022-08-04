@@ -2,18 +2,20 @@ import * as cell from './cellModel';
 import sizeGen from './sizeModel';
 import { fillArray, fillArray2D, noop } from '../utils';
 
-export const STATUS = {
+const STATUS = {
   READY: 1,
   RUNNING: 2,
   CLEARED: 4,
   GAMEOVER: 8,
 };
 
-export const STATUSES = {
+const STATUSES = {
   ENABLED: STATUS.READY | STATUS.RUNNING,
 };
 
 const isEnabled = (state) => (state.status & STATUSES.ENABLED);
+
+const isHidden = (state, i, j) => (cell.isHidden(state.grid[i][j]));
 
 const pos2key = ([i, j]) => (i << 8) | j;
 
@@ -162,7 +164,7 @@ const gameOver = (state) => {
     });
 };
 
-export const init = (state) => {
+const init = (state) => {
   const { width, height, mines } = sizeGen(state);
   Object.assign(state, {
     width,
@@ -176,28 +178,28 @@ export const init = (state) => {
   });
 };
 
-export const handleLeftMouseDown = (state, i, j) => {
+const handleLeftMouseDown = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
   state.grid[i][j] = cell.press(state.grid[i][j]);
 };
 
-export const handleLeftMouseOver = (state, i, j) => {
+const handleLeftMouseOver = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
   state.grid[i][j] = cell.press(state.grid[i][j]);
 };
 
-export const handleLeftMouseOut = (state, i, j) => {
+const handleLeftMouseOut = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
   state.grid[i][j] = cell.release(state.grid[i][j]);
 };
 
-export const handleLeftMouseUp = (state, i, j) => {
+const handleLeftMouseUp = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
@@ -213,22 +215,21 @@ export const handleLeftMouseUp = (state, i, j) => {
   }
 };
 
-export const handleRightMouseDown = (state, i, j) => {
+const handleRightMouseDown = (state, i, j) => {
   if (!isEnabled(state)) {
-    return state;
+    return;
   }
   state.grid[i][j] = cell.release(state.grid[i][j]);
   toggleMark(state, i, j);
-  return state;
 };
 
-export const handleRightMouseOver = noop;
+const handleRightMouseOver = noop;
 
-export const handleRightMouseOut = noop;
+const handleRightMouseOut = noop;
 
-export const handleRightMouseUp = noop;
+const handleRightMouseUp = noop;
 
-export const handleBothMouseDown = (state, i, j) => {
+const handleBothMouseDown = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
@@ -237,7 +238,7 @@ export const handleBothMouseDown = (state, i, j) => {
   );
 };
 
-export const handleBothMouseOver = (state, i, j) => {
+const handleBothMouseOver = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
@@ -246,7 +247,7 @@ export const handleBothMouseOver = (state, i, j) => {
   );
 };
 
-export const handleBothMouseOut = (state, i, j) => {
+const handleBothMouseOut = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
@@ -257,7 +258,7 @@ export const handleBothMouseOut = (state, i, j) => {
   );
 };
 
-export const handleBothMouseUp = (state, i, j) => {
+const handleBothMouseUp = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
@@ -274,4 +275,47 @@ export const handleBothMouseUp = (state, i, j) => {
   }
 };
 
-export const isHidden = (state, i, j) => (cell.isHidden(state.grid[i][j]));
+const handleTouchStart = (state, i, j) => {
+  if (isHidden(state, i, j)) {
+    handleLeftMouseDown(state, i, j);
+  } else {
+    handleBothMouseDown(state, i, j);
+  }
+};
+
+const handleTouchEnd = (state, i, j) => {
+  if (isHidden(state, i, j)) {
+    handleLeftMouseUp(state, i, j);
+  } else {
+    handleBothMouseUp(state, i, j);
+  }
+};
+
+const handleLongPress = (state, i, j) => {
+  if (isHidden(state, i, j)) {
+    handleRightMouseDown(state, i, j);
+  } else {
+    handleBothMouseUp(state, i, j);
+  }
+};
+
+export {
+  STATUS,
+  STATUSES,
+  init,
+  handleLeftMouseDown,
+  handleLeftMouseOver,
+  handleLeftMouseOut,
+  handleLeftMouseUp,
+  handleRightMouseDown,
+  handleRightMouseOver,
+  handleRightMouseOut,
+  handleRightMouseUp,
+  handleBothMouseDown,
+  handleBothMouseOver,
+  handleBothMouseOut,
+  handleBothMouseUp,
+  handleTouchStart,
+  handleTouchEnd,
+  handleLongPress,
+};
