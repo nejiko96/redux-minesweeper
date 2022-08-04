@@ -16,7 +16,6 @@
    npm install -g yarn
    yarn --version
    ```
-   ※PATH環境変数に「C:\Users\\<user>\AppData\Local\Yarn\bin」を追加
 
 1. リポジトリをクローン
    ```

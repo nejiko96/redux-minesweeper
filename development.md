@@ -62,6 +62,7 @@ React + Redux アプリ開発
    ```
    yarn deploy
    ```
+
 ## VSCodeの設定
 
 ### eslint(JavaScriptコードチェッカー)
@@ -105,6 +106,6 @@ React + Redux アプリ開発
 
 ## 実装例
 - タイマーを ```useEffect()``` で実装  
-  [Timer.js](src/features/game/Timer.js)
+  [Timer.jsx](src/features/game/Timer.jsx)
 - 長押しを ```useEffect()``` で実装  
-  [Cell.js](src/features/game/Cell.js)
+  [Cell.jsx](src/features/game/Cell.jsx)
