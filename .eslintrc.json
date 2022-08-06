@@ -1,4 +1,5 @@
 {
+    "root": true,
     "env": {
         "browser": true,
         "es2021": true
@@ -14,6 +15,9 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
+    "ignorePatterns": [
+        "build"
+    ],
     "plugins": [
         "react"
     ],

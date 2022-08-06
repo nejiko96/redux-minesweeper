@@ -18,7 +18,7 @@ const Board = ({
             value={value}
           />
         )).concat(<br key={i} />))
-        /* eslint-disable react/no-array-index-key */
+        /* eslint-enable react/no-array-index-key */
       }
     </div>
     { overlay ? <div style={styles.cellsOverlay} /> : null }
