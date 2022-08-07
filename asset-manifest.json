@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/redux-minesweeper/static/js/main.b8ba6b9e.js",
+    "main.js": "/redux-minesweeper/static/js/main.aafaf619.js",
     "index.html": "/redux-minesweeper/index.html",
-    "main.b8ba6b9e.js.map": "/redux-minesweeper/static/js/main.b8ba6b9e.js.map"
+    "main.aafaf619.js.map": "/redux-minesweeper/static/js/main.aafaf619.js.map"
   },
   "entrypoints": [
-    "static/js/main.b8ba6b9e.js"
+    "static/js/main.aafaf619.js"
   ]
 }
