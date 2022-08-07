@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { ThemeProvider, createTheme, makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -24,8 +25,14 @@ import { selectSettings } from '../features/settings/settingsSlice';
 const useStyles = makeStyles(styles, { withTheme: true });
 
 const App = () => {
+  const isDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const theme = createTheme({
+    palette: {
+      type: isDarkMode ? 'dark' : 'light',
+    },
+  });
+
   const classes = useStyles();
-  const theme = useTheme();
 
   const settings = useSelector(selectSettings);
 
@@ -35,63 +42,65 @@ const App = () => {
   const handleDrawerClose = () => setOpen(false);
 
   return (
-    <div className={classes.root}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(
-          classes.appBar,
-          { [classes.appBarShift]: open },
-        )}
-      >
-        <Toolbar disableGutters={!open}>
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.grow}>
-            redux-minesweeper demo page
-          </Typography>
-          <Tooltip title="View source on Github" aria-label="View source on Github">
+      <div className={classes.root}>
+        <AppBar
+          position="fixed"
+          className={clsx(
+            classes.appBar,
+            { [classes.appBarShift]: open },
+          )}
+        >
+          <Toolbar disableGutters={!open}>
             <IconButton
               color="inherit"
-              href="https://github.com/nejiko96/redux-minesweeper"
+              aria-label="Open drawer"
+              onClick={handleDrawerOpen}
+              className={clsx(classes.menuButton, open && classes.hide)}
             >
-              <Github fontSize="large" />
+              <MenuIcon />
             </IconButton>
-          </Tooltip>
-        </Toolbar>
-      </AppBar>
-      <main
-        className={clsx(classes.conent, {
-          [classes.contentShift]: open,
-        })}
-      >
-        <div className={classes.drawerHeader} />
-        <Minesweeper settings={settings} />
-      </main>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="right"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        <Settings />
-      </Drawer>
-    </div>
+            <Typography variant="h6" color="inherit" className={classes.grow}>
+              redux-minesweeper demo page
+            </Typography>
+            <Tooltip title="View source on Github" aria-label="View source on Github">
+              <IconButton
+                color="inherit"
+                href="https://github.com/nejiko96/redux-minesweeper"
+              >
+                <Github fontSize="large" />
+              </IconButton>
+            </Tooltip>
+          </Toolbar>
+        </AppBar>
+        <main
+          className={clsx(classes.conent, {
+            [classes.contentShift]: open,
+          })}
+        >
+          <div className={classes.drawerHeader} />
+          <Minesweeper settings={settings} />
+        </main>
+        <Drawer
+          className={classes.drawer}
+          variant="persistent"
+          anchor="right"
+          open={open}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.drawerHeader}>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </IconButton>
+          </div>
+          <Divider />
+          <Settings />
+        </Drawer>
+      </div>
+    </ThemeProvider>
   );
 };
 

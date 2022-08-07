@@ -6,6 +6,7 @@ import cellImgMS32 from './images/MS_32x32.png';
 
 const textBoxStyle = {
   backgroundColor: '#f5f5f5',
+  color: '#000000',
   border: '1px solid #d3d3d3',
   display: 'inline-block',
   paddingRight: '2px',
