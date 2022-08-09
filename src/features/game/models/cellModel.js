@@ -1,4 +1,4 @@
-const FLAG = {
+const valueEnum = {
   HIDDEN: 0x001,
   MINE: 0x002,
   MARKED: 0x004,
@@ -7,26 +7,24 @@ const FLAG = {
   HID_PENDING: 0x200,
 };
 
-const FLAGS = {
+const valueFlags = {
+  ...valueEnum,
   MAIN: 0x007,
   OPEN_HINT: 0x0F0,
 };
 
-const STYLE = {
+const styleEnum = {
   HIDDEN: 0,
   MARKED: 1,
   PENDING: 2,
   PRESSED: 3,
+  OPEN: 3,
   MINE: 12,
   EXPLOSION: 13,
   MISTAKE: 14,
 };
 
-const STYLES = {
-  OPEN: 3,
-};
-
-export const RESULT = {
+const resultEnum = {
   NONE: 0,
   OPENED: 1,
   EXPLODED: 2,
@@ -34,88 +32,103 @@ export const RESULT = {
   UNMARKED: 8,
 };
 
-export const initialValue = () => (FLAG.HIDDEN);
+const initialValue = () => (valueFlags.HIDDEN);
 
-export const putMine = (f) => (f | FLAG.MINE);
+const putMine = (f) => (f | valueFlags.MINE);
 
-export const press = (f) => (f | FLAG.HID_PRESSED);
+const press = (f) => (f | valueFlags.HID_PRESSED);
 
-export const release = (f) => (f & ~FLAG.HID_PRESSED);
+const release = (f) => (f & ~valueFlags.HID_PRESSED);
 
-export const toggleMark = (f) => {
+const toggleMark = (f) => {
   // already opened
-  if (!(f & FLAG.HIDDEN)) {
-    return { f, result: RESULT.NONE };
+  if (!(f & valueFlags.HIDDEN)) {
+    return [f, resultEnum.NONE];
   }
   // marked -> pending
-  if (f & FLAG.MARKED) {
-    return {
-      f: (f & ~FLAG.MARKED) | FLAG.HID_PENDING,
-      result: RESULT.UNMARKED,
-    };
+  if (f & valueFlags.MARKED) {
+    return [
+      (f & ~valueFlags.MARKED) | valueFlags.HID_PENDING,
+      resultEnum.UNMARKED,
+    ];
   }
   // pending -> not marked
-  if (f & FLAG.HID_PENDING) {
-    return {
-      f: f & ~FLAG.HID_PENDING,
-      result: RESULT.NONE,
-    };
+  if (f & valueFlags.HID_PENDING) {
+    return [
+      f & ~valueFlags.HID_PENDING,
+      resultEnum.NONE,
+    ];
   }
   // not marked -> marked
-  return {
-    f: f | FLAG.MARKED,
-    result: RESULT.MARKED,
-  };
+  return [
+    f | valueFlags.MARKED,
+    resultEnum.MARKED,
+  ];
 };
 
-export const forceMark = (f) => ((f & ~FLAG.HID_PENDING) | FLAG.MARKED);
+const forceMark = (f) => ((f & ~valueFlags.HID_PENDING) | valueFlags.MARKED);
 
-export const open = (f, byClick = true) => {
+const open = (f, byClick = true) => {
   // already opened
-  if (!(f & FLAG.HIDDEN)) {
-    return { f, result: RESULT.NONE };
+  if (!(f & valueFlags.HIDDEN)) {
+    return [f, resultEnum.NONE];
   }
   // ignore if clicked on mark
-  if (f & FLAG.MARKED && byClick) {
-    return { f, result: RESULT.NONE };
+  if (f & valueFlags.MARKED && byClick) {
+    return [f, resultEnum.NONE];
   }
   // open
-  let f2 = f & ~FLAG.HIDDEN;
+  let f2 = f & ~valueFlags.HIDDEN;
   // if opend a mine
-  if (f2 & FLAG.MINE) {
+  if (f2 & valueFlags.MINE) {
     // esplode when clicked
     if (byClick) {
-      f2 |= FLAG.OPEN_EXPLODED;
+      f2 |= valueFlags.OPEN_EXPLODED;
     }
-    return { f: f2, result: RESULT.EXPLODED };
+    return [f2, resultEnum.EXPLODED];
   }
-  return { f: f2, result: RESULT.OPENED };
+  return [f2, resultEnum.OPENED];
 };
 
-export const setHint = (f, hint) => (
-  (f & ~FLAGS.OPEN_HINT) | (hint << 4)
+const setHint = (f, hint) => (
+  (f & ~valueFlags.OPEN_HINT) | (hint << 4)
 );
 
-export const getHint = (f) => (
+const getHint = (f) => (
   // return -1 if not empty
-  (f & FLAGS.MAIN) ? -1 : ((f & FLAGS.OPEN_HINT) >> 4)
+  (f & valueFlags.MAIN) ? -1 : ((f & valueFlags.OPEN_HINT) >> 4)
 );
 
-export const isHidden = (f) => (f & FLAG.HIDDEN > 0);
+const isHidden = (f) => (f & valueFlags.HIDDEN > 0);
 
-export const styleIdx = (f) => {
-  if (f & FLAG.MARKED) {
-    if ((f & FLAGS.MAIN) === FLAG.MARKED) return STYLE.MISTAKE;
-    return STYLE.MARKED;
+const styleIdx = (f) => {
+  if (f & valueFlags.MARKED) {
+    if ((f & valueFlags.MAIN) === valueFlags.MARKED) return styleEnum.MISTAKE;
+    return styleEnum.MARKED;
   }
-  if (f & FLAG.HIDDEN) {
-    if (f & FLAG.HID_PRESSED) return STYLE.PRESSED;
-    if (f & FLAG.HID_PENDING) return STYLE.PENDING;
-    return STYLE.HIDDEN;
+  if (f & valueFlags.HIDDEN) {
+    if (f & valueFlags.HID_PRESSED) return styleEnum.PRESSED;
+    if (f & valueFlags.HID_PENDING) return styleEnum.PENDING;
+    return styleEnum.HIDDEN;
   }
-  if (f & FLAG.MINE) {
-    if (f & FLAG.OPEN_EXPLODED) return STYLE.EXPLOSION;
-    return STYLE.MINE;
+  if (f & valueFlags.MINE) {
+    if (f & valueFlags.OPEN_EXPLODED) return styleEnum.EXPLOSION;
+    return styleEnum.MINE;
   }
-  return STYLES.OPEN + getHint(f);
+  return styleEnum.OPEN + getHint(f);
+};
+
+export {
+  resultEnum,
+  initialValue,
+  putMine,
+  press,
+  release,
+  toggleMark,
+  forceMark,
+  open,
+  setHint,
+  getHint,
+  isHidden,
+  styleIdx,
 };

@@ -13,13 +13,13 @@ import {
   restart,
   selectGame,
 } from './gameSlice';
-import { STATUSES, STATUS } from './models/gameModel';
+import { gameStatusFlags } from './models/gameModel';
 
-const TIMER_MODE_TBL = {
-  [STATUS.READY]: timerModes.READY,
-  [STATUS.RUNNING]: timerModes.RUNNING,
-  [STATUS.CLEARED]: timerModes.STOPPED,
-  [STATUS.GAMEOVER]: timerModes.STOPPED,
+const timerModeTbl = {
+  [gameStatusFlags.READY]: timerModes.READY,
+  [gameStatusFlags.RUNNING]: timerModes.RUNNING,
+  [gameStatusFlags.CLEARED]: timerModes.STOPPED,
+  [gameStatusFlags.GAMEOVER]: timerModes.STOPPED,
 };
 
 const Minesweeper = ({ settings }) => {
@@ -75,16 +75,16 @@ const Minesweeper = ({ settings }) => {
         style={styles.timer}
         interval="1s"
         limit={999}
-        mode={TIMER_MODE_TBL[game.status]}
+        mode={timerModeTbl[game.status]}
       />
       {locale.timer2}
       <span style={styles.space} />
-      {game.status === STATUS.CLEARED ? locale.cleared : ''}
+      {game.status === gameStatusFlags.CLEARED ? locale.cleared : ''}
       <br />
       <Board
         styles={styles}
         grid={game.grid}
-        overlay={(game.status & STATUSES.ENABLED) > 0 && game.touch}
+        overlay={(game.status & gameStatusFlags.ENABLED) > 0 && game.touch}
       />
       <p />
       <Button
