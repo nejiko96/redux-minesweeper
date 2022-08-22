@@ -17,6 +17,6 @@ const localeBundle = {
   },
 };
 
-const localeGen = (lang) => localeBundle[lang];
+const initLocale = (lang) => localeBundle[lang] ?? localeBundle.en;
 
-export default localeGen;
+export { initLocale };

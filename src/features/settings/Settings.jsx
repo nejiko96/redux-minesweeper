@@ -26,8 +26,10 @@ const Settings = () => {
 
   const {
     lang,
-    theme,
-    cellSize,
+    theme: {
+      name,
+      size,
+    },
     board: {
       level,
       width,
@@ -41,10 +43,10 @@ const Settings = () => {
   const handleLangChange = (ev) => dispatch(changeLang(ev.target.value));
 
   const handleThemeChange = (ev) => {
-    const [newTheme, newCellSize] = ev.target.value.split('_');
+    const [newName, newSize] = ev.target.value.split('_');
     dispatch(changeTheme({
-      theme: newTheme,
-      cellSize: Number(newCellSize),
+      name: newName,
+      size: Number(newSize),
     }));
   };
 
@@ -81,7 +83,7 @@ const Settings = () => {
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="theme">Theme</InputLabel>
         <Select
-          value={`${theme}_${cellSize}`}
+          value={`${name}_${size}`}
           onChange={handleThemeChange}
           inputProps={{ name: 'theme', id: 'theme' }}
         >
@@ -110,7 +112,7 @@ const Settings = () => {
             id="width"
             label="Width"
             type="number"
-            value={width}
+            value={width ?? ''}
             placeholder="9 - 30"
             onChange={handleWidthChange}
             className={classes.textField}
@@ -120,7 +122,7 @@ const Settings = () => {
             id="height"
             label="Height"
             type="number"
-            value={height}
+            value={height ?? ''}
             placeholder="9 - 24"
             onChange={handleHeightChange}
             className={classes.textField}
@@ -130,7 +132,7 @@ const Settings = () => {
             id="mines"
             label="Mines"
             type="number"
-            value={mines}
+            value={mines ?? ''}
             placeholder="10 - 999"
             onChange={handleMinesChange}
             className={classes.textField}

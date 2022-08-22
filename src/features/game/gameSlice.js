@@ -1,57 +1,53 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import * as gameModel from './models/gameModel';
-import wrapModel from './models/mouseEventWrapper';
+import { makeWrapper } from './models/mouseEventModel';
 
-const wrapper = wrapModel(gameModel);
-
-const initAll = (state) => {
-  gameModel.init(state);
-  wrapper.init(state);
-  state.touch = false;
-};
-
-const buildInitialState = () => {
-  const state = { level: 'easy' };
-  initAll(state);
-  return state;
-};
+const mouseModel = makeWrapper(gameModel);
 
 export const gameSlice = createSlice({
   name: 'game',
-  initialState: buildInitialState(),
+  initialState: {
+    ...gameModel.initAll({ level: 'easy' }),
+    ...mouseModel.initState(),
+    touch: false,
+  },
   reducers: {
     init: (state, action) => {
-      const {
-        level,
-        width,
-        height,
-        mines,
-      } = action.payload;
-      state.level = level;
-      state.width = width;
-      state.height = height;
-      state.mines = mines;
-      initAll(state);
+      Object.assign(
+        state,
+        {
+          ...gameModel.initAll(action.payload),
+          ...mouseModel.initState(),
+          touch: false,
+        },
+      );
     },
     restart: (state) => {
-      initAll(state);
+      Object.assign(
+        state,
+        {
+          ...gameModel.initBoard(state),
+          ...mouseModel.initState(),
+          touch: false,
+        },
+      );
     },
     mouseDown: (state, action) => {
       const { button, row, col } = action.payload;
-      wrapper.handleMouseDown(state, button, row, col);
+      mouseModel.handleMouseDown(state, button, row, col);
     },
     mouseUp: (state, action) => {
       const { row, col } = action.payload;
-      wrapper.handleMouseUp(state, row, col);
+      mouseModel.handleMouseUp(state, row, col);
     },
     mouseOver: (state, action) => {
       const { row, col } = action.payload;
-      wrapper.handleMouseOver(state, row, col);
+      mouseModel.handleMouseOver(state, row, col);
     },
     mouseOut: (state, action) => {
       const { row, col } = action.payload;
-      wrapper.handleMouseOut(state, row, col);
+      mouseModel.handleMouseOut(state, row, col);
     },
     touchStart: (state, action) => {
       const { row, col } = action.payload;

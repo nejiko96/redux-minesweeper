@@ -1,7 +1,7 @@
 import { noop } from '../utils';
 
 // mouse events
-const eventEnum = {
+const EventEnum = {
   MOUSE_DOWN: 0,
   MOUSE_UP: 1,
   MOUSE_OVER: 2,
@@ -9,21 +9,21 @@ const eventEnum = {
 };
 
 // ev.button values
-const evBtnEnum = {
+const EvBtnEnum = {
   LEFT: 0,
   RIGHT: 2,
 };
 
 // state.pressed values
-const pressedEnum = {
+const PressedEnum = {
   LEFT: 1,
   RIGHT: 2,
 };
 
 // ev.button -> state.pressed value
 const pressedTbl = {
-  [evBtnEnum.LEFT]: pressedEnum.LEFT,
-  [evBtnEnum.RIGHT]: pressedEnum.RIGHT,
+  [EvBtnEnum.LEFT]: PressedEnum.LEFT,
+  [EvBtnEnum.RIGHT]: PressedEnum.RIGHT,
 };
 
 const makeDispatch = (model) => [
@@ -53,27 +53,29 @@ const makeDispatch = (model) => [
   ],
 ];
 
-const wrapModel = (model) => ({
+const makeWrapper = (model) => ({
   dispatch: makeDispatch(model),
-  init(state) { state.pressed = 0; },
-  handleMouseDown(state, button, i, j) {
-    state.pressed |= pressedTbl[button];
-    this.dispatch[eventEnum.MOUSE_DOWN][state.pressed](state, i, j);
+  initState() {
+    return { pressed: 0 };
   },
-  handleMouseUp(state, i, j) {
+  handleMouseDown(state, button, ...args) {
+    state.pressed |= pressedTbl[button];
+    this.dispatch[EventEnum.MOUSE_DOWN][state.pressed](state, ...args);
+  },
+  handleMouseUp(state, ...args) {
     if (state.pressed === 0) return;
     const pressedOld = state.pressed;
     state.pressed = 0;
-    this.dispatch[eventEnum.MOUSE_UP][pressedOld](state, i, j);
+    this.dispatch[EventEnum.MOUSE_UP][pressedOld](state, ...args);
   },
-  handleMouseOver(state, i, j) {
+  handleMouseOver(state, ...args) {
     if (state.pressed === 0) return;
-    this.dispatch[eventEnum.MOUSE_OVER][state.pressed](state, i, j);
+    this.dispatch[EventEnum.MOUSE_OVER][state.pressed](state, ...args);
   },
-  handleMouseOut(state, i, j) {
+  handleMouseOut(state, ...args) {
     if (state.pressed === 0) return;
-    this.dispatch[eventEnum.MOUSE_OUT][state.pressed](state, i, j);
+    this.dispatch[EventEnum.MOUSE_OUT][state.pressed](state, ...args);
   },
 });
 
-export default wrapModel;
+export { makeWrapper };

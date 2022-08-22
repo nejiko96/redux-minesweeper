@@ -21,30 +21,29 @@ const cellImgTbl = {
   MS_32: cellImgMS32,
 };
 
-const cellStyle = (theme, cellSize) => (i) => {
-  const x = -cellSize * (i % 3);
-  const y = -cellSize * (i / 3 | 0);
-  const cellImg = cellImgTbl[`${theme}_${cellSize}`];
+const cellStyle = (name, size) => (i) => {
+  const x = -size * (i % 3);
+  const y = -size * (i / 3 | 0);
+  const cellImg = cellImgTbl[`${name}_${size}`];
   return {
     backgroundImage: `url(${cellImg})`,
     display: 'inline-block',
-    height: `${cellSize}px`,
+    height: `${size}px`,
     overflow: 'hidden',
-    width: `${cellSize}px`,
+    width: `${size}px`,
     backgroundPosition: `${x}px ${y}px`,
   };
 };
 
-const stylesGen = (theme, cellSize) => {
-  const cellStyleCurry = cellStyle(theme, cellSize);
+const initStyles = ({ name, size }) => {
+  const cellStyleCurry = cellStyle(name, size);
   return {
-    theme,
-    cellSize,
+    theme: name,
+    cellSize: size,
     container: {
-      margin: '2rem',
+      padding: '2rem',
       whiteSpace: 'nowrap',
       WebkitTouchCallout: 'none',
-      WebkitUserSelect: 'none',
       userSelect: 'none',
       WebkitTapHighlightColor: 'transparent',
     },
@@ -75,4 +74,4 @@ const stylesGen = (theme, cellSize) => {
   };
 };
 
-export default stylesGen;
+export { initStyles };

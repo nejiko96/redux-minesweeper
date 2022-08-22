@@ -1,20 +1,20 @@
-import * as cell from './cellModel';
-import sizeGen from './sizeModel';
 import { fillArray, fillArray2D, noop } from '../utils';
+import * as cell from './cellModel';
+import calcSize from './sizeModel';
 
-const gameStatusEnum = {
+const GameStatusEnum = {
   READY: 1,
   RUNNING: 2,
   CLEARED: 4,
   GAMEOVER: 8,
 };
 
-const gameStatusFlags = {
-  ...gameStatusEnum,
-  ENABLED: gameStatusEnum.READY | gameStatusEnum.RUNNING,
+const GameStatusFlags = {
+  ...GameStatusEnum,
+  ENABLED: GameStatusEnum.READY | GameStatusEnum.RUNNING,
 };
 
-const isEnabled = (state) => (state.status & gameStatusFlags.ENABLED);
+const isEnabled = (state) => (state.status & GameStatusFlags.ENABLED);
 
 const isHidden = (state, i, j) => (cell.isHidden(state.grid[i][j]));
 
@@ -56,7 +56,9 @@ const generateMines = (state, i, j) => {
   const w = state.width;
   let n = w * state.height;
   const samples = fillArray(n, (k) => k);
-  const excludes = neighbors(state, i, j).map(([i2, j2]) => i2 * w + j2);
+  const excludes = neighbors(state, i, j)
+    .map(([i2, j2]) => i2 * w + j2)
+    .reverse();
   for (let e = 0; e < excludes.length && n > 0; e++) {
     const k = excludes[e];
     n -= 1;
@@ -76,7 +78,7 @@ const generateMines = (state, i, j) => {
 
 const start = (state, i, j) => {
   generateMines(state, i, j);
-  state.status = gameStatusFlags.RUNNING;
+  state.status = GameStatusEnum.RUNNING;
 };
 
 const toggleMark = (state, i, j) => {
@@ -132,7 +134,7 @@ const areaOpen = (state, i, j) => {
 };
 
 const gameClear = (state) => {
-  state.status = gameStatusFlags.CLEARED;
+  state.status = GameStatusEnum.CLEARED;
   Object.values(state.minePos)
     .forEach((pos) => {
       const [i, j] = pos;
@@ -142,7 +144,7 @@ const gameClear = (state) => {
 };
 
 const gameOver = (state) => {
-  state.status = gameStatusFlags.GAMEOVER;
+  state.status = GameStatusEnum.GAMEOVER;
   const mineMarkPos = {
     ...state.minePos,
     ...state.markPos,
@@ -153,18 +155,20 @@ const gameOver = (state) => {
     });
 };
 
-const init = (state) => {
-  const { width, height, mines } = sizeGen(state);
-  Object.assign(state, {
-    width,
-    height,
-    mines,
-    status: gameStatusFlags.READY,
-    grid: fillArray2D(width, height, cell.initialValue),
-    minePos: {},
-    markPos: {},
-    countDown: width * height - mines,
-  });
+const initBoard = ({ width, height, mines }) => ({
+  status: GameStatusEnum.READY,
+  grid: fillArray2D(width, height, cell.initialValue),
+  minePos: {},
+  markPos: {},
+  countDown: width * height - mines,
+});
+
+const initAll = (param) => {
+  const size = calcSize(param);
+  return {
+    ...size,
+    ...initBoard(size),
+  };
 };
 
 const handleLeftMouseDown = (state, i, j) => {
@@ -193,7 +197,7 @@ const handleLeftMouseUp = (state, i, j) => {
     return;
   }
   state.grid[i][j] = cell.release(state.grid[i][j]);
-  if (state.status === gameStatusFlags.READY) {
+  if (state.status === GameStatusEnum.READY) {
     start(state, i, j);
   }
   const result = open(state, i, j);
@@ -289,8 +293,10 @@ const handleLongPress = (state, i, j) => {
 };
 
 export {
-  gameStatusFlags,
-  init,
+  GameStatusEnum,
+  GameStatusFlags,
+  initAll,
+  initBoard,
   handleLeftMouseDown,
   handleLeftMouseOver,
   handleLeftMouseOut,

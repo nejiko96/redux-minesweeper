@@ -4,8 +4,10 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState: {
     lang: 'en',
-    theme: 'green',
-    cellSize: 32,
+    theme: {
+      name: 'green',
+      size: 32,
+    },
     board: {
       level: 'easy',
       width: null,
@@ -18,8 +20,7 @@ export const settingsSlice = createSlice({
       state.lang = action.payload;
     },
     changeTheme: (state, action) => {
-      state.theme = action.payload.theme;
-      state.cellSize = action.payload.cellSize;
+      state.theme = action.payload;
     },
     changeLevel: (state, action) => {
       state.board.level = action.payload;

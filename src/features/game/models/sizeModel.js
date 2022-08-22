@@ -1,4 +1,4 @@
-const levelSettings = {
+const stdSizeDef = {
   easy: {
     width: 9,
     height: 9,
@@ -16,19 +16,19 @@ const levelSettings = {
   },
 };
 
-const widthSettings = {
+const widthDef = {
   min: 9,
   max: 30,
   default: 9,
 };
 
-const heightSettings = {
+const heightDef = {
   min: 9,
   max: 24,
   default: 9,
 };
 
-const minesSettings = (n) => {
+const minesDef = (n) => {
   const pct = 10 + (n / 45 | 0);
   return {
     min: 10,
@@ -37,19 +37,17 @@ const minesSettings = (n) => {
   };
 };
 
-const initProperty = (value, def) => (
-  value ? Math.min(Math.max(value, def.min), def.max) : def.default
+const adjustParam = (value, rng) => (
+  value ? Math.min(Math.max(value | 0, rng.min), rng.max) : rng.default
 );
 
-const defaultSize = (state) => levelSettings[state.level];
-
-const customSize = (state) => {
-  const width = initProperty(state.width, widthSettings);
-  const height = initProperty(state.height, heightSettings);
-  const mines = initProperty(state.mines, minesSettings(width * height));
+const calcCustomSize = (param) => {
+  const width = adjustParam(param.width, widthDef);
+  const height = adjustParam(param.height, heightDef);
+  const mines = adjustParam(param.mines, minesDef(width * height));
   return { width, height, mines };
 };
 
-const sizeGen = (state) => defaultSize(state) || customSize(state);
+const calcSize = (param) => stdSizeDef[param.level] ?? calcCustomSize(param);
 
-export default sizeGen;
+export default calcSize;

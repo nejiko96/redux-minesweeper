@@ -22,6 +22,7 @@
         "react"
     ],
     "rules": {
+        "import/prefer-default-export": "off",
         "no-bitwise": ["warn", { "int32Hint": true } ],
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
         "no-param-reassign": ["error", { "props": false }],

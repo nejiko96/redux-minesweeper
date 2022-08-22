@@ -75,7 +75,7 @@ const App = () => {
           </Toolbar>
         </AppBar>
         <main
-          className={clsx(classes.conent, {
+          className={clsx(classes.content, {
             [classes.contentShift]: open,
           })}
         >
