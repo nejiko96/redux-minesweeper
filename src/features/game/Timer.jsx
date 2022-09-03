@@ -19,19 +19,13 @@ const timeParse = (value) => {
   return num * mult;
 };
 
-const Timer = ({
-  style,
-  interval,
-  limit,
-  mode,
-}) => {
+const Timer = ({ style, interval, limit, mode }) => {
   const [count, setCount] = useState(0);
   const intervalMs = timeParse(interval);
-  const innerMode = (
-    mode === TimerModeEnum.RUNNING
-    && limit > 0
-    && count >= limit
-  ) ? TimerModeEnum.STOPPED : mode;
+  const innerMode =
+    mode === TimerModeEnum.RUNNING && limit > 0 && count >= limit
+      ? TimerModeEnum.STOPPED
+      : mode;
 
   // update counter
   const update = (newCount) => {
@@ -57,11 +51,9 @@ const Timer = ({
       // console.log('timer stopped');
     }
     return () => clearInterval(intervalId);
-  }, [innerMode]);
+  }, [innerMode, intervalMs]);
 
-  return (
-    <span style={style}>{count}</span>
-  );
+  return <span style={style}>{count}</span>;
 };
 
 Timer.propTypes = {

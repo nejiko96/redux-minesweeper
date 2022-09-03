@@ -10,7 +10,7 @@ const valueEnum = {
 const valueFlags = {
   ...valueEnum,
   MAIN: 0x007,
-  OPEN_HINT: 0x0F0,
+  OPEN_HINT: 0x0f0,
 };
 
 const styleEnum = {
@@ -32,13 +32,13 @@ const resultEnum = {
   UNMARKED: 8,
 };
 
-const initialValue = () => (valueFlags.HIDDEN);
+const initialValue = () => valueFlags.HIDDEN;
 
-const putMine = (f) => (f | valueFlags.MINE);
+const putMine = (f) => f | valueFlags.MINE;
 
-const press = (f) => (f | valueFlags.HID_PRESSED);
+const press = (f) => f | valueFlags.HID_PRESSED;
 
-const release = (f) => (f & ~valueFlags.HID_PRESSED);
+const release = (f) => f & ~valueFlags.HID_PRESSED;
 
 const toggleMark = (f) => {
   // already opened
@@ -54,19 +54,13 @@ const toggleMark = (f) => {
   }
   // pending -> not marked
   if (f & valueFlags.HID_PENDING) {
-    return [
-      f & ~valueFlags.HID_PENDING,
-      resultEnum.NONE,
-    ];
+    return [f & ~valueFlags.HID_PENDING, resultEnum.NONE];
   }
   // not marked -> marked
-  return [
-    f | valueFlags.MARKED,
-    resultEnum.MARKED,
-  ];
+  return [f | valueFlags.MARKED, resultEnum.MARKED];
 };
 
-const forceMark = (f) => ((f & ~valueFlags.HID_PENDING) | valueFlags.MARKED);
+const forceMark = (f) => (f & ~valueFlags.HID_PENDING) | valueFlags.MARKED;
 
 const open = (f, byClick = true) => {
   // already opened
@@ -90,16 +84,13 @@ const open = (f, byClick = true) => {
   return [f2, resultEnum.OPENED];
 };
 
-const setHint = (f, hint) => (
-  (f & ~valueFlags.OPEN_HINT) | (hint << 4)
-);
+const setHint = (f, hint) => (f & ~valueFlags.OPEN_HINT) | (hint << 4);
 
-const getHint = (f) => (
+const getHint = (f) =>
   // return -1 if not empty
-  (f & valueFlags.MAIN) ? -1 : ((f & valueFlags.OPEN_HINT) >> 4)
-);
+  f & valueFlags.MAIN ? -1 : (f & valueFlags.OPEN_HINT) >> 4;
 
-const isHidden = (f) => (f & valueFlags.HIDDEN > 0);
+const isHidden = (f) => f & (valueFlags.HIDDEN > 0);
 
 const styleIdx = (f) => {
   if (f & valueFlags.MARKED) {

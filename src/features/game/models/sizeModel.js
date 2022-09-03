@@ -29,7 +29,7 @@ const heightDef = {
 };
 
 const minesDef = (n) => {
-  const pct = 10 + (n / 45 | 0);
+  const pct = 10 + ((n / 45) | 0);
   return {
     min: 10,
     max: Math.floor(n * 0.94 - 8.45),
@@ -37,9 +37,8 @@ const minesDef = (n) => {
   };
 };
 
-const adjustParam = (value, rng) => (
-  value ? Math.min(Math.max(value | 0, rng.min), rng.max) : rng.default
-);
+const adjustParam = (value, rng) =>
+  value ? Math.min(Math.max(value | 0, rng.min), rng.max) : rng.default;
 
 const calcCustomSize = (param) => {
   const width = adjustParam(param.width, widthDef);

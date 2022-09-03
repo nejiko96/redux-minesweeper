@@ -5,14 +5,11 @@ import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Timer, { TimerModeEnum } from './Timer';
 import Board from './Board';
+import Cell from './Cell';
 
 import { initLocale } from './locale';
 import { initStyles } from './styles';
-import {
-  init,
-  restart,
-  selectGame,
-} from './gameSlice';
+import { init, restart, selectGame } from './gameSlice';
 import { GameStatusEnum, GameStatusFlags } from './models/gameModel';
 
 const timerModesTbl = {
@@ -28,18 +25,14 @@ const Minesweeper = ({ settings }) => {
   const handleContextMenu = (e) => e.preventDefault();
   useEffect(() => {
     node.current.addEventListener('contextmenu', handleContextMenu);
-    return () => node.current.removeEventListener('contextmenu', handleContextMenu);
+    return () =>
+      node.current.removeEventListener('contextmenu', handleContextMenu);
   }, []);
 
   const {
     lang,
     theme,
-    board: {
-      level,
-      width,
-      height,
-      mines,
-    },
+    board: { level, width, height, mines },
   } = settings;
 
   const locale = initLocale(lang);
@@ -50,23 +43,24 @@ const Minesweeper = ({ settings }) => {
 
   // initialize game when board settings changed
   useEffect(() => {
-    dispatch(init({
-      level,
-      width,
-      height,
-      mines,
-    }));
-  }, [level, width, height, mines]);
+    dispatch(
+      init({
+        level,
+        width,
+        height,
+        mines,
+      })
+    );
+  }, [level, width, height, mines, dispatch]);
 
   const handleRestart = () => dispatch(restart());
 
   return (
-    <div
-      style={styles.container}
-      ref={node}
-    >
+    <div style={styles.container} ref={node}>
       {locale.remain1}
-      <span style={styles.counter}>{game.mines - Object.keys(game.markPos).length}</span>
+      <span style={styles.counter}>
+        {game.mines - Object.keys(game.markPos).length}
+      </span>
       {locale.remain2}
       <span style={styles.space} />
       {locale.timer1}
@@ -84,12 +78,11 @@ const Minesweeper = ({ settings }) => {
         styles={styles}
         grid={game.grid}
         overlay={(game.status & GameStatusFlags.ENABLED) > 0 && game.touch}
-      />
-      <p />
-      <Button
-        variant="contained"
-        onClick={handleRestart}
       >
+        <Cell style={styles.cell} />
+      </Board>
+      <p />
+      <Button variant="contained" onClick={handleRestart}>
         {locale.retry}
       </Button>
     </div>

@@ -26,16 +26,8 @@ const Settings = () => {
 
   const {
     lang,
-    theme: {
-      name,
-      size,
-    },
-    board: {
-      level,
-      width,
-      height,
-      mines,
-    },
+    theme: { name, size },
+    board: { level, width, height, mines },
   } = useSelector(selectSettings);
 
   const dispatch = useDispatch();
@@ -44,10 +36,12 @@ const Settings = () => {
 
   const handleThemeChange = (ev) => {
     const [newName, newSize] = ev.target.value.split('_');
-    dispatch(changeTheme({
-      name: newName,
-      size: Number(newSize),
-    }));
+    dispatch(
+      changeTheme({
+        name: newName,
+        size: Number(newSize),
+      })
+    );
   };
 
   const handleLevelChange = (ev) => dispatch(changeLevel(ev.target.value));

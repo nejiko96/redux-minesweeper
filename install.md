@@ -1,23 +1,25 @@
-マインスイーパー by React + Redux
-============================
+# マインスイーパー by React + Redux
 
 ## インストール手順
 
-1. Node.jsのインストール  
+1. Node.js のインストール  
    https://nodejs.org/ja/
+
    ```
    node --version
    npm install -g npm
    npm --version
    ```
 
-1. Yarnのインストール
+1. Yarn のインストール
+
    ```
    npm install -g yarn
    yarn --version
    ```
 
 1. リポジトリをクローン
+
    ```
    git clone https://github.com/nejiko96/redux-minesweeper.git redux-minesweeper
    cd redux-minesweeper
@@ -31,12 +33,14 @@
 ## 使用方法
 
 1. アプリ起動
-  ```
-  yarn start
-  ```
-  ブラウザが自動的に立ち上がり、  
-  http://localhost:3000/  
-  が表示される
+
+```
+yarn start
+```
+
+ブラウザが自動的に立ち上がり、  
+ http://localhost:3000/  
+ が表示される
 
 1. 停止  
-  Ctrl+C
+   Ctrl+C

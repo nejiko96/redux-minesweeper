@@ -23,7 +23,7 @@ const cellImgTbl = {
 
 const cellStyle = (name, size) => (i) => {
   const x = -size * (i % 3);
-  const y = -size * (i / 3 | 0);
+  const y = -size * ((i / 3) | 0);
   const cellImg = cellImgTbl[`${name}_${size}`];
   return {
     backgroundImage: `url(${cellImg})`,

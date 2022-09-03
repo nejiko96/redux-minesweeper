@@ -14,16 +14,12 @@ import {
 
 import { styleIdx } from './models/cellModel';
 
-const Cell = ({
-  style,
-  row,
-  col,
-  value,
-}) => {
+const Cell = ({ style, row, col, value }) => {
   const [touched, setTouched] = useState(false);
   const dispatch = useDispatch();
 
-  const handleMouseDown = (ev) => dispatch(mouseDown({ button: ev.button, row, col }));
+  const handleMouseDown = (ev) =>
+    dispatch(mouseDown({ button: ev.button, row, col }));
   const handleMouseUp = () => dispatch(mouseUp({ row, col }));
   const handleMouseOver = () => dispatch(mouseOver({ row, col }));
   const handleMouseOut = () => dispatch(mouseOut({ row, col }));
@@ -54,7 +50,7 @@ const Cell = ({
       }, 300);
     }
     return () => clearTimeout(timerId);
-  }, [touched]);
+  }, [row, col, touched, dispatch]);
 
   return (
     <span

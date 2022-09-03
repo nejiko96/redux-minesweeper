@@ -14,24 +14,18 @@ export const gameSlice = createSlice({
   },
   reducers: {
     init: (state, action) => {
-      Object.assign(
-        state,
-        {
-          ...gameModel.initAll(action.payload),
-          ...mouseModel.initState(),
-          touch: false,
-        },
-      );
+      Object.assign(state, {
+        ...gameModel.initAll(action.payload),
+        ...mouseModel.initState(),
+        touch: false,
+      });
     },
     restart: (state) => {
-      Object.assign(
-        state,
-        {
-          ...gameModel.initBoard(state),
-          ...mouseModel.initState(),
-          touch: false,
-        },
-      );
+      Object.assign(state, {
+        ...gameModel.initBoard(state),
+        ...mouseModel.initState(),
+        touch: false,
+      });
     },
     mouseDown: (state, action) => {
       const { button, row, col } = action.payload;

@@ -14,42 +14,39 @@ const GameStatusFlags = {
   ENABLED: GameStatusEnum.READY | GameStatusEnum.RUNNING,
 };
 
-const isEnabled = (state) => (state.status & GameStatusFlags.ENABLED);
+const isEnabled = (state) => state.status & GameStatusFlags.ENABLED;
 
-const isHidden = (state, i, j) => (cell.isHidden(state.grid[i][j]));
+const isHidden = (state, i, j) => cell.isHidden(state.grid[i][j]);
 
-const relatives = (state, i, j, diffs) => (
+const relatives = (state, i, j, diffs) =>
   diffs
     .map(([di, dj]) => [i + di, j + dj])
-    .filter(
-      ([i2, j2]) => state.grid[i2] && state.grid[i2][j2],
-    )
-);
+    .filter(([i2, j2]) => state.grid[i2] && state.grid[i2][j2]);
 
-const surroundings = (state, i, j) => (
-  relatives(
-    state,
-    i,
-    j,
-    [
-      [-1, -1], [-1, 0], [-1, 1], [0, 1],
-      [1, 1], [1, 0], [1, -1], [0, -1],
-    ],
-  )
-);
+const surroundings = (state, i, j) =>
+  relatives(state, i, j, [
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, 1],
+    [1, 1],
+    [1, 0],
+    [1, -1],
+    [0, -1],
+  ]);
 
-const neighbors = (state, i, j) => (
-  relatives(
-    state,
-    i,
-    j,
-    [
-      [-1, -1], [-1, 0], [-1, 1],
-      [0, -1], [0, 0], [0, 1],
-      [1, -1], [1, 0], [1, 1],
-    ],
-  )
-);
+const neighbors = (state, i, j) =>
+  relatives(state, i, j, [
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, -1],
+    [0, 0],
+    [0, 1],
+    [1, -1],
+    [1, 0],
+    [1, 1],
+  ]);
 
 const generateMines = (state, i, j) => {
   state.minePos = {};
@@ -67,7 +64,7 @@ const generateMines = (state, i, j) => {
   for (let m = 0; m < state.mines && n > 0; m++) {
     const k = Math.floor(Math.random() * n);
     const smp = samples[k];
-    const [i2, j2] = [smp / w | 0, smp % w];
+    const [i2, j2] = [(smp / w) | 0, smp % w];
     state.grid[i2][j2] = cell.putMine(state.grid[i2][j2]);
     const pos = [i2, j2];
     state.minePos[pos] = pos;
@@ -98,9 +95,7 @@ const toggleMark = (state, i, j) => {
 
 const postOpen = (state, i, j) => {
   const surr = surroundings(state, i, j);
-  const hint = surr
-    .filter((pos) => state.minePos[pos])
-    .length;
+  const hint = surr.filter((pos) => state.minePos[pos]).length;
   state.grid[i][j] = cell.setHint(state.grid[i][j], hint);
   return hint > 0 ? [] : surr;
 };
@@ -122,9 +117,7 @@ const areaOpen = (state, i, j) => {
     return cell.resultEnum.NONE;
   }
   const surr = surroundings(state, i, j);
-  const marks = surr
-    .filter((pos) => state.markPos[pos])
-    .length;
+  const marks = surr.filter((pos) => state.markPos[pos]).length;
   if (marks !== hint) {
     return cell.resultEnum.NONE;
   }
@@ -135,12 +128,11 @@ const areaOpen = (state, i, j) => {
 
 const gameClear = (state) => {
   state.status = GameStatusEnum.CLEARED;
-  Object.values(state.minePos)
-    .forEach((pos) => {
-      const [i, j] = pos;
-      state.markPos[pos] = pos;
-      state.grid[i][j] = cell.forceMark(state.grid[i][j]);
-    });
+  Object.values(state.minePos).forEach((pos) => {
+    const [i, j] = pos;
+    state.markPos[pos] = pos;
+    state.grid[i][j] = cell.forceMark(state.grid[i][j]);
+  });
 };
 
 const gameOver = (state) => {
@@ -149,10 +141,9 @@ const gameOver = (state) => {
     ...state.minePos,
     ...state.markPos,
   };
-  Object.values(mineMarkPos)
-    .forEach(([i, j]) => {
-      [state.grid[i][j]] = cell.open(state.grid[i][j], false);
-    });
+  Object.values(mineMarkPos).forEach(([i, j]) => {
+    [state.grid[i][j]] = cell.open(state.grid[i][j], false);
+  });
 };
 
 const initBoard = ({ width, height, mines }) => ({
@@ -226,40 +217,36 @@ const handleBothMouseDown = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
-  neighbors(state, i, j).forEach(
-    ([i2, j2]) => { state.grid[i2][j2] = cell.press(state.grid[i2][j2]); },
-  );
+  neighbors(state, i, j).forEach(([i2, j2]) => {
+    state.grid[i2][j2] = cell.press(state.grid[i2][j2]);
+  });
 };
 
 const handleBothMouseOver = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
-  neighbors(state, i, j).forEach(
-    ([i2, j2]) => { state.grid[i2][j2] = cell.press(state.grid[i2][j2]); },
-  );
+  neighbors(state, i, j).forEach(([i2, j2]) => {
+    state.grid[i2][j2] = cell.press(state.grid[i2][j2]);
+  });
 };
 
 const handleBothMouseOut = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
-  neighbors(state, i, j).forEach(
-    ([i2, j2]) => {
-      state.grid[i2][j2] = cell.release(state.grid[i2][j2]);
-    },
-  );
+  neighbors(state, i, j).forEach(([i2, j2]) => {
+    state.grid[i2][j2] = cell.release(state.grid[i2][j2]);
+  });
 };
 
 const handleBothMouseUp = (state, i, j) => {
   if (!isEnabled(state)) {
     return;
   }
-  neighbors(state, i, j).forEach(
-    ([i2, j2]) => {
-      state.grid[i2][j2] = cell.release(state.grid[i2][j2]);
-    },
-  );
+  neighbors(state, i, j).forEach(([i2, j2]) => {
+    state.grid[i2][j2] = cell.release(state.grid[i2][j2]);
+  });
   const result = areaOpen(state, i, j);
   if (result & cell.resultEnum.EXPLODED) {
     gameOver(state);

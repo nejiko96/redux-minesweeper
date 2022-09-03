@@ -1,27 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Cell from './Cell';
-
-const Board = ({
-  styles, grid, overlay,
-}) => (
+const Board = ({ styles, grid, overlay, children }) => (
   <div style={styles.board}>
     <div style={styles.cells}>
-      { /* eslint-disable react/no-array-index-key */
-        grid.map((arr, i) => arr.map((value, j) => (
-          <Cell
-            key={`${i}_${j}`}
-            style={styles.cell}
-            row={i}
-            col={j}
-            value={value}
-          />
-        )).concat(<br key={i} />))
-        /* eslint-enable react/no-array-index-key */
+      {
+        grid.map((arr, i) =>
+          arr
+            .map((value, j) =>
+              React.cloneElement(children, {
+                key: `${i}_${j}`,
+                row: i,
+                col: j,
+                value,
+              })
+            )
+            .concat(<br key={i} />)
+        )
       }
     </div>
-    { overlay ? <div style={styles.cellsOverlay} /> : null }
+    {overlay ? <div style={styles.cellsOverlay} /> : null}
   </div>
 );
 
@@ -34,6 +32,7 @@ Board.propTypes = {
   }).isRequired,
   grid: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
   overlay: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Board;

@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import clsx from 'clsx';
-import { ThemeProvider, createTheme, makeStyles } from '@material-ui/core/styles';
+import {
+  ThemeProvider,
+  createTheme,
+  makeStyles,
+} from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -47,10 +51,7 @@ const App = () => {
       <div className={classes.root}>
         <AppBar
           position="fixed"
-          className={clsx(
-            classes.appBar,
-            { [classes.appBarShift]: open },
-          )}
+          className={clsx(classes.appBar, { [classes.appBarShift]: open })}
         >
           <Toolbar disableGutters={!open}>
             <IconButton
@@ -64,7 +65,10 @@ const App = () => {
             <Typography variant="h6" color="inherit" className={classes.grow}>
               redux-minesweeper demo page
             </Typography>
-            <Tooltip title="View source on Github" aria-label="View source on Github">
+            <Tooltip
+              title="View source on Github"
+              aria-label="View source on Github"
+            >
               <IconButton
                 color="inherit"
                 href="https://github.com/nejiko96/redux-minesweeper"
@@ -93,7 +97,11 @@ const App = () => {
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={handleDrawerClose}>
-              {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              {theme.direction === 'rtl' ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
             </IconButton>
           </div>
           <Divider />
