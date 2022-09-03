@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 const TimerModeEnum = {
@@ -28,10 +28,13 @@ const Timer = ({ style, interval, limit, mode }) => {
       : mode;
 
   // update counter
-  const update = (newCount) => {
-    // console.log('updateCount', 'count', count, 'newCount', newCount);
-    setCount(newCount === undefined ? count + 1 : newCount);
-  };
+  const update = useCallback(
+    (newCount) => {
+      // console.log('updateCount', 'count', count, 'newCount', newCount);
+      setCount(newCount === undefined ? count + 1 : newCount);
+    },
+    [count]
+  );
 
   // hold latest version of update function
   const updateRef = useRef(null);

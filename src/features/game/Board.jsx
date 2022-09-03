@@ -5,6 +5,7 @@ const Board = ({ styles, grid, overlay, children }) => (
   <div style={styles.board}>
     <div style={styles.cells}>
       {
+        /* eslint-disable react/no-array-index-key */
         grid.map((arr, i) =>
           arr
             .map((value, j) =>
@@ -17,6 +18,7 @@ const Board = ({ styles, grid, overlay, children }) => (
             )
             .concat(<br key={i} />)
         )
+        /* eslint-enable react/no-array-index-key */
       }
     </div>
     {overlay ? <div style={styles.cellsOverlay} /> : null}

@@ -9,7 +9,18 @@ import Cell from './Cell';
 
 import { initLocale } from './locale';
 import { initStyles } from './styles';
-import { init, restart, selectGame } from './gameSlice';
+import {
+  init,
+  restart,
+  mouseDown,
+  mouseUp,
+  mouseOut,
+  mouseOver,
+  touchStart,
+  touchEnd,
+  longPress,
+  selectGame,
+} from './gameSlice';
 import { GameStatusEnum, GameStatusFlags } from './models/gameModel';
 
 const timerModesTbl = {
@@ -24,9 +35,9 @@ const Minesweeper = ({ settings }) => {
   const node = useRef();
   const handleContextMenu = (e) => e.preventDefault();
   useEffect(() => {
-    node.current.addEventListener('contextmenu', handleContextMenu);
-    return () =>
-      node.current.removeEventListener('contextmenu', handleContextMenu);
+    const curNode = node.current;
+    curNode.addEventListener('contextmenu', handleContextMenu);
+    return () => curNode.removeEventListener('contextmenu', handleContextMenu);
   }, []);
 
   const {
@@ -55,6 +66,14 @@ const Minesweeper = ({ settings }) => {
 
   const handleRestart = () => dispatch(restart());
 
+  const handleMouseDown = (param) => dispatch(mouseDown(param));
+  const handleMouseUp = (param) => dispatch(mouseUp(param));
+  const handleMouseOver = (param) => dispatch(mouseOver(param));
+  const handleMouseOut = (param) => dispatch(mouseOut(param));
+  const handleTouchStart = (param) => dispatch(touchStart(param));
+  const handleTouchEnd = (param) => dispatch(touchEnd(param));
+  const handleLongPress = (param) => dispatch(longPress(param));
+
   return (
     <div style={styles.container} ref={node}>
       {locale.remain1}
@@ -79,7 +98,19 @@ const Minesweeper = ({ settings }) => {
         grid={game.grid}
         overlay={(game.status & GameStatusFlags.ENABLED) > 0 && game.touch}
       >
-        <Cell style={styles.cell} />
+        <Cell
+          style={styles.cell}
+          row={-1}
+          col={-1}
+          value={-1}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onLongPress={handleLongPress}
+        />
       </Board>
       <p />
       <Button variant="contained" onClick={handleRestart}>

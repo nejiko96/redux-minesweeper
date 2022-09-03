@@ -1,32 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import {
-  mouseDown,
-  mouseUp,
-  mouseOver,
-  mouseOut,
-  touchStart,
-  touchEnd,
-  longPress,
-} from './gameSlice';
 
 import { styleIdx } from './models/cellModel';
 
-const Cell = ({ style, row, col, value }) => {
+const Cell = ({
+  style,
+  row,
+  col,
+  value,
+  onMouseDown,
+  onMouseUp,
+  onMouseOut,
+  onMouseOver,
+  onTouchStart,
+  onTouchEnd,
+  onLongPress,
+}) => {
   const [touched, setTouched] = useState(false);
-  const dispatch = useDispatch();
 
-  const handleMouseDown = (ev) =>
-    dispatch(mouseDown({ button: ev.button, row, col }));
-  const handleMouseUp = () => dispatch(mouseUp({ row, col }));
-  const handleMouseOver = () => dispatch(mouseOver({ row, col }));
-  const handleMouseOut = () => dispatch(mouseOut({ row, col }));
+  const handleMouseDown = (ev) => onMouseDown({ button: ev.button, row, col });
+  const handleMouseUp = () => onMouseUp({ row, col });
+  const handleMouseEnter = () => onMouseOver({ row, col });
+  const handleMouseLeave = () => onMouseOut({ row, col });
 
   const handleTouchStart = () => {
     // console.log('handleTouchStart');
-    dispatch(touchStart({ row, col }));
+    onTouchStart({ row, col });
     setTouched(true);
   };
 
@@ -34,7 +33,7 @@ const Cell = ({ style, row, col, value }) => {
     // console.log('handleTouchEnd');
     if (touched) {
       setTouched(false);
-      dispatch(touchEnd({ row, col }));
+      onTouchEnd({ row, col });
     }
     ev.preventDefault(); // disable double tap zoom
   };
@@ -46,19 +45,19 @@ const Cell = ({ style, row, col, value }) => {
       timerId = setTimeout(() => {
         // console.log('detected longpress');
         setTouched(false);
-        dispatch(longPress({ row, col }));
+        onLongPress({ row, col });
       }, 300);
     }
     return () => clearTimeout(timerId);
-  }, [row, col, touched, dispatch]);
+  }, [row, col, touched, onLongPress]);
 
   return (
     <span
       style={style[styleIdx(value)]}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
-      onMouseEnter={handleMouseOver}
-      onMouseLeave={handleMouseOut}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onFocus={() => undefined}
@@ -75,6 +74,13 @@ Cell.propTypes = {
   row: PropTypes.number.isRequired,
   col: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
+  onMouseDown: PropTypes.func.isRequired,
+  onMouseUp: PropTypes.func.isRequired,
+  onMouseOver: PropTypes.func.isRequired,
+  onMouseOut: PropTypes.func.isRequired,
+  onTouchStart: PropTypes.func.isRequired,
+  onTouchEnd: PropTypes.func.isRequired,
+  onLongPress: PropTypes.func.isRequired,
 };
 
 export default Cell;

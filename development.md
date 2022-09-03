@@ -145,7 +145,7 @@
 1. パッケージ追加
 
    ```
-   yarn add --dev prettier eslint-plugin-prettier
+   yarn add --dev prettier eslint-plugin-prettier eslint-config-prettier
    ```
 
 1. `.prettierrc.yml` を作成
